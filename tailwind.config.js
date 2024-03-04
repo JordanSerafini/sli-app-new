@@ -121,6 +121,8 @@ export default {
       },
       colors: {
         'noir': '#1E0F1C',
+        'mainBG': '#F0F0F0',
+        'mainBG2': '#F5F5F5', // plus clair
         
        
       },

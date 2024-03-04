@@ -3,6 +3,7 @@ import axios from "axios";
 import CustomerCard from "../../component/cards/customerCard";
 import url from "../../utils/axios";
 
+
 function CustomerPage() {
   const [customerList, setCustomerList] = useState([]);
 
@@ -29,11 +30,11 @@ function CustomerPage() {
 
   return (
     <>
-      <div className="h-10/10 w-9.5/10 flex flex-col bg-blue-100">
-        <div className="bg-orange-200 h-7/10">Div Detail carte</div>
-        <div className="flex flex-row gap-4 h-2/10 overflow-auto w-10/10">
+      <div className="h-10/10 w-9.5/10 flex flex-col ">
+        <div className=" h-7/10">Div Detail carte</div>
+        <div className="flex flex-row gap-4 h-2/10 overflow-auto w-10/10 pb-4">
           {customerList.map((customer, index) => (
-            <CustomerCard key={index} customer={customer} css="min-w-8/10 sm:min-w-4.5/10" />
+            <CustomerCard key={index} customer={customer} css="min-w-8/10 sm:min-w-4.5/10 md:min-w-3/10" />
           ))}
         </div>
       </div>

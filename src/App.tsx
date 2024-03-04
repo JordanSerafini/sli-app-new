@@ -9,7 +9,7 @@ function App() {
     <>
       <DataProvider>
         <Router>
-          <div className="h-screen w-screen flex flex-col justify-center items-center">
+          <div className="bg-mainBG2 h-screen w-screen flex flex-col justify-center items-center">
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/customer" element={<CustomerPage />} />
