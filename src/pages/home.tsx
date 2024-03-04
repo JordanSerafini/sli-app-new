@@ -1,6 +1,5 @@
-import { useContext } from "react";
-
-import dataContext from "../context/context/dataContext";
+import axios from "axios";
+import url from "../utils/axios";
 
 function Home() {
 
