@@ -1,6 +1,9 @@
 import { useState, ReactNode } from "react";
 import dataContext from "../context/dataContext";
 
+import { Item } from "../../types/item";
+import { Customer } from "../../types/customer";
+
 export const DataProvider = ({ children }: { children: ReactNode }) => {
  
     const [theme, setTheme] = useState("Main");

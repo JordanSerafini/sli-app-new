@@ -1,5 +1,5 @@
 import React from "react";
-import { Customer } from "../../@types/customer";
+import { Customer } from "../../types/customer";
 
 
 interface Props {
