@@ -1,13 +1,11 @@
-import axios from "axios";
-import url from "../utils/axios";
+import CustomerCard from "../component/cards/customerCard";
 
 function Home() {
 
 
-  
-
   return (
     <>
+      <CustomerCard />
     </>
   );
 }
