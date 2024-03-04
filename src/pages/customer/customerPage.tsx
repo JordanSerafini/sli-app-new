@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import CustomerCard from "../../component/cards/customerCard";
 import url from "../../utils/axios";
 
+import CustomerCard from "../../component/cards/customerCard";
+import HomeBtn from "../../component/button/homeBtn";
 
 function CustomerPage() {
   const [customerList, setCustomerList] = useState([]);
@@ -37,6 +38,7 @@ function CustomerPage() {
             <CustomerCard key={index} customer={customer} css="min-w-8/10 sm:min-w-4.5/10 md:min-w-3/10" />
           ))}
         </div>
+        <HomeBtn />
       </div>
     </>
   );

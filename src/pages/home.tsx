@@ -8,11 +8,17 @@ function Home() {
   const goToCustomerPage = () => {
     navigate('/customer');
   };
+
+  const goToItemPage = () => {
+    navigate('/item');
+  };
+
  
   return (
     <>
       
       <button onClick={goToCustomerPage}>Go to Customer Page</button>
+      <button onClick={goToItemPage}>Go to Item Page</button>
 
     </>
   );
