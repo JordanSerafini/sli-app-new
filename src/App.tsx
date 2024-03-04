@@ -3,7 +3,7 @@ import { DataProvider } from "./context/provider/dataProvider";
 
 import Home from "./pages/home";
 import CustomerPage from "./pages/customer/customerPage";
-import itemPage from "./pages/item/itemPage";
+import ItemPage from "./pages/item/itemPage";
 
 function App() {
   return (
@@ -14,7 +14,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/customer" element={<CustomerPage />} />
-              <Route path="/item" element={<itemPage />} />
+              <Route path="/item" element={<ItemPage />} />
             </Routes>
           </div>
         </Router>

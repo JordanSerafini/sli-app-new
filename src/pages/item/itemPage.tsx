@@ -1,8 +1,15 @@
+import HomeBtn from "../../component/button/homeBtn"
 
-function itemPage() {
+function ItemPage() {
   return (
-    <div>itemPage</div>
+    <div>
+
+        <div>
+            
+        </div>
+        <HomeBtn />
+    </div>
   )
 }
 
-export default itemPage
+export default ItemPage
