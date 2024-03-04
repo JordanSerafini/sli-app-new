@@ -8,11 +8,15 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
  
     const [theme, setTheme] = useState("Main");
     const [itemList, setItemList] = useState<Item[]>([]);
-    const [clientList, setClientList] = useState<Customer[]>([]);
+    const [customerList, setCustomerList] = useState<Customer[]>([]);
 
   const contextValue = {
     theme,
     setTheme,
+    itemList,
+    setItemList,
+    customerList,
+    setCustomerList,
   };
 
   return (
