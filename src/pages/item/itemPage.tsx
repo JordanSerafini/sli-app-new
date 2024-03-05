@@ -113,7 +113,7 @@ function ItemPage() {
             />
           )}
 
-          <div className="flex flex-row justify-start gap-4 self-center w-10/10 ">
+          <div className="flex flex-row  gap-4 self-center w-10/10 ">
             {showSearch ? (
               <SearchInput onSearch={handleSearch} />
             ) : (

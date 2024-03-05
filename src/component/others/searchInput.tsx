@@ -20,7 +20,7 @@ const SearchInput = ({ onSearch }: SearchInputProps) => {
       <input
         type="text"
         placeholder="Rechercher un produit"
-        className="w-9/10 h-8 border-1 border-blue-900 rounded-full"
+        className="w-10/10 h-8 border-1 border-blue-900 rounded-full p-4"
         value={searchTerm}
         onChange={(e) => handleSearch(e.target.value)} 
       />
