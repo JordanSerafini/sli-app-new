@@ -1,9 +1,10 @@
 interface badgeProps {
     name: string | number | null;
     css: string;
+    color?: string;
     }
 
-function badge({name, css} : badgeProps) {
+function badge({name, css, color} : badgeProps) {
 
 
 let theme = ``;
@@ -26,7 +27,7 @@ let theme = ``;
 
 
   return (
-    <div className={`${css} ${theme} border-1 border-black px-4 w-fit`}>
+    <div className={`${css} ${theme} border-1 border-${color} px-4 w-fit rounded-xl`}>
         {name}
     </div>
   )
