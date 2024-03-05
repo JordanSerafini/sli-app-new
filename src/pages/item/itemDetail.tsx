@@ -20,7 +20,7 @@ function ItemDetail({ item }: ItemDetailProps) {
   const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    setNewStockValue(item.realstock)
+    setNewStockValue(item.realstock);
     const handleClickOutside = (event: MouseEvent) => {
       if (
         modalRef.current &&
@@ -35,10 +35,9 @@ function ItemDetail({ item }: ItemDetailProps) {
     }
 
     return () => {
-      // console.log("Suppression de l'écouteur d'événements");
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [showModal]); // Ajoutez showModal aux dépendances
+  }, [showModal, item.realstock]); 
 
   const handleStock = () => {
     setShowModal(true);
@@ -56,22 +55,18 @@ function ItemDetail({ item }: ItemDetailProps) {
       console.log("Stock modifié avec succès:", response.data);
       setShowModal(false); // Fermer la modal après succès
     } catch (error) {
-      // Verifie si 'error' est une instance d'Error ET possède une propriété 'response'
       if (axios.isAxiosError(error)) {
-        // Maintenant, TypeScript sait que 'error' est une erreur Axios spécifique,
-        // donc 'error.response' est accessible.
+        
         console.error(
           "Erreur lors de la modification du stock:",
           error.response?.data
         );
       } else if (error instanceof Error) {
-        // C'est une erreur générique d'Error, on utilise 'message'
         console.error(
           "Erreur lors de la modification du stock:",
           error.message
         );
       } else {
-        // Si 'error' n'est pas une instance d'Error, on gère ce cas ici
         console.error("Une erreur inconnue est survenue");
       }
     }
@@ -152,7 +147,6 @@ function ItemDetail({ item }: ItemDetailProps) {
               value={newStockValue}
               className="w-full p-2 border-1 border-gray-300 rounded-lg mt-2 mb-2"
               onChange={(e) => setNewStockValue(parseInt(e.target.value))}
-
             />
             <div className="flex flex-row justify-between">
               <button onClick={saveStock}>Enregistrer</button>

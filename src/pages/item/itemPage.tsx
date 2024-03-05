@@ -95,7 +95,8 @@ function ItemPage() {
           {selectedItem ? (
             <ItemDetail item={selectedItem} />
           ) : (
-            <p>Sélectionner un produit</p>
+            <p className="bg-white h-10/10 p-2 rounded-2xl flex flex-col gap-4 text-center">
+            Veuillez sélectionner un produit</p>
           )}
         </div>
 
