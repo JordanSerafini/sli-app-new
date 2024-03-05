@@ -18,22 +18,23 @@ function ItemDetail({ item }: ItemDetailProps) {
   const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
+    const handleClickOutside = (event) => {
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
         setShowModal(false);
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
 
   const handleStock = () => {
     setShowModal(true);
   };
+
 
   const saveStock = () => {
     // Implémentez ici la logique pour la modification du stock
@@ -103,15 +104,18 @@ function ItemDetail({ item }: ItemDetailProps) {
           ref={modalRef}
           className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex items-center justify-center"
         >
-          <div className="bg-white p-4 rounded-lg">
-            <p>Modification du stock :</p>
+          <div className="bg-white p-4 rounded-lg w-9/10" >
+            <p className="text-center p-">Modification du stock :</p>
             <input
               type="number"
               value={newStockValue}
+              className="w-full p-2 border-1 border-gray-300 rounded-lg mt-2 mb-2"
               onChange={(e) => setNewStockValue(parseInt(e.target.value))}
             />
+            <div className="flex flex-row justify-between">
             <button onClick={saveStock}>Enregistrer</button>
             <button onClick={() => setShowModal(false)}>Annuler</button>
+            </div>
           </div>
         </div>
       )}
