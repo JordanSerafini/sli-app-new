@@ -10,16 +10,22 @@ interface DataContextType {
   setItemList: Dispatch<SetStateAction<Item[]>>;
   customerList: Customer[];
   setCustomerList: Dispatch<SetStateAction<Customer[]>>;
+  message: string;
+  isVisible: boolean;
+  showToast: (message: string, timer?: number, position?: string, css?: string) => void; 
 }
 
 // Créer le contexte avec une valeur initiale
 const dataContext = createContext<DataContextType>({
   theme: "Main", 
-  setTheme: () => {}, 
+  setTheme: () => {},
   itemList: [],
   setItemList: () => {},
   customerList: [],
   setCustomerList: () => {},
+  message: "",
+  isVisible: false,
+  showToast: () => {}, 
 });
 
 export default dataContext;

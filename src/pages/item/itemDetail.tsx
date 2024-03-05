@@ -43,7 +43,7 @@ if (item.caption === "- Unité centrale FUJITSU P420 core i 420") {
     <div className="bg-white h-10/10 p-2 rounded-2xl flex flex-col gap-4">
       {/*-----------------  1er container: Nom ----------------------*/}
       <div className=" h-2/10 overflow-auto border-b-1 border-black pb-2 text-center bold items-center justify-evenly flex flex-row">
-        <h1 className="bg-red-200 overflow-auto max-h-9/10">{item.caption}</h1>
+        <h1 className=" overflow-auto max-h-9/10">{item.caption}</h1>
         {itemImage && <img src={unitecentraleIMG} alt="Image" className="h-9.5/10 w-auto" />}
       </div>
 
@@ -59,23 +59,23 @@ if (item.caption === "- Unité centrale FUJITSU P420 core i 420") {
 
         {/*----------------- Note  ----------------------*/}
         {item.notesclear && (
-          <div className="h-4.5/10 flex flex-row gap-2border-b-1 border-black pb-2">
-            <img src={noteLogo} alt="" className="h-6" />
-            <p className="max-h-5/10 overflow-auto ">{item.notesclear}</p>
+          <div className="flex flex-row gap-2 h-4.5/10 border-b-1 border-black pb-2">
+          <img src={noteLogo} alt="" className="h-6" />
+            <p className="max-h-10/10 overflow-auto ">{item.notesclear}</p>
           </div>
         )}
       </div>
 
       {/*----------------- 3eme container  ----------------------*/}
       {item.salepricevatincluded && (
-        <div className="h-2/10 flex flex-row gap-2 items-center justify-between">
+        <div className="h-2/10 flex flex-row gap-2 items-center justify-between" >
           <div className="flex flex-row gap-2">
-            <img src={euroLogo} alt="" className="h-6" />
-            <p>Prix: {item.salepricevatincluded} €</p>
+            <img src={euroLogo} alt="" className="h-6"/>
+            <p>{item.salepricevatincluded}</p>
           </div>
           <div>
             <Badge name={name} css={stockBadgeCSS} />
-            {stockBadgeCSS === "Stock faible" && (
+            {name == "Stock faible" && (
               <p>Attention stock: {item.realstock}</p>
             )}
           </div>

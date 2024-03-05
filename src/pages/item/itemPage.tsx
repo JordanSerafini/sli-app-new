@@ -9,7 +9,7 @@ import { Item } from "../../types/item";
 const ITEMS_PER_PAGE = 25;
 
 function ItemPage() {
-  const { itemList, setItemList } = useContext(dataContext);
+  const { itemList, setItemList, showToast } = useContext(dataContext);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedItemId, setSelectedItemId] = useState<string | number | null>(
     null
@@ -35,7 +35,13 @@ function ItemPage() {
   useEffect(() => {
     const item = itemList.find(item => item.id === selectedItemId);
     setSelectedItem(item);
-  }, [selectedItemId, itemList]);
+    if (item && item.realstock == 0) {
+      showToast("Attention Rupture de stock", 5000, "top", "bg-red-500 text-white w-9/10");
+    } else if (item && item.realstock < 5) {
+      showToast("Attention Stock faible", 5000, "top", "bg-orange-500 text-white w-9/10");
+    }
+
+  }, [selectedItemId, itemList, showToast]);
 
   const handleCardClick = (id: string | number | null) => {
     setSelectedItemId(id);
