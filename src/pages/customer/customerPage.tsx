@@ -4,7 +4,6 @@ import {fetchCustomer}  from "../../function/function";
 import CustomerCard from "../../component/cards/customerCard";
 import CustomerDetail from "../../component/cards/customerDetail";
 
-import HomeBtn from "../../component/button/homeBtn";
 import dataContext from "../../context/context/dataContext";
 
 function CustomerPage() {
@@ -18,7 +17,7 @@ function CustomerPage() {
 
   return (
     <>
-      <div className="h-10/10 w-9.5/10 flex flex-col ">
+      <div className=" h-10/10 w-9.5/10 flex flex-col ">
         <div className=" h-7/10">
           <CustomerDetail />
         </div>
@@ -27,7 +26,6 @@ function CustomerPage() {
             <CustomerCard key={index} customer={customer} css="min-w-8/10 sm:min-w-4.5/10 md:min-w-3/10" />
           ))}
         </div>
-        <HomeBtn />
       </div>
     </>
   );

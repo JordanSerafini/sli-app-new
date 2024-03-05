@@ -12,7 +12,7 @@ function App() {
     <>
       <DataProvider>
         <Router>
-          <div className="bg-gray-200 h-screen w-screen flex flex-col justify-center items-center pb-16">
+          <div className="bg-gray-200 h-screen w-screen flex flex-col justify-center items-center ">
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/customer" element={<CustomerPage />} />
