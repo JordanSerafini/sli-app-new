@@ -22,7 +22,7 @@ const Toast = ({ message, onClose, position = "bottom", css = "" }: ToastProps) 
   }, [message]); 
 
   // Classes de positionnement basées sur la prop 'position'
-  let positionClasses = "bottom-0 left-1/2 transform -translate-x-1/2"; // Valeur par défaut
+  let positionClasses = "bottom-0 left-1/2 transform -translate-x-1/2";
   switch (position) {
     case "top": positionClasses = "top-1/3 left-1/2 transform -translate-x-1/2"; break;
     case "top-left": positionClasses = "top-0 left-0"; break;
@@ -33,7 +33,6 @@ const Toast = ({ message, onClose, position = "bottom", css = "" }: ToastProps) 
     case "left": positionClasses = "top-1/2 left-0 transform -translate-y-1/2"; break;
     case "right": positionClasses = "top-1/2 right-0 transform -translate-y-1/2"; break;
     case "center": positionClasses = "top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"; break;
-    // Pas besoin de 'default' puisque nous avons déjà une valeur par défaut
   }
 
   return (
