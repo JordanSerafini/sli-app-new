@@ -60,7 +60,7 @@ if (item.caption === "- Unité centrale FUJITSU P420 core i 420") {
         {/*----------------- Note  ----------------------*/}
         {item.notesclear && (
           <div className="flex flex-row gap-2 h-4.5/10 border-b-1 border-black pb-2">
-          <img src={noteLogo} alt="" className="h-6" />
+          <img src={noteLogo} alt="" className="h-6" />:
             <p className="max-h-10/10 overflow-auto ">{item.notesclear}</p>
           </div>
         )}
