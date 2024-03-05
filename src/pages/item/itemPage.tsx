@@ -14,7 +14,9 @@ function ItemPage() {
   const [selectedItemId, setSelectedItemId] = useState<string | number | null>(
     null
   );
-  const [selectedItem, setSelectedItem] = useState<Item | null | undefined>(null);
+  const [selectedItem, setSelectedItem] = useState<Item | null | undefined>(
+    null
+  );
 
   // ------------------------------- Fetch items si pas déjà fait -------------------------------
   useEffect(() => {
@@ -33,14 +35,23 @@ function ItemPage() {
 
   // -------------------------------  TOAST -------------------------------
   useEffect(() => {
-    const item = itemList.find(item => item.id === selectedItemId);
+    const item = itemList.find((item) => item.id === selectedItemId);
     setSelectedItem(item);
     if (item && item.realstock == 0) {
-      showToast("Attention Rupture de stock", 5000, "bottom", "bg-red-500 text-white w-9/10");
+      showToast(
+        "Attention Rupture de stock",
+        5000,
+        "bottom",
+        "bg-red-500 text-white w-9/10"
+      );
     } else if (item && item.realstock < 5) {
-      showToast("Attention Stock faible", 5000, "bottom", "bg-orange-500 text-white w-9/10");
+      showToast(
+        "Attention Stock faible",
+        5000,
+        "bottom",
+        "bg-orange-500 text-white w-9/10"
+      );
     }
-
   }, [selectedItemId, itemList, showToast]);
 
   const handleCardClick = (id: string | number | null) => {
@@ -51,23 +62,25 @@ function ItemPage() {
   return (
     <>
       <div className=" flex flex-col justify-start h-10/10 w-9.5/10 py-2 pb-16 gap-4 ">
-
         <div className="h-7/10 w-10/10">
           {selectedItem ? (
-            <ItemDetail item={selectedItem} /> 
+            <ItemDetail item={selectedItem} />
           ) : (
             <p>Sélectionner un produit</p>
           )}
         </div>
 
-        <div className="h-3/10 flex flex-col justify-center">
+        <div className="h-3/10 flex flex-col justify-center ">
           <CardContainer items={paginatedItems} onCardClick={handleCardClick} />
-          <Pagination
-            totalItems={itemList.length}
-            itemsPerPage={ITEMS_PER_PAGE}
-            currentPage={currentPage}
-            onPageChange={handlePageChange}
-          />
+          <div className="flex flex-row items-center gap-4 self-center w-8/10 ">
+            <Pagination
+              totalItems={itemList.length}
+              itemsPerPage={ITEMS_PER_PAGE}
+              currentPage={currentPage}
+              onPageChange={handlePageChange}
+            />
+            <div>O</div>
+          </div>
         </div>
       </div>
     </>
