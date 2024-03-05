@@ -18,23 +18,29 @@ function ItemDetail({ item }: ItemDetailProps) {
   const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (modalRef.current && !modalRef.current.contains(event.target)) {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        modalRef.current &&
+        !modalRef.current.contains(event.target as Node)
+      ) {
         setShowModal(false);
+        console.log("Ajout de l'écouteur d'événements");
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
+    if (showModal) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
 
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      // console.log("Suppression de l'écouteur d'événements");
+      document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  }, [showModal]); // Ajoutez showModal aux dépendances
 
   const handleStock = () => {
     setShowModal(true);
   };
-
 
   const saveStock = () => {
     // Implémentez ici la logique pour la modification du stock
@@ -101,10 +107,14 @@ function ItemDetail({ item }: ItemDetailProps) {
 
       {showModal && (
         <div
-          ref={modalRef}
           className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex items-center justify-center"
+          onClick={() => setShowModal(false)}
         >
-          <div className="bg-white p-4 rounded-lg w-9/10" >
+          <div
+            ref={modalRef}
+            className="bg-white p-4 rounded-lg w-9/10"
+            onClick={(e) => e.stopPropagation()} 
+          >
             <p className="text-center p-">Modification du stock :</p>
             <input
               type="number"
@@ -113,8 +123,8 @@ function ItemDetail({ item }: ItemDetailProps) {
               onChange={(e) => setNewStockValue(parseInt(e.target.value))}
             />
             <div className="flex flex-row justify-between">
-            <button onClick={saveStock}>Enregistrer</button>
-            <button onClick={() => setShowModal(false)}>Annuler</button>
+              <button onClick={saveStock}>Enregistrer</button>
+              <button onClick={() => setShowModal(false)}>Annuler</button>
             </div>
           </div>
         </div>
