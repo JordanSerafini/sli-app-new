@@ -7,7 +7,7 @@ import { fetchItems } from "../../function/function"
 
 function ItemPage() {
 
-  const { itemList, setItemList } = useContext(dataContext)
+  const { itemList, setItemList } = useContext(dataContext);
 
   useEffect(() => {
     fetchItems(setItemList)

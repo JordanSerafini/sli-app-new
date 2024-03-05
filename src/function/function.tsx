@@ -7,7 +7,7 @@ import { Customer } from "../types/customer";
 
 export type FetchDataContextParams = {
   setItemList?: Dispatch<SetStateAction<Item[]>>;
-  setClientList?: Dispatch<SetStateAction<Customer[]>>;
+  setCustomerList?: Dispatch<SetStateAction<Customer[]>>;
 };
 
 export async function fetchItems(setItemList: Dispatch<SetStateAction<Item[]>>) {
@@ -19,12 +19,10 @@ export async function fetchItems(setItemList: Dispatch<SetStateAction<Item[]>>) 
   }
 }
 
-export async function fetchClients(setClientList: Dispatch<SetStateAction<Customer[]>>) {
+export async function fetchCustomer(setCustomerList: Dispatch<SetStateAction<Customer[]>>) {
   try {
-    const response = await fetch(`${url.local}/customerNew`);
-    const data = await response.json();
-    setClientList(data.rows);
-
+    const response = await axios.get(`${url.local}/customerNew`);
+    setCustomerList(response.data.rows);
   } catch (error) {
     console.error('Error fetching clients: ', error);
   }

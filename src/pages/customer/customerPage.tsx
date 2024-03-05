@@ -1,33 +1,18 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
-import url from "../../utils/axios";
+import { useContext, useEffect } from "react";
+import {fetchCustomer}  from "../../function/function";
 
 import CustomerCard from "../../component/cards/customerCard";
 import HomeBtn from "../../component/button/homeBtn";
+import dataContext from "../../context/context/dataContext";
 
 function CustomerPage() {
-  const [customerList, setCustomerList] = useState([]);
+  const {customerList, setCustomerList} = useContext(dataContext);
 
-  const getCustomers = async () => {
-    try {
-      const response = await axios.get(`${url.local}/customerNew`);
-
-      if (response.data && Array.isArray(response.data.rows)) {
-        setCustomerList(response.data.rows);
-      } else {
-        console.error(
-          "La réponse de l'API n'est pas au format attendu.",
-          response
-        );
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   useEffect(() => {
-    getCustomers();
-  }, []);
+    if (customerList.length === 0)
+    fetchCustomer(setCustomerList);
+  }, [setCustomerList, customerList]);
 
   return (
     <>
