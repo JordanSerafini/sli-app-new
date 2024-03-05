@@ -20,13 +20,13 @@ function ItemDetail({ item }: ItemDetailProps) {
   const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    setNewStockValue(item.realstock)
     const handleClickOutside = (event: MouseEvent) => {
       if (
         modalRef.current &&
         !modalRef.current.contains(event.target as Node)
       ) {
         setShowModal(false);
-        console.log("Ajout de l'écouteur d'événements");
       }
     };
 
