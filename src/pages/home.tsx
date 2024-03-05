@@ -12,6 +12,7 @@ function Home() {
   const goToItemPage = () => {
     navigate('/item');
   };
+  
 
  
   return (

@@ -4,6 +4,7 @@ import { DataProvider } from "./context/provider/dataProvider";
 import Home from "./pages/home";
 import CustomerPage from "./pages/customer/customerPage";
 import ItemPage from "./pages/item/itemPage";
+import Card from "./component/cards/card";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/customer" element={<CustomerPage />} />
               <Route path="/item" element={<ItemPage />} />
+              <Route path="/card" element={<Card />} />
             </Routes>
           </div>
         </Router>

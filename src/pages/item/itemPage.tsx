@@ -1,32 +1,33 @@
-import { useEffect, useContext } from "react"
+import { useEffect, useContext } from "react";
+import { fetchItems } from "../../function/function";
 
-import dataContext from "../../context/context/dataContext"
-import HomeBtn from "../../component/button/homeBtn"
+import dataContext from "../../context/context/dataContext";
 
-import { fetchItems } from "../../function/function"
+import HomeBtn from "../../component/button/homeBtn";
+import CardContainer from "./cardContainer";
 
 function ItemPage() {
-
   const { itemList, setItemList } = useContext(dataContext);
 
   useEffect(() => {
-    fetchItems(setItemList)
-  }, [setItemList])
+    if (itemList.length === 0) fetchItems(setItemList);
+  }, [setItemList, itemList]);
 
   const handleclick = () => {
-    console.log(itemList)
-  }
-
+    console.log(itemList);
+  };
 
   return (
-    <div>
-
-        <div>
-            <button onClick={handleclick}>O</button>
-        </div>
+    <>
+      <div className="bg-red-500 flex flex-col justify-start h-10/10 w-9.5/10">
+        <div className="bg-blue-200 h-7/10 w-10/10">Div Detail carte</div>
+        <div className="h-3/10">
+        <CardContainer />
         <HomeBtn />
-    </div>
-  )
+        </div>
+      </div>
+    </>
+  );
 }
 
-export default ItemPage
+export default ItemPage;
