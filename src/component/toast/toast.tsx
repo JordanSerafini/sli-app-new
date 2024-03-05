@@ -1,3 +1,7 @@
+import { useEffect, useRef } from 'react';
+
+import gsap from "gsap";
+
 interface ToastProps {
   message: string;
   onClose: () => void;
@@ -6,6 +10,18 @@ interface ToastProps {
 }
 
 const Toast = ({ message, onClose, position, css }: ToastProps) => {
+  const toastRef = useRef(null);
+
+  useEffect(() => {
+    if (toastRef.current) {
+      gsap.from(toastRef.current, {
+        x: 100, // Commence 100 pixels plus à droite de sa position finale
+        autoAlpha: 0, // Commence invisible (autoAlpha gère à la fois l'opacité et la visibilité)
+        duration: 0.5, // Durée de l'animation en secondes
+      });
+    }
+  }, [message]);
+
     let positionClasses;
     switch (position) {
       case "top":
@@ -43,6 +59,7 @@ const Toast = ({ message, onClose, position, css }: ToastProps) => {
 
   return (
     <div
+    ref={toastRef}
     className={`${css} fixed bg-gray-800 text-white p-4 rounded-lg z-50 cursor-pointer ${positionClasses}`}
     onClick={onClose}
     >
