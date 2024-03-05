@@ -13,13 +13,10 @@ function ItemPage() {
     if (itemList.length === 0) fetchItems(setItemList);
   }, [setItemList, itemList]);
 
-  const handleclick = () => {
-    console.log(itemList);
-  };
 
   return (
     <>
-      <div className="bg-red-500 flex flex-col justify-start h-10/10 w-9.5/10">
+      <div className=" flex flex-col justify-start h-10/10 w-9.5/10">
         <div className="bg-blue-200 h-7/10 w-10/10">Div Detail carte</div>
         <div className="h-3/10">
         <CardContainer />

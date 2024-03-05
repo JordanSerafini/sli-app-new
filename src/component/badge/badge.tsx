@@ -1,5 +1,5 @@
 interface badgeProps {
-    name: string;
+    name: string | number | null;
     css: string;
     }
 
@@ -8,11 +8,11 @@ function badge({name, css} : badgeProps) {
 
 let theme = ``;
     switch (name) {
-        case "Famille-1":
-            theme = `bg-red-500 text-white`
+        case "PREST":
+            theme = `border-blue-300 border-1 text-blue-500`
             break;
-        case "Famille-2":
-            theme = `bg-blue-500 text-white`
+        case "MAT":
+            theme = `border-green-300 border-1 text-green-500`
             break;
         case "Famille-3":
             theme = `bg-green-500 text-white`
