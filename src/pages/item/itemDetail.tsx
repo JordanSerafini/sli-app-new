@@ -48,7 +48,7 @@ if (item.caption === "- Unité centrale FUJITSU P420 core i 420") {
       </div>
 
       {/*-----------------  2eme container: Description/Note  ----------------------*/}
-      <div className="h-6/10 flex flex-col gap-4">
+      <div className="h-6/10 flex flex-col gap-4 text-xs">
         {/*-----------------  Description ----------------------*/}
         {item.descomclear && (
           <div className="flex flex-row gap-2 h-4.5/10 border-b-1 border-black pb-2">
