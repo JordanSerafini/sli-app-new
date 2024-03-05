@@ -24,7 +24,7 @@ const Card: React.FC<CardProps> = ({
 }) => {
   return (
     <div onClick={() => onClick(id.toString())} className="p-4 rounded-2xl h-9/10 min-w-9/10 bg-white flex flex-col justify-evenly shadow-effect overflow-auto">
-      <h3 className="bold">{title}</h3>
+      <h3 className="bold text-grayblue">{title}</h3>
       {subTitle && <p>{subTitle}</p>}
       {data1 && <p>{data1}</p>}
       {data2 && <p>{data2}</p>}
