@@ -1,10 +1,15 @@
 import { useState, useEffect, useContext } from "react";
 import { fetchItems } from "../../function/function";
+import { Item } from "../../types/item";
+
 import dataContext from "../../context/context/dataContext";
+
 import Pagination from "../../component/others/pagination";
 import CardContainer from "./cardContainer";
 import ItemDetail from "./itemDetail";
-import { Item } from "../../types/item";
+import SearchInput from "../../component/others/searchInput";
+
+import loupeLogo from "../../assets/loupeLogo.png";
 
 const ITEMS_PER_PAGE = 25;
 
@@ -17,6 +22,24 @@ function ItemPage() {
   const [selectedItem, setSelectedItem] = useState<Item | null | undefined>(
     null
   );
+
+  const [showSearch, setShowSearch] = useState(false);
+
+  const [filteredItems, setFilteredItems] = useState<Item[]>([]);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  // Fonction de recherche pour filtrer les éléments en fonction du terme de recherche
+  const handleSearch = (term: string) => {
+    setSearchTerm(term);
+  };
+
+  useEffect(() => {
+    // Filtrer les éléments en fonction du terme de recherche
+    const filtered = itemList.filter((item) =>
+      item.caption.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredItems(filtered);
+  }, [itemList, searchTerm]);
 
   // ------------------------------- Fetch items si pas déjà fait -------------------------------
   useEffect(() => {
@@ -57,6 +80,12 @@ function ItemPage() {
   const handleCardClick = (id: string | number | null) => {
     setSelectedItemId(id);
   };
+
+  // -------------------------------  Input recherche -------------------------------
+  const searchClick = () => {
+    setShowSearch(!showSearch);
+  };
+
   // -------------------------------  Render -------------------------------
 
   return (
@@ -70,16 +99,32 @@ function ItemPage() {
           )}
         </div>
 
-        <div className="h-3/10 flex flex-col justify-center ">
-          <CardContainer items={paginatedItems} onCardClick={handleCardClick} />
-          <div className="flex flex-row items-center gap-4 self-center w-8/10 ">
-            <Pagination
-              totalItems={itemList.length}
-              itemsPerPage={ITEMS_PER_PAGE}
-              currentPage={currentPage}
-              onPageChange={handlePageChange}
+        <div className="h-3/10 flex flex-col justify-center">
+          {showSearch ? (
+            <CardContainer
+              items={filteredItems}
+              onCardClick={handleCardClick}
             />
-            <div>O</div>
+          ) : (
+            <CardContainer
+              items={paginatedItems}
+              onCardClick={handleCardClick}
+            />
+          )}
+
+          <div className="flex flex-row justify-start gap-4 self-center w-10/10 ">
+            {showSearch ? (
+              <SearchInput onSearch={handleSearch} />
+            ) : (
+              <Pagination
+                totalItems={itemList.length}
+                itemsPerPage={ITEMS_PER_PAGE}
+                currentPage={currentPage}
+                onPageChange={handlePageChange}
+              />
+            )}
+
+            <img src={loupeLogo} alt="" className="h-8" onClick={searchClick} />
           </div>
         </div>
       </div>
