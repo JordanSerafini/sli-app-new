@@ -1,4 +1,6 @@
 import { Item } from "../../types/item";
+import axios from "axios";
+import url from "../../utils/axios";
 
 import Badge from "../../component/badge/badge";
 
@@ -42,9 +44,38 @@ function ItemDetail({ item }: ItemDetailProps) {
     setShowModal(true);
   };
 
-  const saveStock = () => {
-    // Implémentez ici la logique pour la modification du stock
-    setShowModal(false);
+  const saveStock = async () => {
+    const apiUrl = `${url.local}/edititemstock`;
+    const itemData = {
+      caption: item.caption,
+      newStock: newStockValue,
+    };
+
+    try {
+      const response = await axios.post(apiUrl, itemData);
+      console.log("Stock modifié avec succès:", response.data);
+      setShowModal(false); // Fermer la modal après succès
+    } catch (error) {
+      // Verifie si 'error' est une instance d'Error ET possède une propriété 'response'
+      if (axios.isAxiosError(error)) {
+        // Maintenant, TypeScript sait que 'error' est une erreur Axios spécifique,
+        // donc 'error.response' est accessible.
+        console.error(
+          "Erreur lors de la modification du stock:",
+          error.response?.data
+        );
+      } else if (error instanceof Error) {
+        // C'est une erreur générique d'Error, on utilise 'message'
+        console.error(
+          "Erreur lors de la modification du stock:",
+          error.message
+        );
+      } else {
+        // Si 'error' n'est pas une instance d'Error, on gère ce cas ici
+        console.error("Une erreur inconnue est survenue");
+      }
+    }
+    alert("Stock modifié avec succès");
   };
 
   let itemImage = false;
@@ -55,7 +86,7 @@ function ItemDetail({ item }: ItemDetailProps) {
   let stockBadgeCSS = "";
   let name = "";
 
-  if (item.realstock === 0) {
+  if (item.realstock == 0) {
     stockBadgeCSS = "bg-red-500 text-white";
     name = "Rupture de stock";
   } else if (item.realstock < 5) {
@@ -113,14 +144,15 @@ function ItemDetail({ item }: ItemDetailProps) {
           <div
             ref={modalRef}
             className="bg-white p-4 rounded-lg w-9/10"
-            onClick={(e) => e.stopPropagation()} 
+            onClick={(e) => e.stopPropagation()}
           >
-            <p className="text-center p-">Modification du stock :</p>
+            <p className="text-center">stock actuel:{item.realstock}</p>
             <input
               type="number"
               value={newStockValue}
               className="w-full p-2 border-1 border-gray-300 rounded-lg mt-2 mb-2"
               onChange={(e) => setNewStockValue(parseInt(e.target.value))}
+
             />
             <div className="flex flex-row justify-between">
               <button onClick={saveStock}>Enregistrer</button>
