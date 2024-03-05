@@ -1,5 +1,4 @@
 import { useEffect, useRef } from 'react';
-
 import gsap from "gsap";
 
 interface ToastProps {
@@ -9,59 +8,39 @@ interface ToastProps {
   css?: string;
 }
 
-const Toast = ({ message, onClose, position, css }: ToastProps) => {
-  const toastRef = useRef(null);
+const Toast = ({ message, onClose, position = "bottom", css = "" }: ToastProps) => {
+  const toastRef = useRef<HTMLDivElement>(null); 
 
   useEffect(() => {
     if (toastRef.current) {
-      gsap.from(toastRef.current, {
-        x: 100, // Commence 100 pixels plus à droite de sa position finale
-        autoAlpha: 0, // Commence invisible (autoAlpha gère à la fois l'opacité et la visibilité)
-        duration: 0.5, // Durée de l'animation en secondes
+      gsap.fromTo(toastRef.current, {
+        x: 0, opacity: 0, scale: 0.3
+      }, {
+        x: 0, opacity: 1, duration: 1, scale:1,  ease: "power3.out"
       });
     }
-  }, [message]);
+  }, [message]); 
 
-    let positionClasses;
-    switch (position) {
-      case "top":
-        positionClasses = "top-1/3 left-1/2 transform -translate-x-1/2";
-        break;
-      case "top-left":
-        positionClasses = "top-0 left-0";
-        break;
-      case "top-right":
-        positionClasses = "top-0 right-0";
-        break;
-      case "bottom":
-        positionClasses = "bottom-0 left-1/2 transform -translate-x-1/2";
-        break;
-      case "bottom-left":
-        positionClasses = "bottom-0 left-0";
-        break;
-      case "bottom-right":
-        positionClasses = "bottom-0 right-0";
-        break;
-      case "left":
-        positionClasses = "top-1/2 left-0 transform -translate-y-1/2";
-        break;
-      case "right":
-        positionClasses = "top-1/2 right-0 transform -translate-y-1/2";
-        break;
-      case "center":
-        positionClasses = "top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2";
-        break;
-      default:
-        positionClasses = "bottom-0 left-1/2 transform -translate-x-1/2";
-        break;
-    }
-  
+  // Classes de positionnement basées sur la prop 'position'
+  let positionClasses = "bottom-0 left-1/2 transform -translate-x-1/2"; // Valeur par défaut
+  switch (position) {
+    case "top": positionClasses = "top-1/3 left-1/2 transform -translate-x-1/2"; break;
+    case "top-left": positionClasses = "top-0 left-0"; break;
+    case "top-right": positionClasses = "top-0 right-0"; break;
+    case "bottom": positionClasses = "bottom-0 left-1/2 transform -translate-x-1/2"; break;
+    case "bottom-left": positionClasses = "bottom-0 left-0"; break;
+    case "bottom-right": positionClasses = "bottom-0 right-0"; break;
+    case "left": positionClasses = "top-1/2 left-0 transform -translate-y-1/2"; break;
+    case "right": positionClasses = "top-1/2 right-0 transform -translate-y-1/2"; break;
+    case "center": positionClasses = "top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"; break;
+    // Pas besoin de 'default' puisque nous avons déjà une valeur par défaut
+  }
 
   return (
     <div
-    ref={toastRef}
-    className={`${css} fixed bg-gray-800 text-white p-4 rounded-lg z-50 cursor-pointer ${positionClasses}`}
-    onClick={onClose}
+      ref={toastRef} 
+      className={`${css} fixed bg-gray-800 text-white p-4 rounded-lg z-50 cursor-pointer ${positionClasses}`}
+      onClick={onClose}
     >
       {message}
     </div>
