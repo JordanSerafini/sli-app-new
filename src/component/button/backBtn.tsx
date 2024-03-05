@@ -7,7 +7,7 @@ function BackButton({css=""}: {css?: string}) {
 
   return (
     <button onClick={() => navigate(-1)} className={`${css}`}>
-        <img src={backarrowLogo} alt="" className='h-8 border-1 border-blue-400 rounded-2xl bg-red-500 ' />
+        <img src={backarrowLogo} alt="" className='h-6 border-1 border-blue-400 rounded-2xl ' />
     </button>
   );
 }
