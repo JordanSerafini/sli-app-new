@@ -44,10 +44,11 @@ function ItemPage() {
 
   return (
     <>
-      <div className=" flex flex-col justify-start h-10/10 w-9.5/10 py-2 bg-gray-200 ">
+      <div className=" flex flex-col justify-start h-10/10 w-9.5/10 py-2  ">
+
         <div className="h-7/10 w-10/10">
           {selectedItem ? (
-            <ItemDetail item={selectedItem} />
+            <ItemDetail item={selectedItem} /> 
           ) : (
             <p>Sélectionner un produit</p>
           )}
