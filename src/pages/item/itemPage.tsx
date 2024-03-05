@@ -31,14 +31,14 @@ function ItemPage() {
     setCurrentPage(page);
   };
 
-  // -------------------------------  Render -------------------------------
+  // -------------------------------  TOAST -------------------------------
   useEffect(() => {
     const item = itemList.find(item => item.id === selectedItemId);
     setSelectedItem(item);
     if (item && item.realstock == 0) {
-      showToast("Attention Rupture de stock", 5000, "top", "bg-red-500 text-white w-9/10");
+      showToast("Attention Rupture de stock", 5000, "bottom", "bg-red-500 text-white w-9/10");
     } else if (item && item.realstock < 5) {
-      showToast("Attention Stock faible", 5000, "top", "bg-orange-500 text-white w-9/10");
+      showToast("Attention Stock faible", 5000, "bottom", "bg-orange-500 text-white w-9/10");
     }
 
   }, [selectedItemId, itemList, showToast]);

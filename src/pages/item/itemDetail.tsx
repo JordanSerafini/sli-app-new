@@ -75,9 +75,7 @@ if (item.caption === "- Unité centrale FUJITSU P420 core i 420") {
           </div>
           <div>
             <Badge name={name} css={stockBadgeCSS} />
-            {name == "Stock faible" && (
-              <p>Attention stock: {item.realstock}</p>
-            )}
+            
           </div>
         </div>
       )}
