@@ -41,7 +41,7 @@ const Pagination: React.FC<PaginationProps> = ({
   }
 
   return (
-    <div className="w-8.5/10 bg-red-500 h-2/10 flex justify-between self-center flex-row gap-2">
+    <div className="w-10/10 h-2/10 flex justify-evenly self-center flex-row items-center gap-2">
       {pageNumbers.map((page, index) =>
         page === '...' ? (
           <span key={index}>...</span>
