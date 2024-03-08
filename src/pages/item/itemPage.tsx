@@ -87,7 +87,6 @@ function ItemPage() {
   };
 
   // -------------------------------  Render -------------------------------
-
   return (
     <>
       <div className=" flex flex-col justify-start h-10/10 w-9.5/10 py-2 pb-16 gap-4 ">

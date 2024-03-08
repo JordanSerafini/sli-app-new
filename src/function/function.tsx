@@ -12,7 +12,7 @@ export type FetchDataContextParams = {
 
 export async function fetchItems(setItemList: Dispatch<SetStateAction<Item[]>>) {
   try {
-    const response = await axios.get(`${url.local}/itemNew`);
+    const response = await axios.get(`${url.main}/getAllitem`);
     setItemList(response.data.rows);
   } catch (error) {
     console.error('Error fetching items: ', error);
@@ -21,7 +21,7 @@ export async function fetchItems(setItemList: Dispatch<SetStateAction<Item[]>>) 
 
 export async function fetchCustomer(setCustomerList: Dispatch<SetStateAction<Customer[]>>) {
   try {
-    const response = await axios.get(`${url.local}/customerNew`);
+    const response = await axios.get(`${url.main}/getAllCustomer`);
     setCustomerList(response.data.rows);
   } catch (error) {
     console.error('Error fetching clients: ', error);
