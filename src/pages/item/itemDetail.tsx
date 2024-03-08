@@ -92,7 +92,6 @@ function ItemDetail({ item }: ItemDetailProps) {
     name = "En stock";
   }
 
-console.log("item", item);
   return (
     <div className="bg-white h-10/10 p-2 rounded-2xl flex flex-col gap-4">
       <div className="h-2/10 overflow-auto border-b-1 border-grayblue pb-2 text-center bold items-center justify-evenly flex flex-row">
