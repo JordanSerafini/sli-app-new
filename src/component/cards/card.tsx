@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import Badge from "../badge/badge";
 
 interface CardProps {
@@ -23,13 +23,20 @@ const Card: React.FC<CardProps> = ({
   onClick,
 }) => {
   return (
-    <div onClick={() => onClick(id.toString())} className="p-4 rounded-2xl h-9/10 min-w-9/10 bg-white flex flex-col justify-evenly shadow-effect overflow-auto">
-      <h3 className="bold text-grayblue">{title}</h3>
-      {subTitle && <p>{subTitle}</p>}
-      {data1 && <p>{data1}</p>}
-      {data2 && <p>{data2}</p>}
-      {price && <p>{price}€</p>}
-      {familly && <Badge name={familly.toString()} css="" />}
+    <div
+      onClick={() => onClick(id.toString())}
+      className="p-4 rounded-2xl h-9/10 min-w-9/10 bg-white flex flex-col justify-evenly items-center shadow-effect overflow-auto"
+    >
+      <h3 className="text-sm text-grayblue">{title}</h3>
+      <div>
+        {subTitle && <p>{subTitle}</p>}
+        {data1 && <p>{data1}</p>}
+        {data2 && <p>{data2}</p>}
+      </div>
+      <div className="self-end flex flex-col items-center">
+        {price && <p className="bold text-grayblue">{price}€</p>}
+        {familly && <Badge name={familly.toString()} css="" />}
+      </div>
     </div>
   );
 };
