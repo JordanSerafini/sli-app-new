@@ -47,7 +47,7 @@ function ItemDetail({ item }: ItemDetailProps) {
     const apiUrl = `${url.main}/updateItem`;
     const itemData = {
       caption: item.caption,
-      newStock: newStockValue,
+      stock: newStockValue,
     };
 
     try {
