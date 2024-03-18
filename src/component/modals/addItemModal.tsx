@@ -39,7 +39,7 @@ function AddItemModal({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(formData);
+   //console.log(formData);
 
     try {
         const response = await axios.post(`${url.local}/addItem`, formData, {

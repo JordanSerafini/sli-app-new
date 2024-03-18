@@ -44,7 +44,7 @@ function ItemDetail({ item }: ItemDetailProps) {
   };
 
   const saveStock = async () => {
-    const apiUrl = `${url.local}/edititemstock`;
+    const apiUrl = `${url.main}/edititemstock`;
     const itemData = {
       caption: item.caption,
       newStock: newStockValue,
@@ -91,8 +91,6 @@ function ItemDetail({ item }: ItemDetailProps) {
     stockBadgeCSS = "bg-green-500 text-white";
     name = "En stock";
   }
-
-  console.log("itemImage:", item.realstock);
 
   return (
     <div className="bg-white h-10/10 p-2 rounded-2xl flex flex-col gap-4">
