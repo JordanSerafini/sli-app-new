@@ -149,7 +149,13 @@ function ItemDetail({ item }: ItemDetailProps) {
               type="number"
               value={newStockValue}
               className="w-full p-2 border-1 border-gray-300 rounded-lg mt-2 mb-2"
-              onChange={(e) => setNewStockValue(parseInt(e.target.value))}
+              onChange={(e) => {
+                const value = parseInt(e.target.value);
+                if (!isNaN(value)) {
+                  setNewStockValue(value);
+                }
+              }}
+              
             />
             <div className="flex flex-row justify-between">
               <button onClick={saveStock}>Enregistrer</button>
