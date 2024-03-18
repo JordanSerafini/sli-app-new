@@ -16,7 +16,7 @@ function Layout() {
       {token? ( 
         <div className="bg-gray-200 h-screen w-screen flex flex-col justify-center items-center">
           <Routes>
-            <Route path="/home" element={<Home />} />
+            <Route path="/" element={<Home />} />
             <Route path="/customer" element={<CustomerPage />} />
             <Route path="/item" element={<ItemPage />} />
             <Route path="/login" element={<Login />} />

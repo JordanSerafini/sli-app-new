@@ -42,7 +42,7 @@ function AddItemModal({
    //console.log(formData);
 
     try {
-        const response = await axios.post(`${url.local}/addItem`, formData, {
+        const response = await axios.post(`${url.main}/addItem`, formData, {
             headers: {
                 'Content-Type': 'application/json',
             },
