@@ -1,18 +1,41 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+
+import { Login } from "../function/function";
+import dataContext from "../context/context/dataContext";
 
 import ButtonFull from "../component/button/buttonFull";
 import sliLogo from "../assets/SLIlogo.png";
 
-function Login() {
+function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { showToast } = useContext(dataContext);
 
-  const handleSubmit = () => {
-    const data = {
-      email,
-      password,
-    };
-    console.log(data);
+  const handleSubmit = async () => {
+    try {
+      const data = {
+        email,
+        password,
+      };
+
+      const { isLoggedIn } = await Login(data.email, data.password);
+      if (isLoggedIn === true) {
+      showToast("Connexion réussie", 3000, "bottom", "bg-green-500 w-full");
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error(error);
+        showToast(error.message, 3000, "bottom", "bg-red-500 w-full");
+      } else {
+        console.error("Une erreur inattendue s'est produite.");
+        showToast(
+          "Une erreur inattendue s'est produite.",
+          3000,
+          "bottom",
+          "bg-orange-500 w-full"
+        );
+      }
+    }
   };
 
   return (
@@ -50,4 +73,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default LoginPage;

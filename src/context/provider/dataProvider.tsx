@@ -12,6 +12,7 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
     const [customerList, setCustomerList] = useState<Customer[]>([]);
     const [position, setPosition] = useState("top");
     const [css, setCss] = useState("");
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     const [message, setMessage] = useState("")
     const [isVisible, setIsVisible] = useState(false)
@@ -39,6 +40,8 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
     message,
     isVisible,
     position,
+    isLoggedIn,
+    setIsLoggedIn,
 
   };
 

@@ -13,6 +13,8 @@ interface DataContextType {
   message: string;
   isVisible: boolean;
   showToast: (message: string, timer?: number, position?: string, css?: string) => void; 
+  isLoggedIn: boolean;
+  setIsLoggedIn?: Dispatch<SetStateAction<boolean>>;
 }
 
 // Créer le contexte avec une valeur initiale
@@ -26,6 +28,7 @@ const dataContext = createContext<DataContextType>({
   message: "",
   isVisible: false,
   showToast: () => {}, 
+  isLoggedIn: false,
 });
 
 export default dataContext;
