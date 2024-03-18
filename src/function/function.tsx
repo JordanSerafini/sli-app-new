@@ -35,17 +35,25 @@ export async function fetchCustomer(
 
 
 export async function login(email: string, password: string) {
+  
 
   try {
     const response = await axios.post(`${url.local}/login`, {
       email,
       password,
     });
-    const { token } = response.data;
+    const { token, userData } = response.data;
 
+    const userDataSort = {
+      id: userData.id,
+      email: userData.email,
+      prenom: userData.prenom,
+      nom: userData.nom,
+      role: userData.role,
+  };
     // Stocker le token dans le LocalStorage
     localStorage.setItem("token", token);
-
+    localStorage.setItem("userData", JSON.stringify(userDataSort));
     return { token, logged: true};
   } catch (error: unknown) {
     if (error instanceof Error) {

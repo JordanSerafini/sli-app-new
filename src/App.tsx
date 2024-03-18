@@ -6,7 +6,6 @@ import CustomerPage from "./pages/customer/customerPage";
 import ItemPage from "./pages/item/itemPage";
 import Login from "./pages/login";
 
-import BottomNavbar from "./component/nav/bottomNavBar";
 
 function Layout() {
   const location = useLocation(); 
@@ -22,7 +21,6 @@ function Layout() {
             <Route path="/item" element={<ItemPage />} />
             <Route path="/login" element={<Login />} />
           </Routes>
-          {location.pathname !== "/login" && <BottomNavbar />}
         </div>
       ) : (
         <>
