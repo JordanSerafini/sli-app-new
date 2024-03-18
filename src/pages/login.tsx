@@ -26,7 +26,7 @@ function LoginPage() {
       
         if (logged === true) {
             showToast("Connexion réussie", 3000, "bottom", "bg-green-500 w-full");
-            navigate('/home');  
+            navigate('/');  
 
         } 
 
