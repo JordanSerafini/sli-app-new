@@ -33,11 +33,8 @@ export async function fetchCustomer(
 
 
 
-import dataContext from "../context/context/dataContext";
-import { useContext } from "react";
 
-export async function Login(email: string, password: string) {
-  const { setIsLoggedIn } = useContext(dataContext);
+export async function login(email: string, password: string) {
 
   try {
     const response = await axios.post(`${url.local}/login`, {
@@ -49,8 +46,7 @@ export async function Login(email: string, password: string) {
     // Stocker le token dans le LocalStorage
     localStorage.setItem("token", token);
 
-    {setIsLoggedIn && setIsLoggedIn(true);}
-    return { token };
+    return { token, logged: true};
   } catch (error: unknown) {
     if (error instanceof Error) {
       if (

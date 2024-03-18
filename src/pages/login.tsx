@@ -1,15 +1,19 @@
 import { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 
-import { Login } from "../function/function";
+import { login } from "../function/function";
 import dataContext from "../context/context/dataContext";
 
 import ButtonFull from "../component/button/buttonFull";
 import sliLogo from "../assets/SLIlogo.png";
 
 function LoginPage() {
+
+    const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { showToast } = useContext(dataContext);
+  const { showToast, setIsLoggedIn } = useContext(dataContext);
 
   const handleSubmit = async () => {
     try {
@@ -18,10 +22,15 @@ function LoginPage() {
         password,
       };
 
-      const { isLoggedIn } = await Login(data.email, data.password);
-      if (isLoggedIn === true) {
-      showToast("Connexion réussie", 3000, "bottom", "bg-green-500 w-full");
-      }
+      const { logged } = await login(data.email, data.password);
+      
+        if (logged === true) {
+            console.log("Login success");
+            { setIsLoggedIn && setIsLoggedIn(true); }
+            navigate('/home');
+
+        } 
+
     } catch (error) {
       if (error instanceof Error) {
         console.error(error);

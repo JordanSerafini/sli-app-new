@@ -7,6 +7,7 @@ import ItemPage from "./pages/item/itemPage";
 import Login from "./pages/login";
 
 import BottomNavbar from "./component/nav/bottomNavBar";
+import dataContext from "./context/context/dataContext";
 
 function Layout() {
   const location = useLocation(); 
@@ -15,7 +16,7 @@ function Layout() {
     <>
       <div className="bg-gray-200 h-screen w-screen flex flex-col justify-center items-center">
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/home" element={<Home />} />
           <Route path="/customer" element={<CustomerPage />} />
           <Route path="/item" element={<ItemPage />} />
           <Route path="/login" element={<Login />} />
