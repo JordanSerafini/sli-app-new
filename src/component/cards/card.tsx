@@ -9,7 +9,7 @@ interface CardProps {
   data2?: string | number;
   price?: string | number;
   familly?: string | number | null;
-  onClick: (id: string | number) => void; // Accepter les deux types
+  onClick: (id: string | number) => void; 
 }
 
 const Card: React.FC<CardProps> = ({

@@ -37,7 +37,7 @@ function ItemDetail({ item }: ItemDetailProps) {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [showModal, item.realstock]); 
+  }, [showModal, item.realstock]);
 
   const handleStock = () => {
     setShowModal(true);
@@ -54,12 +54,10 @@ function ItemDetail({ item }: ItemDetailProps) {
     try {
       const response = await axios.post(apiUrl, itemData);
       //console.log("Stock modifié avec succès:", response.data);
-      if (response)(
-      setShowModal(false) // Fermer la modal après succès
-      );
+      if (response)
+        setShowModal(false); // Fermer la modal après succès
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        
         console.error(
           "Erreur lors de la modification du stock:",
           error.response?.data
@@ -144,19 +142,23 @@ function ItemDetail({ item }: ItemDetailProps) {
             className="bg-white p-4 rounded-lg w-9/10"
             onClick={(e) => e.stopPropagation()}
           >
-            <p className="text-center">stock actuel:{item.realstock}</p>
+            <p className="text-center">
+              stock actuel: <span className="bold">{item.realstock}</span>
+            </p>
             <input
               type="number"
               value={newStockValue}
               className="w-full p-2 border-1 border-gray-300 rounded-lg mt-2 mb-2"
               onChange={(e) => {
                 const value = parseInt(e.target.value);
-                if (!isNaN(value)) {
+                if (!isNaN(value) && value >= 0) {
                   setNewStockValue(value);
+                } else {
+                  setNewStockValue(e.target.value === "0" ? 0 : newStockValue);
                 }
               }}
-              
             />
+
             <div className="flex flex-row justify-between">
               <button onClick={saveStock}>Enregistrer</button>
               <button onClick={() => setShowModal(false)}>Annuler</button>
