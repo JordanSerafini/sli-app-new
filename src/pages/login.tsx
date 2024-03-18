@@ -16,7 +16,7 @@ function Login() {
   };
 
   return (
-    <div className="h-screen w-screen flex flex-col justify-center items-center gap-20">
+    <div className="h-screen w-screen flex flex-col justify-center items-center gap-16">
       <img src={sliLogo} alt="SLI Logo" className="rounded-full" />
       <div className="flex flex-col w-10/10 gap-4">
         {/*----------------------------------------------------------------------------------------------------*/}
@@ -37,12 +37,13 @@ function Login() {
           />
         </div>
         {/*----------------------------------------------------------------------------------------------------*/}
-        <div className="w-full">
+        <div className="w-full flex flex-col items-center justify-center gap-1">
           <ButtonFull
             title="Connexion"
             onClick={handleSubmit}
-            css="w-9/10 rounded-2xl"
+            css="w-9/10 rounded-2xl tracking-wider"
           />
+          <p className="text-primary tracking-widest">Mot de passe oublié ?</p>
         </div>
       </div>
     </div>
