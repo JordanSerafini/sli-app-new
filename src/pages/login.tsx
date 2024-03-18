@@ -13,7 +13,7 @@ function LoginPage() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { showToast, setIsLoggedIn } = useContext(dataContext);
+  const { showToast } = useContext(dataContext);
 
   const handleSubmit = async () => {
     try {
@@ -25,9 +25,8 @@ function LoginPage() {
       const { logged } = await login(data.email, data.password);
       
         if (logged === true) {
-            console.log("Login success");
-            { setIsLoggedIn && setIsLoggedIn(true); }
-            navigate('/home');
+            showToast("Connexion réussie", 3000, "bottom", "bg-green-500 w-full");
+            navigate('/home');  
 
         } 
 
