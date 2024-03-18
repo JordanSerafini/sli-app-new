@@ -10,7 +10,7 @@ import ItemDetail from "./itemDetail";
 import SearchInput from "../../component/others/searchInput";
 
 import ItemNavbar from "../../component/nav/itemNavBar";
-import AddItemModal from "../../component/modals/addItemModal";
+import AddItemModal from "../../component/modals/item/addItemModal";
 import loupeLogo from "../../assets/loupeLogo.png";
 
 const ITEMS_PER_PAGE = 25;

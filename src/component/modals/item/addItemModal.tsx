@@ -1,9 +1,9 @@
 import { useState } from "react";
-import closeLogo from "../../assets/closeLogo.png";
-import InputPerso from "../labels/input";
-import url from "../../utils/axios";
+import closeLogo from "../../../assets/closeLogo.png";
+import InputPerso from "../../labels/input";
+import url from "../../../utils/axios";
 
-import ButtonFull from "../../component/button/buttonFull";
+import ButtonFull from "../../button/buttonFull";
 import axios from "axios";
 
 function AddItemModal({

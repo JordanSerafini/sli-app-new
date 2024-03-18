@@ -44,7 +44,7 @@ function ItemDetail({ item }: ItemDetailProps) {
   };
 
   const saveStock = async () => {
-    const apiUrl = `${url.main}/edititemstock`;
+    const apiUrl = `${url.main}/updateItem`;
     const itemData = {
       caption: item.caption,
       newStock: newStockValue,
