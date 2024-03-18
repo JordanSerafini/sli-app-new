@@ -49,12 +49,14 @@ function ItemDetail({ item }: ItemDetailProps) {
       caption: item.caption,
       stock: newStockValue,
     };
-    console.log("itemData:", itemData);
+    //console.log("itemData:", itemData);
 
     try {
       const response = await axios.post(apiUrl, itemData);
-      console.log("Stock modifié avec succès:", response.data);
-      setShowModal(false); // Fermer la modal après succès
+      //console.log("Stock modifié avec succès:", response.data);
+      if (response)(
+      setShowModal(false) // Fermer la modal après succès
+      );
     } catch (error) {
       if (axios.isAxiosError(error)) {
         
