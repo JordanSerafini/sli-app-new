@@ -1,6 +1,6 @@
 interface ButtonProps {
     title: string;
-    onClick: () => void;
+    onClick: (e: React.FormEvent) => void;
     css?: string;
     }
 
