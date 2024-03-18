@@ -44,11 +44,12 @@ function ItemDetail({ item }: ItemDetailProps) {
   };
 
   const saveStock = async () => {
-    const apiUrl = `${url.main}/updateItem`;
+    const apiUrl = `${url.main}/updateItemStock`;
     const itemData = {
       caption: item.caption,
       stock: newStockValue,
     };
+    console.log("itemData:", itemData);
 
     try {
       const response = await axios.post(apiUrl, itemData);
