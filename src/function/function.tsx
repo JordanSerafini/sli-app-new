@@ -38,7 +38,7 @@ export async function login(email: string, password: string) {
   
 
   try {
-    const response = await axios.post(`${url.local}/login`, {
+    const response = await axios.post(`${url.main}/login`, {
       email,
       password,
     });
