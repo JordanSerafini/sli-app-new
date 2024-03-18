@@ -1,8 +1,10 @@
 import { useState } from "react";
 import closeLogo from "../../assets/closeLogo.png";
 import InputPerso from "../labels/input";
+import url from "../../utils/axios";
 
 import ButtonFull from "../../component/button/buttonFull";
+import axios from "axios";
 
 function AddItemModal({
   setShowModal,
@@ -35,20 +37,34 @@ function AddItemModal({
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log(formData);
-    // Réinitialiser le formulaire
-    setFormData({
-      nom: "",
-      famille: "",
-      fournisseur: "",
-      prix: "",
-      depot: "",
-      description: "",
-      note: "",
-    });
-  };
+
+    try {
+        const response = await axios.post(`${url.local}/addItem`, formData, {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        console.log(response.data);
+        
+        // Réinitialiser le formulaire
+        setFormData({
+            nom: "",
+            famille: "",
+            fournisseur: "",
+            prix: "",
+            depot: "",
+            description: "",
+            note: "",
+       });
+       
+    } catch (error) {
+        console.error('Une erreur est survenue lors de l\'ajout des données.', error);
+    }
+};
 
   const handleChangeTextArea = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -63,15 +79,19 @@ function AddItemModal({
   };
 
   return (
-    <div className="border-2 border-secondary w-8.5/10 h-9.5/10 fixed bg-white rounded-2xl z-50 flex flex-col p-2">
+    <div className="border-2 border-secondary w-8.5/10 h-9.5/10 fixed bg-white rounded-2xl z-50 flex flex-col p-2 gap-8 text-gray-600">
       {/*------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
-      <div className="self-end m-2">
-        <button onClick={closeModal} className="">
-          <img src={closeLogo} alt="" className="h-4" />
-        </button>
+      <div className="flex flex-col items-center">
+        <div className="self-end">
+          <button onClick={closeModal} className="">
+            <img src={closeLogo} alt="" className="h-4 m-" />
+          </button>
+        </div>
+        <div className="text-primary tracking-widest border-b-2 border-secondary pb-4 ">
+          Formulaire d'ajout d'article
+        </div>
       </div>
       {/*------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
-
       <form
         onSubmit={handleSubmit}
         className="h-full w-full flex flex-col items-center gap-6"
@@ -159,11 +179,15 @@ function AddItemModal({
           ></textarea>
         </label>
         {/*------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
+        <div className="flex flex-row justify-between w-full">
+          <ButtonFull
+            title="Ajouter l'article"
+            css="w-10/10 rounded-3xl tracking-widest"
+            onClick={(e: React.FormEvent) => handleSubmit(e)}
+          ></ButtonFull>
 
-        <ButtonFull
-          title="Ajouter l'article"
-          onClick={(e: React.FormEvent) => handleSubmit(e)}
-        ></ButtonFull>
+         
+        </div>
       </form>
     </div>
   );
