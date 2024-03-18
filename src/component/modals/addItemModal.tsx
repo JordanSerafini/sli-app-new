@@ -50,18 +50,20 @@ function AddItemModal({
   };
 
   return (
-    <div className="border-2 border-primary w-8.5/10 h-9.5/10 fixed bg-white rounded-2xl z-50 flex flex-col items-center">
+    <div className="border-2 border-primary w-8.5/10 h-9.5/10 fixed bg-white rounded-2xl z-50 flex flex-col p-2">
+      {/*------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
       <div className="self-end m-2">
         <button onClick={closeModal} className="">
           <img src={closeLogo} alt="" className="h-4" />
         </button>
       </div>
+      {/*------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
 
       <form
         onSubmit={handleSubmit}
-        className="h-full w-full flex flex-col gap-2 items-center"
+        className="h-full w-full flex flex-col gap-2 items-center "
       >
-        <label>
+        <label className="w-10/10 flex flex-row items-center gap-2">
           Nom:
           <InputPerso
             type="text"
@@ -70,14 +72,16 @@ function AddItemModal({
             onChange={handleChange}
           />
         </label>
+        {/*------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
+
         <label>
           Famille:
           <select
             name="famille"
             value={formData.famille}
             onChange={handleSelectChange}
+            className="w-4.5/10"
           >
-            <option value="">Sélectionnez une famille...</option>
             <option value="famille1">Famille 1</option>
             <option value="famille2">Famille 2</option>
             <option value="famille3">Famille 3</option>
@@ -89,31 +93,37 @@ function AddItemModal({
             name="fournisseur"
             value={formData.fournisseur}
             onChange={handleSelectChange}
+            className="w-4.5/10"
           >
-            <option value="">Sélectionnez une fournisseur...</option>
             <option value="fournisseur1">fournisseur 1</option>
             <option value="fournisseur2">fournisseur 2</option>
             <option value="fournisseur3">fournisseur 3</option>
           </select>
         </label>
-        <label>
-          Prix:
-          <InputPerso
-            type="number"
-            name="prix"
-            value={formData.prix}
-            onChange={handleChange}
-          />
-        </label>
-        <label>
-          Dépôt:
-          <InputPerso
-            type="text"
-            name="depot"
-            value={formData.depot}
-            onChange={handleChange}
-          />
-        </label>
+        {/*------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
+
+        <div className="flex flex-row gap-4">
+          <label className="flex gap-2">
+            Prix:
+            <InputPerso
+              type="number"
+              name="prix"
+              value={formData.prix}
+              onChange={handleChange}
+            />
+          </label>
+          <label className="flex gap-2">
+            Dépôt:
+            <InputPerso
+              type="text"
+              name="depot"
+              value={formData.depot}
+              onChange={handleChange}
+            />
+          </label>
+        </div>
+        {/*------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
+
         <button type="submit">Ajouter l'article</button>
       </form>
     </div>
