@@ -157,3 +157,38 @@ export interface StockDocumentLine  {
   executionquotelineid: string | null;
   progressdocumentlineid: string | null;
 }
+
+export interface Storehouse {
+  address_address1: string;
+  address_address2: string;
+  address_address3: string | null;
+  address_address4: string | null;
+  address_city: string;
+  address_countryisocode: string;
+  address_latitude: number | null;
+  address_longitude: number | null;
+  address_state: string;
+  address_zipcode: string;
+  asleep: string;
+  caption: string;
+  contact_cellphone: string | null;
+  contact_civility: string | null;
+  contact_email: string | null;
+  contact_fax: string | null;
+  contact_firstname: string | null;
+  contact_name: string | null;
+  contact_phone: string | null;
+  id: string;
+  lastinventorydate: string;
+  main: string;
+  multilocationdefaultmode: number;
+  multilocationenabled: string;
+  notes: string | null;
+  notesclear: string | null;
+  syscreateddate: string;
+  syscreateduser: string;
+  syseditcounter: number;
+  sysmodifieddate: string;
+  sysmodifieduser: string;
+  type: number;
+}

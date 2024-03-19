@@ -43,7 +43,7 @@ export async function fetchStockDoc(
 
 export async function fetchStockDocDetails(id: string) {
   try {
-    const response = await axios.get(`${url.local}/getStockDocDetails/${id}`);
+    const response = await axios.get(`${url.main}/getStockDocDetails/${id}`);
     return response.data;
   } catch (error) {
     console.error("Error fetching stock documents details: ", error);
@@ -52,10 +52,15 @@ export async function fetchStockDocDetails(id: string) {
 }
 
 
-
-
-
-
+export async function fetchDepot() {
+  try {
+    const response = await axios.get(`${url.main}/getAllDepot`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching depot: ", error);
+    return null;
+  }
+}
 
 
 

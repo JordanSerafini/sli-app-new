@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { StockDocument, StockDocumentLine } from "../../types/stockDoc";
 import { fetchStockDoc, fetchStockDocDetails } from "../../function/function";
 
-import AddBEModal from "../../component/modals/stock/addBEModal";
+import AddBEModal from "../../component/modals/stock/addStockDocModal";
 import StockNavbar from "../../component/nav/stockNavBar";
 
 function StockDocPage() {
@@ -91,7 +91,7 @@ function StockDocPage() {
               <tbody className="">
                 {documentsLines.map((line) => (
                   <tr key={line.id}>
-                    <td className="text-xs border-b-1 p-2 border-secondary w-8/10">
+                    <td className="text-xs border-b-1 p-4 border-secondary w-8/10">
                       {line.descriptionclear}
                     </td>
 
