@@ -87,7 +87,7 @@ function AddItemModal({
             <img src={closeLogo} alt="" className="h-4 m-" />
           </button>
         </div>
-        <div className="text-primary tracking-widest border-b-2 border-secondary pb-4 ">
+        <div className="text-secondary tracking-widest border-b-2 border-secondary pb-4 ">
           Formulaire d'ajout d'article
         </div>
       </div>
