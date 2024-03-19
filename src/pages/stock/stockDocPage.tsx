@@ -70,7 +70,7 @@ function StockDocPage() {
   };
 
   return (
-    <div className="w-screen overflow-auto h-screen pb-14">
+    <div className="w-screen overflow-auto h-screen rounded-t-3xl pb-14 mt-1 flex flex-col">
       {showModal && <AddBEModal setShowModal={setShowModal} />}
 
       {showDetails ? (
@@ -110,7 +110,7 @@ function StockDocPage() {
       ) : (
         <table>
           <thead>
-            <tr className="border-b-2 border-secondary text-secondary">
+            <tr className="border-b-2  text-secondary border- border-secondary">
               <th>Type</th>
               <th>Numéro de document</th>
               <th>Date du document</th>
@@ -119,14 +119,14 @@ function StockDocPage() {
           </thead>
           <tbody>
             {stockDocs.map((doc) => (
-              <tr key={doc.id}>
-                <td className={`${getTextColor(doc.numberprefix)}`}>
+              <tr key={doc.id} className="text-center">
+                <td className={`${getTextColor(doc.numberprefix)} p-1`}>
                   {doc.numberprefix}
                 </td>
-                <td>{doc.numbersuffix}</td>
-                <td>{new Date(doc.documentdate).toLocaleDateString()}</td>
+                <td className="text-xs sm:text-base">{doc.numbersuffix}</td>
+                <td className="text-xs sm:text-base">{new Date(doc.documentdate).toLocaleDateString()}</td>
                 <td
-                  className="text-primary"
+                  className="text-primary text-xs sm:text-base"
                   onClick={() => handleDetails(doc.id, doc.numberprefix)}
                 >
                   voir
