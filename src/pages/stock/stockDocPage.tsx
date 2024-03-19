@@ -2,10 +2,15 @@ import { useEffect, useState } from "react";
 import { StockDocument, StockDocumentLine } from "../../types/stockDoc";
 import { fetchStockDoc, fetchStockDocDetails } from "../../function/function";
 
+import AddBEModal from "../../component/modals/stock/addBEModal";
+import StockNavbar from "../../component/nav/stockNavBar";
+
 function StockDocPage() {
   const [showDetails, setShowDetails] = useState(false);
   const [stockDocs, setStockDocs] = useState<StockDocument[]>([]);
   const [documentsLines, setDocumentsLines] = useState<StockDocumentLine[]>([]);
+  const [showModal, setShowModal] = useState(false);
+
   useEffect(() => {
     async function fetchData() {
       try {
@@ -65,9 +70,11 @@ function StockDocPage() {
   };
 
   return (
-    <div className="w-screen overflow-auto h-screen">
+    <div className="w-screen overflow-auto h-screen pb-14">
+      {showModal && <AddBEModal setShowModal={setShowModal} />}
+
       {showDetails ? (
-        <div className="flex flex-col h-screen gap-4">
+        <div className="flex flex-col h-full gap-4 ">
           <h2 className="text-white text-center text-lg tracking-widest bold border-b-2 bg-secondary p-4 flex flex-row items-center justify-center">
             {title}
           </h2>
@@ -129,6 +136,7 @@ function StockDocPage() {
           </tbody>
         </table>
       )}
+      <StockNavbar setShowModal={setShowModal} showModal={showModal} />
     </div>
   );
 }
