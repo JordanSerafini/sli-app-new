@@ -67,25 +67,38 @@ function StockDocPage() {
   return (
     <div className="w-screen overflow-auto h-screen">
       {showDetails ? (
-        <div className="flex flex-col h-screen">
-          <h2 className="text-secondary text-center text-lg tracking-widest bold border-b-2 border-secondary p-4 flex flex-row items-center justify-center" >
+        <div className="flex flex-col h-screen gap-4">
+          <h2 className="text-white text-center text-lg tracking-widest bold border-b-2 bg-secondary p-4 flex flex-row items-center justify-center">
             {title}
           </h2>
           <div className="flex flex-col gap-1 w-screen h-screen overflow-auto">
-            {documentsLines.map((line) => (
-              <div key={line.id} className="p-2  border-b-2 border-secondary ">
-                <div className="flex flex-row justify-between">
-                  <p className="text-xs w-8/10 max-h-8 overflow-auto">
-                    {line.descriptionclear}
-                  </p>
-                  {parseInt(line.quantity) != 0 && (
-                    <p className="bold">{line.quantity}</p>
-                  )}
-                </div>
-              </div>
-            ))}
+            <table cellPadding={2}>
+              <thead className="">
+                {title != "Inventaire" && (
+                  <tr>
+                    <th>Article</th>
+                    <th>Quantité</th>
+                  </tr>
+                )}
+              </thead>
+              <tbody className="">
+                {documentsLines.map((line) => (
+                  <tr key={line.id}>
+                    <td className="text-xs border-b-1 p-2 border-secondary w-8/10">
+                      {line.descriptionclear}
+                    </td>
+
+                    {parseInt(line.quantity) != 0 && (
+                      <td className="bold text-center">{line.quantity}</td>
+                    )}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
-          <p onClick={handleClick} className="border-2 border-red-400 ">swap</p>
+          <p onClick={handleClick} className="border-2 border-red-400 ">
+            swap
+          </p>
         </div>
       ) : (
         <table>
