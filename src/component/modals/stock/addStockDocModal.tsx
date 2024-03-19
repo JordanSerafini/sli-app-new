@@ -60,7 +60,9 @@ function AddStockDocModal({
   }, [setItemList]);
 
   const handleItemList = () => {
-    const selectedItem = itemList.find((item) => item.id === formData.selectedItem);
+    const selectedItem = itemList.find(
+      (item) => item.id === formData.selectedItem
+    );
     if (selectedItem) {
       setItemToAdd([...itemToAdd, selectedItem]);
     }
@@ -79,7 +81,8 @@ function AddStockDocModal({
         </div>
         <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
           <div className="flex flex-col gap-4">
-            <label>
+            <div className="w-full flex flex-row justify-between pt-4">
+            <label className="">
               Type de document:
               <select
                 name="documenttype"
@@ -110,47 +113,56 @@ function AddStockDocModal({
                 ))}
               </select>
             </label>
-            <label>
+            </div>
+            <label className="text-center gap-2 flex flex-row">
               Reference:
               <input
                 type="text"
                 name="reference"
                 value={formData.reference}
                 onChange={handleChange}
+                className="border-1 border-secondary rounded-xl p-2 w-8/10 self-center focus:border-primary focus:outline-none"
               />
             </label>
-            <label>
+            <label className="flex gap-2">
               Notes:
               <textarea
                 name="notesclear"
                 value={formData.notesclear}
                 onChange={handleChange}
+                className="border-1 border-secondary h-20 w-full rounded-xl p-2 focus:border-primary focus:outline-none"
               ></textarea>
             </label>
           </div>
           {/* ------------ sélectionner item à ajouter ------- */}
-          <div className="border-1 border-primary min-h-5/10">
-            <ul>
+          <div className="border-1 border-secondary">
+            <ul className=" min-h-5/10 max-h-5/10 overflow-auto">
               {itemToAdd.map((item, index) => (
-                <li key={index}>{item.caption}</li>
+                <li key={index} className="flex flex-row justify-between p-2 border-b-1 border-secondary ">
+                    <p>{item.caption}</p>
+                    <p>quantité</p>
+                    <p>{item.salepricevatincluded}</p>
+                
+                </li>
+                
               ))}
             </ul>
-            </div>
-            <h2>Ajouter un article</h2>
-            {/* Affichage du select avec les éléments de itemList */}
-            <select
-              name="selectedItem"
-              value={formData.selectedItem}
-              onChange={handleChange}
-            >
-              {itemList.map((item, index) => (
-                <option key={index} value={item.id}>
-                  {item.caption}
-                </option>
-              ))}
-            </select>
-            <button onClick={handleItemList}>ADD</button>
-            <Button title="Soumettre" onClick={submitClick} css="w-full" />
+          </div>
+          <h2>Ajouter un article</h2>
+          {/* Affichage du select avec les éléments de itemList */}
+          <select
+            name="selectedItem"
+            value={formData.selectedItem}
+            onChange={handleChange}
+          >
+            {itemList.map((item, index) => (
+              <option key={index} value={item.id}>
+                {item.caption}
+              </option>
+            ))}
+          </select>
+          <button onClick={handleItemList}>ADD</button>
+          <Button title="Soumettre" onClick={submitClick} css="w-full" />
         </form>
       </div>
     </div>
