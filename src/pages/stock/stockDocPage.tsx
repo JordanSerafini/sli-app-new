@@ -35,11 +35,16 @@ function StockDocPage() {
       {showDetails ? (
         <>
           <p onClick={handleClick}>test</p>
+          <div className="flex flex-col gap-1">
           {documentsLines.map((line) => (
-            <div key={line.id}>
-                {line.descriptionclear}
+            <div key={line.id} className="p-2">
+                <div className="flex flex-row justify-between">
+                <p className="text-xs border-b-2 border-secondary max-w-8/10">{line.descriptionclear}</p>
+                <p>quant</p>
+                </div>
           </div>
           ))}
+          </div>
         </>
       ) : (
         <table>
