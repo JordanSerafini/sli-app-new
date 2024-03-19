@@ -75,7 +75,7 @@ function StockDocPage() {
 
       {showDetails ? (
         <div className="flex flex-col h-full gap-4 ">
-          <h2 className="text-white text-center text-lg tracking-widest bold border-b-2 bg-secondary p-4 flex flex-row items-center justify-center">
+          <h2 className="text-white text-center text-lg tracking-widest bold border-b-2 p-2 bg-secondary flex flex-row items-center justify-center">
             {title}
           </h2>
           <div className="flex flex-col gap-1 w-screen h-screen overflow-auto">
@@ -111,7 +111,7 @@ function StockDocPage() {
         <table>
           <thead>
             <tr className="border-b-2  text-secondary border- border-secondary">
-              <th>Type</th>
+              <th className="p-2">Type</th>
               <th>Numéro de document</th>
               <th>Date du document</th>
               <th>Articles</th>
@@ -119,8 +119,8 @@ function StockDocPage() {
           </thead>
           <tbody>
             {stockDocs.map((doc) => (
-              <tr key={doc.id} className="text-center">
-                <td className={`${getTextColor(doc.numberprefix)} p-1`}>
+              <tr key={doc.id} className="text-center  border-b-1 border-secondary p-1">
+                <td className={`${getTextColor(doc.numberprefix)} p-2`}>
                   {doc.numberprefix}
                 </td>
                 <td className="text-xs sm:text-base">{doc.numbersuffix}</td>
