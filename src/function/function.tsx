@@ -31,6 +31,31 @@ export async function fetchCustomer(
   }
 }
 
+export async function fetchStockDoc(
+) {
+  try {
+    const response = await axios.get(`${url.main}/getAllStockDocs`);
+    return response.data.rows;
+  } catch (error) {
+    console.error("Error fetching stock documents: ", error);
+  }
+}
+
+export async function fetchStockDocDetails(id: string) {
+  try {
+    const response = await axios.get(`${url.local}/getStockDocDetails/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching stock documents details: ", error);
+    return null; 
+  }
+}
+
+
+
+
+
+
 
 
 

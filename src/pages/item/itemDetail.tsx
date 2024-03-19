@@ -110,9 +110,9 @@ function ItemDetail({ item }: ItemDetailProps) {
   return (
     <div className="bg-white h-10/10 p-2 rounded-2xl flex flex-col gap-4">
       {isSwap ? (
-        <div className="flex flex-col">
+        <div className="flex flex-col gap-6">
           {/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
-          <div className="flex flex-row justify-between">
+          <div className="flex flex-row justify-between p-4">
             {/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
             <div className="flex flex-row gap-1 items-center ">
               <p>réservation :</p>
@@ -137,6 +137,11 @@ function ItemDetail({ item }: ItemDetailProps) {
               <p>{item.stockvalue}</p>
             </div>
           </div>
+                    {/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
+                    <div className="flex flex-row w-full justify-between text-secondary" >
+                      <h4> Fournisseur : </h4>
+                      <p >{item.supplierid}</p>
+                    </div>
 
           <button onClick={handleSwap}>O</button>
         </div>

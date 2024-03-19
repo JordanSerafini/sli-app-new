@@ -125,7 +125,9 @@ export default {
         'mainBG2': '#F5F5F5', // plus clair
         'grayblue':"#2d3748",
         "primary": "#2F27CE",
-        "secondary": "#DEDCFF",
+        "secondary": "#b6b2e0",
+        "tertiary": "#cdc9ea",
+     
         
        
       },

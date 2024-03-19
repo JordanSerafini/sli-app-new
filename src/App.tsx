@@ -5,6 +5,7 @@ import Home from "./pages/home";
 import CustomerPage from "./pages/customer/customerPage";
 import ItemPage from "./pages/item/itemPage";
 import Login from "./pages/login";
+import StockDocPage from "./pages/stock/stockDocPage";
 
 
 function Layout() {
@@ -20,6 +21,7 @@ function Layout() {
             <Route path="/customer" element={<CustomerPage />} />
             <Route path="/item" element={<ItemPage />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/stock" element={<StockDocPage />} />
           </Routes>
         </div>
       ) : (
