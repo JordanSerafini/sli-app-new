@@ -97,27 +97,47 @@ function ItemDetail({ item }: ItemDetailProps) {
     setIsSwap(!isSwap);
   };
 
-  const handleReservationColor = () => {  
-    if (item.stockbookingallowed == 0) {
+  const handleReservationColor = () => {
+    if (item.realstock == 0) {
       return "bg-red-500";
-      
     } else {
       return "bg-green-500";
     }
-  }
-  console.log(item.stockbookingallowed);
+  };
 
+  console.log("item:", item);
 
   return (
     <div className="bg-white h-10/10 p-2 rounded-2xl flex flex-col gap-4">
       {isSwap ? (
-        <div>
-          <div>
-            <p>réservation:</p>
-            <div className={`h-4 w-4 rounded-full ${handleReservationColor()}`}>
-              
+        <div className="flex flex-col">
+          {/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
+          <div className="flex flex-row justify-between">
+            {/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
+            <div className="flex flex-row gap-1 items-center ">
+              <p>réservation :</p>
+              <div
+                className={`h-4 w-4 rounded-full ${handleReservationColor()}`}
+              ></div>
+            </div>
+            {/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
+            <div className="flex flex-row gap-1 items-center border-2 border-secondary p-2 rounded-full  text-secondary">
+              <p>note :</p>
+              <div>{Math.ceil(item.brandrate)}</div>
             </div>
           </div>
+          {/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
+          <div className="flex flex-row justify-between">
+            <div className="flex flex-row gap-1">
+              <h4>Prix achat :</h4>
+              <p>{item.purchaseprice}</p>
+            </div>
+            <div className="flex flex-row gap-1">
+              <h4>Valeur du stock:</h4>
+              <p>{item.stockvalue}</p>
+            </div>
+          </div>
+
           <button onClick={handleSwap}>O</button>
         </div>
       ) : (

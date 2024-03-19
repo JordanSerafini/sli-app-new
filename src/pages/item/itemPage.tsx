@@ -51,10 +51,9 @@ function ItemPage() {
   }, [setItemList, itemList]);
 
   // -------------------------------  Pagination -------------------------------
-  const paginatedItems = itemList.slice(
-    (currentPage - 1) * ITEMS_PER_PAGE,
-    currentPage * ITEMS_PER_PAGE
-  );
+// -------------------------------  Pagination -------------------------------
+const paginatedItems = itemList.slice(0, ITEMS_PER_PAGE);
+
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
