@@ -1,14 +1,14 @@
 import React from "react";
 
-interface ButtonProps<T extends React.MouseEvent<HTMLButtonElement>> {
+interface ButtonProps {
     title: string;
-    onClick: (e: T) => void;
+    onClick: React.MouseEventHandler<HTMLButtonElement>;
     css?: string;
 }
 
-function Button<T extends React.MouseEvent<HTMLButtonElement>>({ title, onClick, css }: ButtonProps<T>) {
+function Button({ title, onClick, css }: ButtonProps) {
     return (
-        <button onClick={onClick as React.MouseEventHandler<HTMLButtonElement>} className={`${css} bg-primary text-white p-2 `}>{title}</button>
+        <button onClick={onClick} className={`${css} bg-primary text-white p-2 `}>{title}</button>
     );
 }
 

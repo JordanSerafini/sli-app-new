@@ -16,6 +16,7 @@ function AddStockDocModal({
     reference: "",
     documenttype: "",
     notesclear: "",
+    selectedItem: "", // Ajout de la propriété selectedItem
   });
 
   const [depotAvailable, setDepotAvailable] = useState<Storehouse[]>([]);
@@ -38,12 +39,9 @@ function AddStockDocModal({
     setShowModal(false);
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    //console.log(formData);
   };
-
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -62,9 +60,15 @@ function AddStockDocModal({
   }, [setItemList]);
 
   const handleItemList = () => {
-    console.log("handleItemList");
+    const selectedItem = itemList.find((item) => item.id === formData.selectedItem);
+    if (selectedItem) {
+      setItemToAdd([...itemToAdd, selectedItem]);
+    }
   };
 
+  const submitClick = () => {
+    console.log("submit");
+  };
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-200 bg-opacity-60 w-full">
       <div className="border-2 border-secondary h-9/10 mb-16 bg-white rounded-2xl z-50 flex flex-col p-2 gap- text-gray-600 relative w-11/12 sm:w-4/5">
@@ -126,23 +130,27 @@ function AddStockDocModal({
           </div>
           {/* ------------ sélectionner item à ajouter ------- */}
           <div className="border-1 border-primary min-h-5/10">
+            <ul>
+              {itemToAdd.map((item, index) => (
+                <li key={index}>{item.caption}</li>
+              ))}
+            </ul>
             </div>
+            <h2>Ajouter un article</h2>
             {/* Affichage du select avec les éléments de itemList */}
             <select
               name="selectedItem"
               value={formData.selectedItem}
               onChange={handleChange}
             >
-              <option value="">Sélectionner un article</option>
-              {itemList.map((item) => (
-                <option key={item.id} value={item.id}>
+              {itemList.map((item, index) => (
+                <option key={index} value={item.id}>
                   {item.caption}
                 </option>
               ))}
             </select>
-              <button onClick={handleItemList}>ADD</button>
-
-          <Button title="Soumettre" onClick={handleSubmit} css="w-full" />
+            <button onClick={handleItemList}>ADD</button>
+            <Button title="Soumettre" onClick={submitClick} css="w-full" />
         </form>
       </div>
     </div>
