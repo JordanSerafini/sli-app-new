@@ -121,8 +121,8 @@ function StockDocPage() {
                   </tr>
               </thead>
               <tbody className="w-full h-full">
-                {documentsLines.map((line) => (
-                  <tr key={line.id} className="">
+                {documentsLines.map((line, index) => (
+                  <tr key={index} className="">
                     <td className={`text-xs border-b-1 p-4 ${getLineColor(title)}`}>
                       {line.descriptionclear}
                     </td>
@@ -154,7 +154,7 @@ function StockDocPage() {
                 <td className={`${getTextColor(doc.numberprefix)} p-2`}>
                   {doc.numberprefix}
                 </td>
-                <td className="text-xs sm:text-base">{doc.numbersuffix}</td>
+                {doc.numbersuffix? ( <td className="text-xs sm:text-base">{doc.numbersuffix}</td>): ( <td className="text-xs sm:text-base">N/A</td>)}
                 <td className="text-xs sm:text-base">{new Date(doc.documentdate).toLocaleDateString()}</td>
                 <td
                   className="text-primary text-xs sm:text-base"

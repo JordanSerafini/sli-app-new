@@ -103,7 +103,7 @@ function AddStockDocModal({
 
   const submitClick = async () => {
     try {
-      const response = await fetch("http://localhost:5000/addStockDoc", {
+      const response = await fetch("http://localhost:5000/addStockDoc", {  // ! Change the URL
         method: "POST",
         headers: {
           "Content-Type": "application/json",

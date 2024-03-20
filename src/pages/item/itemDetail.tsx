@@ -105,7 +105,7 @@ function ItemDetail({ item }: ItemDetailProps) {
     }
   };
 
-  console.log("item:", item);
+  //console.log("item:", item);
 
   return (
     <div className="bg-white h-10/10 p-2 rounded-2xl flex flex-col gap-4">
