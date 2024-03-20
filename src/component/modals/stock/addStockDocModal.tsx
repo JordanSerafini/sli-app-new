@@ -107,7 +107,7 @@ function AddStockDocModal({
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-200 bg-opacity-60 w-full h-screen">
-      <div className=" border-2 border-secondary h-9/10 mb-16  rounded-2xl z-50 flex flex-col gap- text-gray-600 relative bg-white w-9.5/10 sm:w-4/5 overflow-hidden ">
+      <div className=" border-2 border-secondary h-9/10 mb-16  rounded-2xl z-50 flex flex-col gap-2 text-gray-600 relative bg-white w-9.5/10 sm:w-4/5 overflow-hidden  ">
         {/* ------------------------------------ Titre Entete + closeLogo------------------- */}
         <div className="bg-grayblue rounded-t-xl h-1/10 text-center text-white items-center justify-center flex ">
           Formulaire ajout document de stock
@@ -121,10 +121,10 @@ function AddStockDocModal({
 
         {/* ------------------------------------ Formulaire ------------------- */}
         <form
-          className="p-2 flex flex-col gap-6 w-10/10 h-full overflow-hidden"
+          className="flex flex-col gap-6 w-10/10 h-full overflow-hidden"
           onSubmit={handleSubmit}
         >
-          <div className="flex flex-col gap-4 w-full items-center h-4/10 ">
+          <div className="flex flex-col gap-4 w-full items-center h-4/10 p-2 ">
             <label className="text-center gap-2 flex flex-row  pt-2 items-center">
               Reference:
               <input
@@ -179,10 +179,10 @@ function AddStockDocModal({
             </label>
           </div>
           {/* ------------------------------------ sélectionner item à ajouter ------------------- */}
-          <div className="overflow-hidden h-full flex flex-col gap-4">
+          <div className="overflow-hidden h-full flex flex-col justify-between">
             {/* ------------------------------------ Tableau item a ajouter ------------------- */}
 
-            <div className="border-1 border-secondary p-2 overflow-auto h-6/10">
+            <div className="border-1 border-secondary p-2 overflow-auto h-6/10 w-9.5/10 self-center">
               <div className="">
                 {formData.devisLine.length > 0 &&
                   formData.devisLine.map((item, index) => (
@@ -199,20 +199,20 @@ function AddStockDocModal({
             </div>
 
             {/* ------------------------------------ Select et addbtn ------------------- */}
-            <div className="">
+            <div className="w-full flex flex-row justify-evenly ">
               <select
                 name="selectedItem"
                 onChange={handleChange}
-                className=""
+                className="w-8/10 border-1 p-1 bg-secondary text-w rounded-md focus:border-primary focus:outline-none"
                 value={selectedItemId}
               >
                 {itemList.map((item, index) => (
-                  <option key={index} value={item.id}>
+                  <option key={index} value={item.id} className="bg-white">
                     {item.caption}
                   </option>
                 ))}
               </select>
-              <button onClick={handleItemList}>ADD</button>
+              <button onClick={handleItemList} className="w-8 h-full bg-primary text-white rounded-full">+</button>
             </div>
             {/* ------------------------------------ SubmitBtn ------------------- */}
             <Button title="Soumettre" onClick={submitClick} css="w-full" />
