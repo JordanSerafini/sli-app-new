@@ -165,7 +165,6 @@ function AddStockDocModal({
                 >
                   <option value="">Catégorie :</option>
                   <option value="bon_entree">Bon Entrée</option>
-                  <option value="bon_livraison">Bon Livraison</option>
                   <option value="bon_sortie">Bon Sortie</option>
                   <option value="ordre_transfert">Ordre de Transfert</option>
                   <option value="bon_transfert">Bon Transfert</option>
