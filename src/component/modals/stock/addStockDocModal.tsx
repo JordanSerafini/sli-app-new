@@ -146,10 +146,10 @@ function AddStockDocModal({
             </label>
           </div>
           {/* ------------------------------------ sélectionner item à ajouter ------------------- */}
-          <div className=" max-h-7/10">
+          <div className=" h-10/10">
             {/* ------------------------------------ Tableau item a ajouter ------------------- */}
 
-            <div className="border-1 border-secondary p-2 overflow-auto  max-h-6/10  min-h-6/10  ">
+            <div className="border-1 border-secondary p-2 overflow-auto h-6/10 ">
               <div className="">
                 {itemToAdd.map((item, index) => (
                   <div
@@ -164,20 +164,23 @@ function AddStockDocModal({
               </div>
             </div>
             {/* ------------------------------------ Select et addbtn ------------------- */}
-
-            <select
-              name="selectedItem"
-              value={formData.selectedItem}
-              onChange={handleChange}
-            >
-              {itemList.map((item, index) => (
-                <option key={index} value={item.id}>
-                  {item.caption}
-                </option>
-              ))}
-            </select>
-            <button onClick={handleItemList}>ADD</button>
-            <Button title="Soumettre" onClick={submitClick} css="w-full" />
+            <div className="">
+              <select
+                name="selectedItem"
+                value={formData.selectedItem}
+                onChange={handleChange}
+                className=""
+              >
+                {itemList.map((item, index) => (
+                  <option key={index} value={item.id}>
+                    {item.caption}
+                  </option>
+                ))}
+              </select>
+              <button onClick={handleItemList}>ADD</button>
+            </div>
+                        {/* ------------------------------------ SubmitBtn ------------------- */}
+              <Button title="Soumettre" onClick={submitClick} css="w-full" />
           </div>
         </form>
       </div>
