@@ -6,6 +6,8 @@ import Button from "../../button/buttonFull";
 import dataContext from "../../../context/context/dataContext";
 import { Item } from "../../../types/item";
 
+import url from "../../../utils/axios";
+
 interface DevisLineItem {
   id: string;
   caption: string;
@@ -103,7 +105,7 @@ function AddStockDocModal({
 
   const submitClick = async () => {
     try {
-      const response = await fetch("http://localhost:5000/addStockDoc", {  // ! Change the URL
+      const response = await fetch(`${url.main}/addStockDoc`, { 
         method: "POST",
         headers: {
           "Content-Type": "application/json",
