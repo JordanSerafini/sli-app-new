@@ -68,36 +68,50 @@ function StockDocPage() {
         return "text-gray-500";
     }
   };
+  
+  const getBannerColor = (title: string) => {
+    switch (title) {
+      case "Bon d'entrée":
+        return "bg-green-600";
+      case "Inventaire":
+        return "bg-blue-400";
+      case "Bon de sortie":
+        return "bg-orange-500";
+      case "Ordre de transfert":
+        return "bg-orange-500";
+
+      default:
+        return "bg-gray-500";
+    }
+  };
+
+  console.log(title);
 
   return (
-    <div className="w-screen overflow-auto h-screen rounded-t-3xl pb-14 mt-1 flex flex-col">
+    <div className="w-9/10 overflow-hidden h-screen rounded-t-3xl pb-14 mt-1 flex flex-col bg-white">
       {showModal && <AddBEModal setShowModal={setShowModal} />}
 
       {showDetails ? (
-        <div className="flex flex-col h-full gap-4 ">
-          <h2 className="text-white text-center text-lg tracking-widest bold border-b-2 p-2 bg-secondary flex flex-row items-center justify-center">
+        <div className="flex flex-col h-full gap-4 items-center">
+          <h2 className={`${getBannerColor(title)} text-white text-center text-lg tracking-widest bold border-b-2 p-2 flex flex-row items-center justify-center w-full`}>
             {title}
           </h2>
-          <div className="flex flex-col gap-1 w-screen h-screen overflow-auto">
+          <div className="flex flex-col gap-1 h-screen overflow-auto ">
             <table cellPadding={2}>
               <thead className="">
-                {title != "Inventaire" && (
-                  <tr>
+                  <tr className="bold">
                     <th>Article</th>
                     <th>Quantité</th>
                   </tr>
-                )}
               </thead>
               <tbody className="">
                 {documentsLines.map((line) => (
                   <tr key={line.id}>
-                    <td className="text-xs border-b-1 p-4 border-secondary w-8/10">
+                    <td className="text-xs border-b-1 p-4 border-secondary">
                       {line.descriptionclear}
                     </td>
 
-                    {parseInt(line.quantity) != 0 && (
                       <td className="bold text-center">{line.quantity}</td>
-                    )}
                   </tr>
                 ))}
               </tbody>

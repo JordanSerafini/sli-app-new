@@ -73,21 +73,36 @@ function AddStockDocModal({
   };
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-200 bg-opacity-60 w-full">
-      <div className="border-2 border-secondary h-9/10 mb-16 bg-white rounded-2xl z-50 flex flex-col p-2 gap- text-gray-600 relative w-11/12 sm:w-4/5">
-        <div className="absolute top-2 right-2">
+      <div className="border-2 border-secondary h-9/10 mb-16 bg-white rounded-2xl z-50 flex flex-col gap- text-gray-600 relative w-11/12 sm:w-4/5">
+      <div className="bg-grayblue rounded-t-xl h-1/10 text-center text-white items-center justify-center flex ">
+        Formulaire ajout document de stock
+        </div>
+
+        <div className="absolute top-1 right-2">
           <button onClick={handleCloseModal}>
             <img src={closeLogo} alt="Close" className="h-4 m-" />
           </button>
         </div>
-        <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
-          <div className="flex flex-col gap-4">
-            <div className="w-full flex flex-row justify-between pt-4">
-            <label className="">
-              Type de document:
+        <form className="p-2 flex flex-col gap-6 w-10/10" onSubmit={handleSubmit}>
+          <div className="flex flex-col gap-4 w-full items-center">
+          <label className="text-center gap-2 flex flex-row  pt-8 items-center">
+              Reference:
+              <input
+                type="text"
+                name="reference"
+                value={formData.reference}
+                onChange={handleChange}
+                className="border-1 border-secondary rounded-xl p-2 w-8/10 self-center focus:border-primary focus:outline-none"
+              />
+            </label>
+            <div className="w-full flex flex-row justify-between gap-6">
+              
+            <label className="flex gap-2">
               <select
                 name="documenttype"
                 value={formData.documenttype}
                 onChange={handleChange}
+                className="w-full border-1 border-secondary rounded-md  focus:border-primary focus:outline-none"
               >
                 <option value="">Selectionner un type</option>
                 <option value="bon_entree">Bon Entrée</option>
@@ -98,12 +113,13 @@ function AddStockDocModal({
                 <option value="bon_transfert">Bon Transfert</option>
               </select>
             </label>
-            <label>
-              Dépôt:
+            <label className="flex gap-2">
               <select
                 name="storehouseid"
                 value={formData.storehouseid}
                 onChange={handleChange}
+                className="w-full border-1 border-secondary rounded-md  focus:border-primary focus:outline-none"
+
               >
                 <option value="">Sélectionner un dépôt</option>
                 {depotAvailable.map((depot) => (
@@ -114,16 +130,7 @@ function AddStockDocModal({
               </select>
             </label>
             </div>
-            <label className="text-center gap-2 flex flex-row">
-              Reference:
-              <input
-                type="text"
-                name="reference"
-                value={formData.reference}
-                onChange={handleChange}
-                className="border-1 border-secondary rounded-xl p-2 w-8/10 self-center focus:border-primary focus:outline-none"
-              />
-            </label>
+            
             <label className="flex gap-2">
               Notes:
               <textarea
