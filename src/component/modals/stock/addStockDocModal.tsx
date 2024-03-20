@@ -146,10 +146,10 @@ function AddStockDocModal({
             </label>
           </div>
           {/* ------------------------------------ sélectionner item à ajouter ------------------- */}
-          <div className=" h-10/10">
+          <div className="overflow-hidden h-full flex flex-col gap-4">
             {/* ------------------------------------ Tableau item a ajouter ------------------- */}
 
-            <div className="border-1 border-secondary p-2 overflow-auto h-6/10 ">
+            <div className="border-1 border-secondary p-2 overflow-auto h-6/10  ">
               <div className="">
                 {itemToAdd.map((item, index) => (
                   <div
