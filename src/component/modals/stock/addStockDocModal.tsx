@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext } from "react";
 import { fetchDepot, fetchItems } from "../../../function/function";
 import closeLogo from "../../../assets/closeLogo.png";
-import { Storehouse } from "../../../types/stockDoc";
+import {  Storehouse } from "../../../types/stockDoc";
 import Button from "../../button/buttonFull";
 import dataContext from "../../../context/context/dataContext";
 import { Item } from "../../../types/item";
@@ -11,17 +11,30 @@ function AddStockDocModal({
 }: {
   setShowModal: (value: boolean) => void;
 }) {
+  const [depotAvailable, setDepotAvailable] = useState<Storehouse[]>([]);
+  const { itemList, setItemList } = useContext(dataContext);
+  const [itemToAdd, setItemToAdd] = useState<Item[]>([]);
+
+
   const [formData, setFormData] = useState({
     storehouseid: "",
     reference: "",
     documenttype: "",
     notesclear: "",
-    selectedItem: "", // Ajout de la propriété selectedItem
+    devisLine: [
+      {
+        id: "",
+        caption: "",
+        quantity: "",
+      },
+    ],
   });
 
-  const [depotAvailable, setDepotAvailable] = useState<Storehouse[]>([]);
-  const { itemList, setItemList } = useContext(dataContext);
-  const [itemToAdd, setItemToAdd] = useState<Item[]>([]);
+ 
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault();
+  };
+
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -39,9 +52,6 @@ function AddStockDocModal({
     setShowModal(false);
   };
 
-  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
-    e.preventDefault();
-  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -61,7 +71,7 @@ function AddStockDocModal({
 
   const handleItemList = () => {
     const selectedItem = itemList.find(
-      (item) => item.id === formData.selectedItem
+      (item) => item.id === formData.devisLine
     );
     if (selectedItem) {
       setItemToAdd([...itemToAdd, selectedItem]);
@@ -84,12 +94,13 @@ function AddStockDocModal({
             <img src={closeLogo} alt="Close" className="h-4 m-" />
           </button>
         </div>
+
+
+        {/* ------------------------------------ Formulaire ------------------- */}
         <form
           className="p-2 flex flex-col gap-6 w-10/10 h-full overflow-hidden"
           onSubmit={handleSubmit}
         >
-          {/* ------------------------------------ Formulaire ------------------- */}
-
           <div className="flex flex-col gap-4 w-full items-center h-4/10 ">
             <label className="text-center gap-2 flex flex-row  pt-2 items-center">
               Reference:
@@ -154,11 +165,11 @@ function AddStockDocModal({
                 {itemToAdd.map((item, index) => (
                   <div
                     key={index}
-                    className="flex flex-row overflow-auto justify-between p-2 border-b-1 border-secondary "
+                    className="flex flex-row gap-2 overflow-auto justify-between p-2 border-b-1 border-secondary "
                   >
-                    <p>{item.caption}</p>
-                    <p>quantité</p>
-                    <p>{item.salepricevatincluded}</p>
+                    <p className="text-xs max-w-6/10">{item.caption}</p>
+                    <p className="text-xs">quantité</p>
+                    <p className="text-xs">{item.salepricevatincluded}</p>
                   </div>
                 ))}
               </div>
@@ -167,7 +178,7 @@ function AddStockDocModal({
             <div className="">
               <select
                 name="selectedItem"
-                value={formData.selectedItem}
+                value={formData.devisLine}
                 onChange={handleChange}
                 className=""
               >
