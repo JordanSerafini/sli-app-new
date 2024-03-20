@@ -222,11 +222,11 @@ function AddStockDocModal({
               <select
                 name="selectedItem"
                 onChange={handleChange}
-                className="w-8/10 border-1 p-1 bg-secondary text-w rounded-md focus:border-primary focus:outline-none"
+                className="w-8/10 border-1 p-1 bg-secondary text-w rounded-md focus:border-primary focus:outline-none text-white"
                 value={selectedItemId}
               >
                 {itemList.map((item, index) => (
-                  <option key={index} value={item.id} className="bg-white">
+                  <option key={index} value={item.id} className="bg-white text-grayblue">
                     {item.caption}
                   </option>
                 ))}
