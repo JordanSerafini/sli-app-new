@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, SetStateAction } from "react";
 import { fetchDepot, fetchItems } from "../../../function/function";
 import closeLogo from "../../../assets/closeLogo.png";
 import {  Storehouse } from "../../../types/stockDoc";
@@ -14,6 +14,8 @@ function AddStockDocModal({
   const [depotAvailable, setDepotAvailable] = useState<Storehouse[]>([]);
   const { itemList, setItemList } = useContext(dataContext);
   const [itemToAdd, setItemToAdd] = useState<Item[]>([]);
+  const [selectedItemId, setSelectedItemId] = useState("");
+
 
 
   const [formData, setFormData] = useState({
@@ -36,18 +38,10 @@ function AddStockDocModal({
   };
 
 
-  const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-    >
-  ) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+  const handleChange = (e: { target: { value: SetStateAction<string>; }; }) => {
+    setSelectedItemId(e.target.value);
   };
-
+  
   const handleCloseModal = () => {
     setShowModal(false);
   };
@@ -70,17 +64,27 @@ function AddStockDocModal({
   }, [setItemList]);
 
   const handleItemList = () => {
-    const selectedItem = itemList.find(
-      (item) => item.id === formData.devisLine
-    );
+    const selectedItem = itemList.find((item) => item.id === selectedItemId);
+  
     if (selectedItem) {
       setItemToAdd([...itemToAdd, selectedItem]);
+      formData.devisLine.push({
+        id: selectedItem.id,
+        caption: selectedItem.caption,
+        quantity: "",
+      });
+    } else {
+      console.error("L'élément sélectionné n'a pas été trouvé dans la liste.");
     }
   };
+  
+  
 
   const submitClick = () => {
-    console.log("submit");
+    console.log(formData);
   };
+
+
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-200 bg-opacity-60 w-full h-screen">
       <div className=" border-2 border-secondary h-9/10 mb-16  rounded-2xl z-50 flex flex-col gap- text-gray-600 relative bg-white w-9.5/10 sm:w-4/5 overflow-hidden ">
@@ -178,9 +182,9 @@ function AddStockDocModal({
             <div className="">
               <select
                 name="selectedItem"
-                value={formData.devisLine}
                 onChange={handleChange}
                 className=""
+                value={selectedItemId}
               >
                 {itemList.map((item, index) => (
                   <option key={index} value={item.id}>
