@@ -55,7 +55,7 @@ function CustomerDetail({ customer }: { customer: Customer }) {
             q: address,
           },
         });
-        console.log(response.data);
+        //console.log(customer.id);
   
         // Vérifie si la réponse contient des données utiles et mettez à jour les coordonnées du client
         if (response.data && response.data.length > 0) {
@@ -64,11 +64,12 @@ function CustomerDetail({ customer }: { customer: Customer }) {
             const lon = parseFloat(response.data[0].lon);
             
             await axios.post(`${url.main}/insertCoordinate`, {
-              longitude: lon,
-              latitude: lat,
+              lon: lon,
+              lat: lat,
               id: customer.id,
             });
-            return true; // Retourne true lorsque la mise à jour a réussi
+
+            return true; 
           } catch (innerError) {
             console.error("Erreur lors de l'enregistrement des coordonnées", innerError);
             return false;

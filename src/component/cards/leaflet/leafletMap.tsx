@@ -9,9 +9,9 @@ interface LeafletMapProps {
 }
 
 const LeafletMap: React.FC<LeafletMapProps> = ({ lon, lat, coordsAvailable }) => {
-    console.log("lon:", lon);
-    console.log("lat:", lat);
-    console.log("coordsAvailable:", coordsAvailable);
+    //console.log("lon:", lon);
+    //console.log("lat:", lat);
+    //console.log("coordsAvailable:", coordsAvailable);
   const mapRef = useRef<L.Map | null>(null);
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
 
