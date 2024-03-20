@@ -101,10 +101,28 @@ function AddStockDocModal({
     }
   };
 
-  const submitClick = () => {
-    console.log(formData);
+  const submitClick = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/addStockDoc", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+  
+      if (response.ok) {
+        alert("Document de stock ajouté avec succès");
+        setShowModal(false);
+      } else {
+        throw new Error("Une erreur s'est produite lors de l'ajout du document de stock");
+      }
+    } catch (error) {
+      console.error("Erreur lors de l'ajout du document de stock:", error);
+      alert("Une erreur s'est produite lors de l'ajout du document de stock");
+    }
   };
-
+  
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-200 bg-opacity-60 w-full h-screen">
       <div className=" border-2 border-secondary h-9/10 mb-16  rounded-2xl z-50 flex flex-col gap-2 text-gray-600 relative bg-white w-9.5/10 sm:w-4/5 overflow-hidden  ">
