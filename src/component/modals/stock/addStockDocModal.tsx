@@ -1,10 +1,17 @@
 import { useEffect, useState, useContext, SetStateAction } from "react";
 import { fetchDepot, fetchItems } from "../../../function/function";
 import closeLogo from "../../../assets/closeLogo.png";
-import {  Storehouse } from "../../../types/stockDoc";
+import { Storehouse } from "../../../types/stockDoc";
 import Button from "../../button/buttonFull";
 import dataContext from "../../../context/context/dataContext";
 import { Item } from "../../../types/item";
+
+interface DevisLineItem {
+  id: string;
+  caption: string;
+  quantity: string;
+  price: string;
+}
 
 function AddStockDocModal({
   setShowModal,
@@ -16,37 +23,37 @@ function AddStockDocModal({
   const [itemToAdd, setItemToAdd] = useState<Item[]>([]);
   const [selectedItemId, setSelectedItemId] = useState("");
 
-
-
   const [formData, setFormData] = useState({
     storehouseid: "",
     reference: "",
     documenttype: "",
     notesclear: "",
-    devisLine: [
-      {
-        id: "",
-        caption: "",
-        quantity: "",
-        price: "",
-      },
-    ],
+    devisLine: [] as DevisLineItem[],
   });
 
- 
+  const handleChangeForm = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
   };
 
-
-  const handleChange = (e: { target: { value: SetStateAction<string>; }; }) => {
+  const handleChange = (e: { target: { value: SetStateAction<string> } }) => {
     setSelectedItemId(e.target.value);
   };
-  
+
   const handleCloseModal = () => {
     setShowModal(false);
   };
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -66,25 +73,25 @@ function AddStockDocModal({
 
   const handleItemList = () => {
     const selectedItem = itemList.find((item) => item.id === selectedItemId);
-    
+
     if (selectedItem) {
       setItemToAdd([...itemToAdd, selectedItem]);
       const quantityInput = prompt("Veuillez entrer la quantité :") || "";
-      
+
       const quantity = parseFloat(quantityInput);
       if (!isNaN(quantity)) {
-        const price = (selectedItem.salepricevatincluded * quantity).toString(); 
-  
+        const price = (selectedItem.salepricevatincluded * quantity).toString();
+
         const newDevisLine = {
           id: selectedItem.id,
           caption: selectedItem.caption,
           quantity: quantityInput,
           price: price,
         };
-        
+
         setFormData((prevState) => ({
           ...prevState,
-          devisLine: [...prevState.devisLine, newDevisLine]
+          devisLine: [...prevState.devisLine, newDevisLine],
         }));
       } else {
         console.error("Veuillez saisir une quantité valide.");
@@ -93,14 +100,10 @@ function AddStockDocModal({
       console.error("L'élément sélectionné n'a pas été trouvé dans la liste.");
     }
   };
-  
-  
-
 
   const submitClick = () => {
     console.log(formData);
   };
-
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-200 bg-opacity-60 w-full h-screen">
@@ -116,7 +119,6 @@ function AddStockDocModal({
           </button>
         </div>
 
-
         {/* ------------------------------------ Formulaire ------------------- */}
         <form
           className="p-2 flex flex-col gap-6 w-10/10 h-full overflow-hidden"
@@ -129,7 +131,7 @@ function AddStockDocModal({
                 type="text"
                 name="reference"
                 value={formData.reference}
-                onChange={handleChange}
+                onChange={handleChangeForm}
                 className="border-1 border-secondary rounded-md p-1 w-8/10 self-center focus:border-primary focus:outline-none"
               />
             </label>
@@ -138,7 +140,7 @@ function AddStockDocModal({
                 <select
                   name="documenttype"
                   value={formData.documenttype}
-                  onChange={handleChange}
+                  onChange={handleChangeForm}
                   className="w-full border-1 border-secondary rounded-md  focus:border-primary focus:outline-none"
                 >
                   <option value="">Catégorie :</option>
@@ -153,7 +155,7 @@ function AddStockDocModal({
                 <select
                   name="storehouseid"
                   value={formData.storehouseid}
-                  onChange={handleChange}
+                  onChange={handleChangeForm}
                   className="w-full border-1 border-secondary rounded-md  focus:border-primary focus:outline-none"
                 >
                   <option value="">Dépôt :</option>
@@ -171,7 +173,7 @@ function AddStockDocModal({
               <textarea
                 name="notesclear"
                 value={formData.notesclear}
-                onChange={handleChange}
+                onChange={handleChangeForm}
                 className="border-1 border-secondary h-20 w-full rounded-xl p-2 focus:border-primary focus:outline-none"
               ></textarea>
             </label>
@@ -180,20 +182,22 @@ function AddStockDocModal({
           <div className="overflow-hidden h-full flex flex-col gap-4">
             {/* ------------------------------------ Tableau item a ajouter ------------------- */}
 
-            <div className="border-1 border-secondary p-2 overflow-auto h-6/10  ">
+            <div className="border-1 border-secondary p-2 overflow-auto h-6/10">
               <div className="">
-                {formData.devisLine.map((item, index) => (
-                  <div
-                    key={index}
-                    className="flex flex-row gap-2 overflow-auto justify-between p-2 border-b-1 border-secondary "
-                  >
-                    <p className="text-xs max-w-6/10">{item.caption}</p>
-                    <p className="text-xs">{item.quantity}</p>
-                    <p className="text-xs">{item.price}</p>
-                  </div>
-                ))}
+                {formData.devisLine.length > 0 &&
+                  formData.devisLine.map((item, index) => (
+                    <div
+                      key={index}
+                      className="flex flex-row gap-2 overflow-auto justify-between p-2 border-b-1 border-secondary"
+                    >
+                      <p className="text-xs max-w-6/10">{item.caption}</p>
+                      <p className="text-xs">{item.quantity}</p>
+                      <p className="text-xs">{item.price}</p>
+                    </div>
+                  ))}
               </div>
             </div>
+
             {/* ------------------------------------ Select et addbtn ------------------- */}
             <div className="">
               <select
@@ -210,8 +214,8 @@ function AddStockDocModal({
               </select>
               <button onClick={handleItemList}>ADD</button>
             </div>
-                        {/* ------------------------------------ SubmitBtn ------------------- */}
-              <Button title="Soumettre" onClick={submitClick} css="w-full" />
+            {/* ------------------------------------ SubmitBtn ------------------- */}
+            <Button title="Soumettre" onClick={submitClick} css="w-full" />
           </div>
         </form>
       </div>
