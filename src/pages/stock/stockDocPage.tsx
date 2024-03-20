@@ -39,14 +39,17 @@ function StockDocPage() {
       case "BE":
         setTitle("Bon d'entrée");
         break;
+        case "BS":
+          setTitle("Bon de sortie");
+          break;
       case "INV":
         setTitle("Inventaire");
         break;
-      case "BS":
-        setTitle("Bon de sortie");
-        break;
       case "OT":
         setTitle("Ordre de transfert");
+        break;
+      case "BT":
+        setTitle("Bon de transfert");
         break;
       default:
         setTitle("Document");
@@ -57,12 +60,14 @@ function StockDocPage() {
     switch (prefix) {
       case "BE":
         return "text-green-500";
+        case "BS":
+          return "text-yellow-500";
       case "INV":
         return "text-blue-400";
-      case "BS":
-        return "text-yellow-500";
       case "OT":
         return "text-orange-500";
+      case "BT":
+        return "text-orange-900";
 
       default:
         return "text-gray-500";
@@ -79,6 +84,8 @@ function StockDocPage() {
         return "bg-orange-500";
       case "Ordre de transfert":
         return "bg-orange-500";
+      case "Bon de transfert":
+        return "bg-orange-900";
 
       default:
         return "bg-gray-500";
