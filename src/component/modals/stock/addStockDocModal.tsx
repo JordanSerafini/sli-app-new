@@ -69,16 +69,17 @@ function AddStockDocModal({
     
     if (selectedItem) {
       setItemToAdd([...itemToAdd, selectedItem]);
-      const quantityInput = prompt("Veuillez entrer la quantité :") || ""; // Pour éviter une valeur nulle
-     
-      // Vérifier que la quantité saisie est un nombre valide avant de l'ajouter à l'état
+      const quantityInput = prompt("Veuillez entrer la quantité :") || "";
+      
       const quantity = parseFloat(quantityInput);
       if (!isNaN(quantity)) {
+        const price = (selectedItem.salepricevatincluded * quantity).toString(); 
+  
         const newDevisLine = {
           id: selectedItem.id,
           caption: selectedItem.caption,
-          quantity: quantityInput, 
-          price: selectedItem.salepricevatincluded.toString(), 
+          quantity: quantityInput,
+          price: price,
         };
         
         setFormData((prevState) => ({
@@ -92,6 +93,7 @@ function AddStockDocModal({
       console.error("L'élément sélectionné n'a pas été trouvé dans la liste.");
     }
   };
+  
   
 
 
