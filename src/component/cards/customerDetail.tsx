@@ -46,8 +46,7 @@ function CustomerDetail({ customer }: { customer: Customer }) {
   const address = buildAddress();
 
   async function geocodeAddressAndSave(customer: Customer, address: string) {
-    // Vérifiez si les coordonnées sont déjà présentes pour éviter de refaire une géolocalisation
-    if (!customer.lon || !customer.lat) {
+    if (!customer.lon  || !customer.lat || customer.lon === null || customer.lat === null) {
       try {
         // Tentative de récupération des coordonnées géographiques à partir de l'adresse
         const response = await axios.get(`https://nominatim.openstreetmap.org/search`, {
@@ -56,6 +55,7 @@ function CustomerDetail({ customer }: { customer: Customer }) {
             q: address,
           },
         });
+        console.log(response.data);
   
         // Vérifie si la réponse contient des données utiles et mettez à jour les coordonnées du client
         if (response.data && response.data.length > 0) {
@@ -127,6 +127,7 @@ function CustomerDetail({ customer }: { customer: Customer }) {
               </a>
             </div>
           )}
+          {address && <div>{address}</div>}
 
           <img
             src={mapLogo}
