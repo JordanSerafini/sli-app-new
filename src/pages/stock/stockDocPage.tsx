@@ -69,7 +69,7 @@ function StockDocPage() {
     }
   };
   
-  const getBannerColor = (title: string) => {
+  const getColor = (title: string) => {
     switch (title) {
       case "Bon d'entrée":
         return "bg-green-600";
@@ -85,7 +85,22 @@ function StockDocPage() {
     }
   };
 
-  console.log(title);
+  const getLineColor = (title: string) => {
+    switch (title) {
+      case "Bon d'entrée":
+        return "border-greenPerso";
+      case "Inventaire":
+        return "border-bluePerso";
+      case "Bon de sortie":
+        return "orangePerso";
+      case "Ordre de transfert":
+        return "orangePerso";
+
+      default:
+        return "greenPerso";
+    }
+  };
+
 
   return (
     <div className="w-9/10 overflow-hidden h-screen rounded-t-3xl pb-14 mt-1 flex flex-col bg-white">
@@ -93,10 +108,11 @@ function StockDocPage() {
 
       {showDetails ? (
         <div className="flex flex-col h-full gap-4 items-center">
-          <h2 className={`${getBannerColor(title)} text-white text-center text-lg tracking-widest bold border-b-2 p-2 flex flex-row items-center justify-center w-full`}>
+          { /* ------------------------------------------------ Partie Detail ------------------------------------------ */}
+          <h2 className={`${getColor(title)} text-white text-center text-lg tracking-widest bold border-b-2 p-2 flex flex-row items-center justify-center w-full`}>
             {title}
           </h2>
-          <div className="flex flex-col gap-1 h-screen overflow-auto ">
+          <div className="flex flex-col gap-1 h-screen overflow-auto text-grayblue ">
             <table cellPadding={2}>
               <thead className="">
                   <tr className="bold">
@@ -104,10 +120,10 @@ function StockDocPage() {
                     <th>Quantité</th>
                   </tr>
               </thead>
-              <tbody className="">
+              <tbody className="w-full h-full">
                 {documentsLines.map((line) => (
-                  <tr key={line.id}>
-                    <td className="text-xs border-b-1 p-4 border-secondary">
+                  <tr key={line.id} className="">
+                    <td className={`text-xs border-b-1 p-4 ${getLineColor(title)}`}>
                       {line.descriptionclear}
                     </td>
 
@@ -123,8 +139,9 @@ function StockDocPage() {
         </div>
       ) : (
         <table>
+          { /* ------------------------------------------------ Partie Liste ------------------------------------------ */}
           <thead>
-            <tr className="border-b-2  text-secondary border- border-secondary">
+            <tr className={`border-b-2  text-secondary border-secondary `}>
               <th className="p-2">Type</th>
               <th>Numéro de document</th>
               <th>Date du document</th>
