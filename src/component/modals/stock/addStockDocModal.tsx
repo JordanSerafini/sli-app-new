@@ -28,6 +28,7 @@ function AddStockDocModal({
         id: "",
         caption: "",
         quantity: "",
+        price: "",
       },
     ],
   });
@@ -65,20 +66,34 @@ function AddStockDocModal({
 
   const handleItemList = () => {
     const selectedItem = itemList.find((item) => item.id === selectedItemId);
-  
+    
     if (selectedItem) {
       setItemToAdd([...itemToAdd, selectedItem]);
-      formData.devisLine.push({
-        id: selectedItem.id,
-        caption: selectedItem.caption,
-        quantity: "",
-      });
+      const quantityInput = prompt("Veuillez entrer la quantité :") || ""; // Pour éviter une valeur nulle
+     
+      // Vérifier que la quantité saisie est un nombre valide avant de l'ajouter à l'état
+      const quantity = parseFloat(quantityInput);
+      if (!isNaN(quantity)) {
+        const newDevisLine = {
+          id: selectedItem.id,
+          caption: selectedItem.caption,
+          quantity: quantityInput, 
+          price: selectedItem.salepricevatincluded.toString(), 
+        };
+        
+        setFormData((prevState) => ({
+          ...prevState,
+          devisLine: [...prevState.devisLine, newDevisLine]
+        }));
+      } else {
+        console.error("Veuillez saisir une quantité valide.");
+      }
     } else {
       console.error("L'élément sélectionné n'a pas été trouvé dans la liste.");
     }
   };
   
-  
+
 
   const submitClick = () => {
     console.log(formData);
@@ -166,14 +181,14 @@ function AddStockDocModal({
 
             <div className="border-1 border-secondary p-2 overflow-auto h-6/10  ">
               <div className="">
-                {itemToAdd.map((item, index) => (
+                {formData.devisLine.map((item, index) => (
                   <div
                     key={index}
                     className="flex flex-row gap-2 overflow-auto justify-between p-2 border-b-1 border-secondary "
                   >
                     <p className="text-xs max-w-6/10">{item.caption}</p>
-                    <p className="text-xs">quantité</p>
-                    <p className="text-xs">{item.salepricevatincluded}</p>
+                    <p className="text-xs">{item.quantity}</p>
+                    <p className="text-xs">{item.price}</p>
                   </div>
                 ))}
               </div>
