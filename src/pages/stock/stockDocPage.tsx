@@ -154,7 +154,7 @@ function StockDocPage() {
           </p>
         </div>
       ) : (
-        <div className="h-screen border-4 border-red-600 overflow-auto">
+        <div className="h-screen border-4  overflow-auto">
   <table className="w-full">
     {/* Partie Liste */}
     <thead>
