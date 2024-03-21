@@ -1,5 +1,9 @@
 import { useContext, useEffect, useState } from "react";
-import { fetchCustomer, fetchStockDoc, fetchItems } from "../../function/function";
+import {
+  fetchCustomer,
+  fetchStockDoc,
+  fetchItems,
+} from "../../function/function";
 import dataContext from "../../context/context/dataContext";
 
 import BarChart from "../../component/charts/barChart";
@@ -8,8 +12,8 @@ import LineChart from "../../component/charts/lineChart";
 function Stats() {
   const { stockDocs, setStockDocs } = useContext(dataContext);
   const { customerList, setCustomerList } = useContext(dataContext);
-  const [dataDocAndLine, setDataDocAndLine] = useState([] as unknown[]);
-    const {itemList, setItemList} = useContext(dataContext);
+  const { itemList, setItemList } = useContext(dataContext);
+  const [devisLine, setDevisLine] = useState<[]>([]);
 
   // Gestions des données de sotck fetch, trie et passage au composant BarChart
   useEffect(() => {
@@ -104,33 +108,34 @@ function Stats() {
     ],
   };
 
-  // récupérer les données de stock et de ligne
   useEffect(() => {
-
-  const newDataDocAndLine = async() => {
-    const data = await fetch("http://localhost:5000/StockAndLine");
-    const dataJson = await data.json();
-    setDataDocAndLine(dataJson);
-  }
-    newDataDocAndLine();
-    }, []);
-
-useEffect(() => {
     if (itemList.length === 0) fetchItems(setItemList);
-    }, [setItemList, itemList]);
+  }, [setItemList, itemList]);
 
-    //const itemFilter = dataDocAndLine.filter((item) => item.descriptonclear 
-    console.log(dataDocAndLine);
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await fetch("http://localhost:5000/getAllDocumentLines");
+      const dataJson = await data.json();
+
+      console.log(dataJson); // Log fetched data for debugging
+
+      setDevisLine(dataJson);
+
+      console.log(devisLine); // Log updated state for debugging
+    };
+
+    fetchData();
+  }, []);
+
+
+
 
   return (
     <div className="flex flex-col gap-20 bg-secondary-light p-2 h-full">
       <BarChart data={data} title="Statistique Bon Entrée" />
       <LineChart data={lineData} title="Clients par mois" />
-      <div>
-
-      </div>
+      <div></div>
     </div>
-
   );
 }
 
