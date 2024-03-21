@@ -109,7 +109,7 @@ function StockDocPage() {
   };
 
   return (
-    <div className="w-9/10 h-screen rounded-t-3xl pb-14 mt-1 flex flex-col bg-white">
+    <div className="w-9/10 overflow-hidden h-screen rounded-t-3xl pb-14 mt-1 flex flex-col bg-white">
       {showModal && <AddBEModal setShowModal={setShowModal} />}
 
       {showDetails ? (
@@ -123,40 +123,34 @@ function StockDocPage() {
             {title}
           </h2>
           <div className="flex flex-col gap-1 h-screen text-grayblue">
-            <table cellPadding={2}>
-              <thead className="">
-                <tr className="bold">
-                  <th>Article</th>
-                  <th>Quantité</th>
-                </tr>
-              </thead>
-              <tbody
-                style={{ maxHeight: "500px", overflowY: "auto" }}
-                className="w-full"
-              >
-                {documentsLines.map((line, index) => (
-                  <tr key={index} className="">
-                    <td
-                      className={`text-xs border-b-1 p-4 ${getLineColor(
-                        title
-                      )}`}
-                    >
-                      {line.descriptionclear}
-                    </td>
-                    <td className="bold text-center">{line.quantity}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <table cellPadding={2} className="table-fixed w-full">
+  <thead>
+    <tr>
+      <th className="w-1/2">Article</th>
+      <th className="w-1/2">Quantité</th>
+    </tr>
+  </thead>
+  <tbody style={{ maxHeight: "500px", overflowY: "auto" }}>
+    {documentsLines.map((line, index) => (
+      <tr key={index}>
+        <td className={`text-xs p-4 border-b ${getLineColor(title)}`}>
+          {line.descriptionclear}
+        </td>
+        <td className="text-center bold">{line.quantity}</td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+
           </div>
           <p onClick={handleClick} className="border-2 border-red-400">
             swap
           </p>
         </div>
       ) : (
-        <div className="h-screen border-4  overflow-auto">
+        <div className="h-screen border-4  overflow-hidden ">
   <table className="w-full">
-    {/* Partie Liste */}
+    {/* ------------------------------------ Partie Liste ------------------------------------ */}
     <thead>
       <tr className={`border-b-2 text-secondary border-secondary`}>
         <th className="p-2">Type</th>
@@ -166,11 +160,11 @@ function StockDocPage() {
       </tr>
     </thead>
   </table>
-  <div style={{ maxHeight: 'calc(100vh - 50px)', overflowY: 'auto' }}>
+  <div style={{ maxHeight: 'calc(92vh - 50px)', overflowY: 'auto' }} className="mb-6">
     <table className="w-full">
-      <tbody>
+      <tbody className="">
         {stockDocs.map((doc) => (
-          <tr key={doc.id} className="text-center border-b-1 border-secondary p-1">
+          <tr key={doc.id} className="border-b-1 border-secondary flex flex-row justify-between p-1">
             <td className={`${getTextColor(doc.numberprefix)} p-2`}>
               {doc.numberprefix}
             </td>
