@@ -1,30 +1,34 @@
-import { useEffect, useState } from "react";
-import { StockDocument, StockDocumentLine } from "../../types/stockDoc";
+import { useContext, useEffect, useState } from "react";
+import {  StockDocumentLine } from "../../types/stockDoc";
 import { fetchStockDoc, fetchStockDocDetails } from "../../function/function";
+
 
 import AddBEModal from "../../component/modals/stock/addStockDocModal";
 import StockNavbar from "../../component/nav/stockNavBar";
+import dataContext from "../../context/context/dataContext";
 
 function StockDocPage() {
   const [showDetails, setShowDetails] = useState(false);
-  const [stockDocs, setStockDocs] = useState<StockDocument[]>([]);
   const [documentsLines, setDocumentsLines] = useState<StockDocumentLine[]>([]);
   const [showModal, setShowModal] = useState(false);
+  const [title, setTitle] = useState("");
+  const { stockDocs, setStockDocs } = useContext(dataContext);
 
   useEffect(() => {
     async function fetchData() {
       try {
         const data = await fetchStockDoc();
-        setStockDocs(data);
+        if (setStockDocs) {
+          setStockDocs(data);
+        }
       } catch (error) {
         console.error(error);
       }
     }
+  
     fetchData();
-  }, []);
-
-  const [title, setTitle] = useState("");
-
+  }, [setStockDocs]);
+  
   const handleClick = async () => {
     setShowDetails(!showDetails);
   };
@@ -163,6 +167,10 @@ function StockDocPage() {
   <div style={{ maxHeight: 'calc(92vh - 50px)', overflowY: 'auto' }} className="mb-6">
     <table className="w-full">
       <tbody className="">
+      {stockDocs && stockDocs.length > 0 ? (
+  <div style={{ maxHeight: 'calc(92vh - 50px)', overflowY: 'auto' }} className="mb-6">
+    <table className="w-full">
+      <tbody className="">
         {stockDocs.map((doc) => (
           <tr key={doc.id} className="border-b-1 border-secondary flex flex-row justify-between p-1">
             <td className={`${getTextColor(doc.numberprefix)} p-2`}>
@@ -184,6 +192,17 @@ function StockDocPage() {
             </td>
           </tr>
         ))}
+      </tbody>
+    </table>
+  </div>
+) : (
+  <tr>
+  <td colSpan={4}>Aucune donnée à afficher</td>
+</tr>
+
+)}
+
+
       </tbody>
     </table>
   </div>

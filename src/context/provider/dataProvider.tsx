@@ -4,12 +4,14 @@ import Toast from "../../component/toast/toast";
 
 import { Item } from "../../types/item";
 import { Customer } from "../../types/customer";
+import { StockDocument } from "../../types/stockDoc";
 
 export const DataProvider = ({ children }: { children: ReactNode }) => {
  
     const [theme, setTheme] = useState("Main");
     const [itemList, setItemList] = useState<Item[]>([]);
     const [customerList, setCustomerList] = useState<Customer[]>([]);
+    const [stockDocs, setStockDocs] = useState<StockDocument[]>([]);
     const [position, setPosition] = useState("top");
     const [css, setCss] = useState("");
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -42,6 +44,8 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
     position,
     isLoggedIn,
     setIsLoggedIn,
+    stockDocs,
+    setStockDocs,
 
   };
 

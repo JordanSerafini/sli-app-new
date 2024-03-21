@@ -1,6 +1,7 @@
 import { createContext, Dispatch, SetStateAction } from "react";
 import { Customer } from "../../types/customer";
 import { Item } from "../../types/item";
+import { StockDocument } from "../../types/stockDoc";
 
 // Définir le type pour les valeurs du contexte
 interface DataContextType {
@@ -15,6 +16,9 @@ interface DataContextType {
   showToast: (message: string, timer?: number, position?: string, css?: string) => void; 
   isLoggedIn: boolean;
   setIsLoggedIn?: Dispatch<SetStateAction<boolean>>;
+  stockDocs?: StockDocument[];
+  setStockDocs?: Dispatch<SetStateAction<StockDocument[]>>;
+
 }
 
 // Créer le contexte avec une valeur initiale
@@ -29,6 +33,8 @@ const dataContext = createContext<DataContextType>({
   isVisible: false,
   showToast: () => {}, 
   isLoggedIn: false,
+  stockDocs: [],
+  setStockDocs: () => {},
 });
 
 export default dataContext;
