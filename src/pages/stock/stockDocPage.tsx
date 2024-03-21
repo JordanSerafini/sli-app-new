@@ -39,9 +39,9 @@ function StockDocPage() {
       case "BE":
         setTitle("Bon d'entrée");
         break;
-        case "BS":
-          setTitle("Bon de sortie");
-          break;
+      case "BS":
+        setTitle("Bon de sortie");
+        break;
       case "INV":
         setTitle("Inventaire");
         break;
@@ -60,8 +60,8 @@ function StockDocPage() {
     switch (prefix) {
       case "BE":
         return "text-green-500";
-        case "BS":
-          return "text-yellow-500";
+      case "BS":
+        return "text-yellow-500";
       case "INV":
         return "text-blue-400";
       case "OT":
@@ -73,7 +73,7 @@ function StockDocPage() {
         return "text-gray-500";
     }
   };
-  
+
   const getColor = (title: string) => {
     switch (title) {
       case "Bon d'entrée":
@@ -108,71 +108,93 @@ function StockDocPage() {
     }
   };
 
-
   return (
-    <div className="w-9/10 overflow-hidden h-screen rounded-t-3xl pb-14 mt-1 flex flex-col bg-white">
+    <div className="w-9/10 h-screen rounded-t-3xl pb-14 mt-1 flex flex-col bg-white">
       {showModal && <AddBEModal setShowModal={setShowModal} />}
 
       {showDetails ? (
         <div className="flex flex-col h-full gap-4 items-center">
-          { /* ------------------------------------------------ Partie Detail ------------------------------------------ */}
-          <h2 className={`${getColor(title)} text-white text-center text-lg tracking-widest bold border-b-2 p-2 flex flex-row items-center justify-center w-full`}>
+          {/* Partie Détail */}
+          <h2
+            className={`${getColor(
+              title
+            )} text-white text-center text-lg tracking-widest bold border-b-2 p-2 flex flex-row items-center justify-center w-full`}
+          >
             {title}
           </h2>
-          <div className="flex flex-col gap-1 h-screen overflow-auto text-grayblue ">
+          <div className="flex flex-col gap-1 h-screen text-grayblue">
             <table cellPadding={2}>
               <thead className="">
-                  <tr className="bold">
-                    <th>Article</th>
-                    <th>Quantité</th>
-                  </tr>
+                <tr className="bold">
+                  <th>Article</th>
+                  <th>Quantité</th>
+                </tr>
               </thead>
-              <tbody className="w-full h-full">
+              <tbody
+                style={{ maxHeight: "500px", overflowY: "auto" }}
+                className="w-full"
+              >
                 {documentsLines.map((line, index) => (
                   <tr key={index} className="">
-                    <td className={`text-xs border-b-1 p-4 ${getLineColor(title)}`}>
+                    <td
+                      className={`text-xs border-b-1 p-4 ${getLineColor(
+                        title
+                      )}`}
+                    >
                       {line.descriptionclear}
                     </td>
-
-                      <td className="bold text-center">{line.quantity}</td>
+                    <td className="bold text-center">{line.quantity}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
-          <p onClick={handleClick} className="border-2 border-red-400 ">
+          <p onClick={handleClick} className="border-2 border-red-400">
             swap
           </p>
         </div>
       ) : (
-        <table>
-          { /* ------------------------------------------------ Partie Liste ------------------------------------------ */}
-          <thead>
-            <tr className={`border-b-2  text-secondary border-secondary `}>
-              <th className="p-2">Type</th>
-              <th>Numéro de document</th>
-              <th>Date du document</th>
-              <th>Articles</th>
-            </tr>
-          </thead>
-          <tbody>
-            {stockDocs.map((doc) => (
-              <tr key={doc.id} className="text-center  border-b-1 border-secondary p-1">
-                <td className={`${getTextColor(doc.numberprefix)} p-2`}>
-                  {doc.numberprefix}
-                </td>
-                {doc.numbersuffix? ( <td className="text-xs sm:text-base">{doc.numbersuffix}</td>): ( <td className="text-xs sm:text-base">N/A</td>)}
-                <td className="text-xs sm:text-base">{new Date(doc.documentdate).toLocaleDateString()}</td>
-                <td
-                  className="text-primary text-xs sm:text-base"
-                  onClick={() => handleDetails(doc.id, doc.numberprefix)}
-                >
-                  voir
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <div className="h-screen border-4 border-red-600 overflow-auto">
+  <table className="w-full">
+    {/* Partie Liste */}
+    <thead>
+      <tr className={`border-b-2 text-secondary border-secondary`}>
+        <th className="p-2">Type</th>
+        <th>Numéro de document</th>
+        <th>Date du document</th>
+        <th>Articles</th>
+      </tr>
+    </thead>
+  </table>
+  <div style={{ maxHeight: 'calc(100vh - 50px)', overflowY: 'auto' }}>
+    <table className="w-full">
+      <tbody>
+        {stockDocs.map((doc) => (
+          <tr key={doc.id} className="text-center border-b-1 border-secondary p-1">
+            <td className={`${getTextColor(doc.numberprefix)} p-2`}>
+              {doc.numberprefix}
+            </td>
+            {doc.numbersuffix ? (
+              <td className="text-xs sm:text-base">{doc.numbersuffix}</td>
+            ) : (
+              <td className="text-xs sm:text-base">N/A</td>
+            )}
+            <td className="text-xs sm:text-base">
+              {new Date(doc.documentdate).toLocaleDateString()}
+            </td>
+            <td
+              className="text-primary text-xs sm:text-base"
+              onClick={() => handleDetails(doc.id, doc.numberprefix)}
+            >
+              voir
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</div>
+
       )}
       <StockNavbar setShowModal={setShowModal} showModal={showModal} />
     </div>
