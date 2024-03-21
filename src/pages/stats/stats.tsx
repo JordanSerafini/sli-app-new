@@ -8,6 +8,7 @@ import dataContext from "../../context/context/dataContext";
 
 import BarChart from "../../component/charts/barChart";
 import LineChart from "../../component/charts/lineChart";
+import { StockDocumentLine } from "../../types/stockDoc";
 
 function Stats() {
   const { stockDocs, setStockDocs } = useContext(dataContext);
@@ -112,22 +113,17 @@ function Stats() {
     if (itemList.length === 0) fetchItems(setItemList);
   }, [setItemList, itemList]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const data = await fetch("http://localhost:5000/getAllDocumentLines");
-      const dataJson = await data.json();
+   const test = devisLine.map((line: StockDocumentLine) => {
+      const item = itemList.find((item) => item.id === line.itemid);
+      console.log(item);
+        return {
+            ...line,
+            item,
+        };
+        
+    });
 
-      console.log(dataJson); // Log fetched data for debugging
-
-      setDevisLine(dataJson);
-
-      console.log(devisLine); // Log updated state for debugging
-    };
-
-    fetchData();
-  }, []);
-
-
+    console.log(test);
 
 
   return (
