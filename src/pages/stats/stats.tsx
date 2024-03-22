@@ -8,7 +8,7 @@ import dataContext from "../../context/context/dataContext";
 
 import BarChart from "../../component/charts/barChart";
 import LineChart from "../../component/charts/lineChart";
-import { StockDocumentLineWithPrice } from "../../types/stockDoc";
+import { StockDocument, StockDocumentLineWithPrice } from "../../types/stockDoc";
 
 function Stats() {
   const { stockDocs, setStockDocs } = useContext(dataContext);
@@ -165,16 +165,15 @@ function Stats() {
 
   // Appeler la fonction pour calculer le prix total par item
   const totalPricePerItem = calculateTotalPricePerItem(stockDocLines?? []);
-  
+
   //--------------------------------------------------------------------------------- Bon Entrée Sort -----------------------------------------------------------------------------------
-  
 
   const devisDocSort = (stockDocs ?? []).filter((doc) => doc.numberprefix === "BE");
 
   const BELine = totalPricePerItem.filter((item) => {
     return devisDocSort.some((doc) => doc.id === item.documentid);
   });
-const BEarray = [];
+const BEarray: { name: string; price: number | string; stockDoc: StockDocument; }[] = [];
 
 BELine.forEach((line) => {
   const totalPrice = line.totalPrice * line.quantity;
@@ -186,9 +185,34 @@ BELine.forEach((line) => {
   BEarray.push(obj);
 });
 
-
   //--------------------------------------------------------------------------------- Bon Sorti Sort -----------------------------------------------------------------------------------
 
+const BSdoc = (stockDocs ?? []).filter((doc) => doc.numberprefix === "BS");
+console.log(BSdoc);
+const BSLine = totalPricePerItem.filter((item) => {
+  const matchingDoc = BSdoc.find((doc) => doc.id === item.documentid);
+
+
+
+  return matchingDoc;
+});
+
+
+
+const BSarray: { name: string; price: number | string ; stockDoc: StockDocumentLineWithPrice; }[] = [];
+
+BSLine.forEach((line) => {
+  const totalPrice = line.totalPrice * line.quantity;
+  const obj = {
+    name: line.descriptionClear,
+    price: totalPrice,
+    stockDoc: line.documentid
+  };
+  BSarray.push(obj);
+});
+
+console.log(BEarray);
+console.log(BSarray);
 
   return (
     <div className="flex flex-col gap-20 bg-secondary-light p-2 h-full">
@@ -200,3 +224,4 @@ BELine.forEach((line) => {
 }
 
 export default Stats;
+
