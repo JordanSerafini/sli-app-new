@@ -16,13 +16,14 @@ interface DonutChartProps {
       borderWidth?: number;
     }[];
   };
+  title?: string;
 }
 
-const DonutChart: React.FC<DonutChartProps> = ({ data }) => {
+const DonutChart: React.FC<DonutChartProps> = ({ data, title }) => {
   return (
     <div className="bg-white border-secondary border-2 flex flex-col gap-8 text-center pt-4 items-center">
       <h3 className="libre-baskerville-bold tracking-widest border-b-2 text-secondary-dark border-secondary pb-4 w-8.5/10">
-        Donut Chart
+         { title ? title : "Donut Chart" }
       </h3>{" "}
       <div className="bg-white">
         {" "}
