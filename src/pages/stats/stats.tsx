@@ -6,6 +6,8 @@ import {
   fetchStockDocLinesWithPrice,
 } from "../../function/function";
 import dataContext from "../../context/context/dataContext";
+import { Request, Response } from 'express';
+
 
 import BarChart from "../../component/charts/barChart";
 import LineChart from "../../component/charts/lineChart";
@@ -14,6 +16,7 @@ import {
   StockDocument,
   StockDocumentLineWithPrice,
 } from "../../types/stockDoc";
+
 
 /*interface itemSearch {
   name: string;
@@ -281,6 +284,33 @@ function Stats() {
       },
     ],
   };
+
+  
+  const fetchData = async () => {
+    try {
+      const responseData = await fetch("http://localhost:5000/getAllBEwithPrice");
+  
+      if (responseData.ok) {
+        const jsonData = await responseData.json();
+  
+        const validData = jsonData.filter(
+          (item: StockDocumentLineWithPrice) =>
+            item.salepricevatincluded !== undefined
+        );
+
+        console.log("validData", validData);
+  
+       
+      } else {
+        console.error("Failed to fetch data:", responseData.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  
+  fetchData();
+
 
   return (
     <div className="flex flex-col gap-20 bg-secondary-light p-2 h-full mb-40 w-screen">
