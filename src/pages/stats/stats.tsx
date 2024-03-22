@@ -1,20 +1,21 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import {
   fetchCustomer,
   fetchStockDoc,
   fetchItems,
+  fetchStockDocLinesWithPrice,
 } from "../../function/function";
 import dataContext from "../../context/context/dataContext";
 
 import BarChart from "../../component/charts/barChart";
 import LineChart from "../../component/charts/lineChart";
-import { StockDocumentLine } from "../../types/stockDoc";
+import { StockDocumentLineWithPrice } from "../../types/stockDoc";
 
 function Stats() {
   const { stockDocs, setStockDocs } = useContext(dataContext);
   const { customerList, setCustomerList } = useContext(dataContext);
   const { itemList, setItemList } = useContext(dataContext);
-  const [devisLine, setDevisLine] = useState<[]>([]);
+  const {stockDocLines, setStockDocLines} = useContext(dataContext);
 
   // Gestions des données de sotck fetch, trie et passage au composant BarChart
   useEffect(() => {
@@ -110,21 +111,93 @@ function Stats() {
   };
 
   useEffect(() => {
-    if (itemList.length === 0) fetchItems(setItemList);
-  }, [setItemList, itemList]);
+    const fetchData = async () => {
+      try {
+        const responseData = await fetchStockDocLinesWithPrice();
+        if (responseData?.data) {
+          // Assurez-vous que chaque élément dans responseData.data a la structure de StockDocumentLineWithPrice
+          const validData = responseData.data.filter((item: StockDocumentLineWithPrice) => item.salepricevatincluded !== undefined);
+          if (setStockDocLines) {
+            setStockDocLines(validData);
+          }
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+  
+    fetchData();
+  }, [setStockDocLines]);
+  
 
-   const test = devisLine.map((line: StockDocumentLine) => {
-      const item = itemList.find((item) => item.id === line.itemid);
-      console.log(item);
-        return {
-            ...line,
-            item,
-        };
-        
+  const calculateTotalPricePerItem = (lines) => {
+    const itemMap = new Map(); // Utiliser une carte pour regrouper les lignes par item
+  
+    // Parcourir les lignes pour les regrouper par item
+    lines.forEach((line) => {
+      const { descriptionclear, quantity, salepricevatincluded, documentid } = line;
+  
+      // Vérifier si salepricevatincluded est défini et n'est pas null
+      if (salepricevatincluded !== null) {
+        // Convertir salepricevatincluded en nombre
+        const price = typeof salepricevatincluded === 'string' ? parseFloat(salepricevatincluded) : salepricevatincluded;
+  
+        // Vérifier si l'item existe déjà dans la carte
+        if (itemMap.has(descriptionclear)) {
+          // Si oui, mettre à jour la quantité totale et le prix total
+          const existingItem = itemMap.get(descriptionclear);
+          existingItem.quantity += parseFloat(quantity);
+          existingItem.totalPrice += price * parseFloat(quantity);
+        } else {
+          // Si non, ajouter un nouvel élément à la carte
+          itemMap.set(descriptionclear, {
+            descriptionClear: descriptionclear,
+            quantity: parseFloat(quantity),
+            totalPrice: price * parseFloat(quantity),
+            documentid: documentid
+          });
+        }
+      }
     });
+  
+    // Convertir la carte en tableau d'objets
+    const totalPricePerItem = Array.from(itemMap.values());
+    return totalPricePerItem;
+  };
+  
+  // Appeler la fonction pour calculer le prix total par item
+  const totalPricePerItem = calculateTotalPricePerItem(stockDocLines);
+  
 
-    console.log(test);
+// Filtrer les documents avec le préfixe "BE"
+const devisDocSort = stockDocs.filter((doc) => doc.numberprefix === "BE"); 
 
+// Créer un tableau des lignes correspondant aux documents avec le préfixe "BE"
+const BELine = totalPricePerItem.filter((item) => {
+  // Logique pour vérifier si le document ID correspond à un document "BE"
+  return devisDocSort.some((doc) => doc.id === item.documentid);
+});
+
+const priceArray = [];
+
+BELine.forEach((line) => {
+  const totalPrice = line.totalPrice * line.quantity;
+  const obj = {
+    name: line.descriptionClear,
+    price: totalPrice,
+    stockDoc: line.documentid
+  };
+  priceArray.push(obj);
+});
+
+console.log(priceArray);
+
+
+
+  
+
+
+  
 
   return (
     <div className="flex flex-col gap-20 bg-secondary-light p-2 h-full">

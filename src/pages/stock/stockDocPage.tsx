@@ -112,6 +112,7 @@ function StockDocPage() {
     }
   };
 
+
   return (
     <div className="w-9/10 overflow-hidden h-screen rounded-t-3xl pb-14 mt-1 flex flex-col bg-white">
       {showModal && <AddBEModal setShowModal={setShowModal} />}

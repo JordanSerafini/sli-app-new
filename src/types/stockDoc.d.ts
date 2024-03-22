@@ -192,3 +192,7 @@ export interface Storehouse {
   sysmodifieduser: string;
   type: number;
 }
+
+export interface StockDocumentLineWithPrice extends StockDocumentLine {
+  salepricevatincluded: string | number | null;
+}

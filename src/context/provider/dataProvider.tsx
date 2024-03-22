@@ -4,7 +4,7 @@ import Toast from "../../component/toast/toast";
 
 import { Item } from "../../types/item";
 import { Customer } from "../../types/customer";
-import { StockDocument } from "../../types/stockDoc";
+import { StockDocument, StockDocumentLineWithPrice } from "../../types/stockDoc";
 
 export const DataProvider = ({ children }: { children: ReactNode }) => {
  
@@ -12,6 +12,7 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
     const [itemList, setItemList] = useState<Item[]>([]);
     const [customerList, setCustomerList] = useState<Customer[]>([]);
     const [stockDocs, setStockDocs] = useState<StockDocument[]>([]);
+    const [stockDocLines, setStockDocLines] = useState<StockDocumentLineWithPrice[]>([]); 
     const [position, setPosition] = useState("top");
     const [css, setCss] = useState("");
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -46,6 +47,8 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
     setIsLoggedIn,
     stockDocs,
     setStockDocs,
+    stockDocLines,
+    setStockDocLines,
 
   };
 

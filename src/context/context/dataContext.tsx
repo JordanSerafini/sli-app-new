@@ -1,9 +1,8 @@
 import { createContext, Dispatch, SetStateAction } from "react";
 import { Customer } from "../../types/customer";
 import { Item } from "../../types/item";
-import { StockDocument } from "../../types/stockDoc";
+import { StockDocument, StockDocumentLineWithPrice } from "../../types/stockDoc";
 
-// Définir le type pour les valeurs du contexte
 interface DataContextType {
   theme: string;
   setTheme: Dispatch<SetStateAction<string>>;
@@ -18,10 +17,11 @@ interface DataContextType {
   setIsLoggedIn?: Dispatch<SetStateAction<boolean>>;
   stockDocs?: StockDocument[];
   setStockDocs?: Dispatch<SetStateAction<StockDocument[]>>;
+  stockDocLines?: StockDocumentLineWithPrice[];
+  setStockDocLines?: Dispatch<SetStateAction<StockDocumentLineWithPrice[]>>;
 
 }
 
-// Créer le contexte avec une valeur initiale
 const dataContext = createContext<DataContextType>({
   theme: "Main", 
   setTheme: () => {},
@@ -35,6 +35,8 @@ const dataContext = createContext<DataContextType>({
   isLoggedIn: false,
   stockDocs: [],
   setStockDocs: () => {},
+  stockDocLines: [],
+  setStockDocLines: () => {},
 });
 
 export default dataContext;

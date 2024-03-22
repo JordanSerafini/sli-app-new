@@ -31,8 +31,7 @@ export async function fetchCustomer(
   }
 }
 
-export async function fetchStockDoc(
-) {
+export async function fetchStockDoc() {
   try {
     const response = await axios.get(`${url.main}/getAllStockDocs`);
     return response.data.rows;
@@ -44,13 +43,13 @@ export async function fetchStockDoc(
 export async function fetchStockDocDetails(id: string) {
   try {
     const response = await axios.get(`${url.main}/getStockDocDetails/${id}`);
+    //console.log(response.data);
     return response.data;
   } catch (error) {
     console.error("Error fetching stock documents details: ", error);
     return null; 
   }
 }
-
 
 export async function fetchDepot() {
   try {
@@ -62,10 +61,7 @@ export async function fetchDepot() {
   }
 }
 
-
-
 export async function login(email: string, password: string) {
-  
 
   try {
     const response = await axios.post(`${url.main}/login`, {
@@ -99,6 +95,21 @@ export async function login(email: string, password: string) {
       }
     }
     throw error;
+  }
+}
+
+export async function logout() {
+  localStorage.removeItem("token");
+  localStorage.removeItem("userData");
+}
+
+export async function fetchStockDocLinesWithPrice() {
+  try {
+    const response = await axios.get(`${url.main}/getDocLineWithPrice`);
+    return response;
+  } catch (error) {
+    console.error("Error fetching stock documents lines: ", error);
+    return null;
   }
 }
 
