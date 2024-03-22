@@ -8,7 +8,6 @@ import {
 import dataContext from "../../context/context/dataContext";
 import { Request, Response } from 'express';
 
-
 import BarChart from "../../component/charts/barChart";
 import LineChart from "../../component/charts/lineChart";
 import DonutChart from "../../component/charts/donutChart";
@@ -16,6 +15,7 @@ import {
   StockDocument,
   StockDocumentLineWithPrice,
 } from "../../types/stockDoc";
+import url from "../../utils/axios";
 
 
 /*interface itemSearch {
@@ -288,7 +288,7 @@ function Stats() {
   
   const fetchData = async () => {
     try {
-      const responseData = await fetch("http://localhost:5000/getAllBEwithPrice");
+      const responseData = await fetch(`${url.main}getAllBEwithPrice`);
   
       if (responseData.ok) {
         const jsonData = await responseData.json();
