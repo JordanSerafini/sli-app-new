@@ -285,8 +285,10 @@ function Stats() {
     ],
   };
 
+  let BSdata = [{} ];
+  let BEdata = [{}];
   
-  const fetchData = async () => {
+  const fetchBEData = async () => {
     try {
       const responseData = await fetch(`${url.main}/getAllBE`);
   
@@ -297,8 +299,17 @@ function Stats() {
           (item: StockDocumentLineWithPrice) =>
             item.salepricevatincluded !== undefined
         );
-
-        console.log("validData", validData);
+        validData.forEach((line) => {
+          const totalPrice = line.totalPrice * line.quantity;
+          const obj = {
+            name: line.descriptionClear,
+            totalPrice: totalPrice,
+            stockDoc: line.documentid,
+            quantity: line.quantity,
+            price: line.totalPrice,
+          };
+          BEarray.push(obj);
+        });
   
        
       } else {
@@ -308,8 +319,42 @@ function Stats() {
       console.error("Error fetching data:", error);
     }
   };
+
+  const fetchBSData = async () => {
+    try {
+      const responseData = await fetch(`${url.main}/getAllBS`);
   
-  fetchData();
+      if (responseData.ok) {
+        const jsonData = await responseData.json();
+  
+        const validData = jsonData.filter(
+          (item: StockDocumentLineWithPrice) =>
+            item.salepricevatincluded !== undefined
+        );
+        
+        validData.forEach((line) => {
+          const totalPrice = line.totalPrice * line.quantity;
+          const obj = {
+            name: line.descriptionClear,
+            totalPrice: totalPrice,
+            stockDoc: line.documentid,
+            quantity: line.quantity,
+            price: line.totalPrice,
+          };
+          BSarray.push(obj);
+        });
+  
+       
+      } else {
+        console.error("Failed to fetch data:", responseData.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  console.log("entrée ", BEarray);
+  console.log("sorti ", BSarray);
 
 
   return (
