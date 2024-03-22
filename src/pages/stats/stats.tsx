@@ -2,7 +2,6 @@ import { useContext, useEffect } from "react";
 import {
   fetchCustomer,
   fetchStockDoc,
-  fetchItems,
   fetchStockDocLinesWithPrice,
 } from "../../function/function";
 import dataContext from "../../context/context/dataContext";
@@ -14,7 +13,6 @@ import { StockDocumentLineWithPrice } from "../../types/stockDoc";
 function Stats() {
   const { stockDocs, setStockDocs } = useContext(dataContext);
   const { customerList, setCustomerList } = useContext(dataContext);
-  const { itemList, setItemList } = useContext(dataContext);
   const {stockDocLines, setStockDocLines} = useContext(dataContext);
 
   // Gestions des données de sotck fetch, trie et passage au composant BarChart
@@ -130,7 +128,7 @@ function Stats() {
   }, [setStockDocLines]);
   
 
-  const calculateTotalPricePerItem = (lines) => {
+  const calculateTotalPricePerItem = (lines: StockDocumentLineWithPrice[]) => {
     const itemMap = new Map(); // Utiliser une carte pour regrouper les lignes par item
   
     // Parcourir les lignes pour les regrouper par item
@@ -166,19 +164,14 @@ function Stats() {
   };
   
   // Appeler la fonction pour calculer le prix total par item
-  const totalPricePerItem = calculateTotalPricePerItem(stockDocLines);
-  
+  const totalPricePerItem = calculateTotalPricePerItem(stockDocLines?? []);
 
-// Filtrer les documents avec le préfixe "BE"
-const devisDocSort = stockDocs.filter((doc) => doc.numberprefix === "BE"); 
+  const devisDocSort = (stockDocs ?? []).filter((doc) => doc.numberprefix === "BE");
 
-// Créer un tableau des lignes correspondant aux documents avec le préfixe "BE"
-const BELine = totalPricePerItem.filter((item) => {
-  // Logique pour vérifier si le document ID correspond à un document "BE"
-  return devisDocSort.some((doc) => doc.id === item.documentid);
-});
-
-const priceArray = [];
+  const BELine = totalPricePerItem.filter((item) => {
+    return devisDocSort.some((doc) => doc.id === item.documentid);
+  });
+const BEarray = [];
 
 BELine.forEach((line) => {
   const totalPrice = line.totalPrice * line.quantity;
@@ -187,17 +180,8 @@ BELine.forEach((line) => {
     price: totalPrice,
     stockDoc: line.documentid
   };
-  priceArray.push(obj);
+  BEarray.push(obj);
 });
-
-console.log(priceArray);
-
-
-
-  
-
-
-  
 
   return (
     <div className="flex flex-col gap-20 bg-secondary-light p-2 h-full">
