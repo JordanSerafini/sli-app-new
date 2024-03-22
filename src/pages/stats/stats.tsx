@@ -288,7 +288,7 @@ function Stats() {
   
   const fetchData = async () => {
     try {
-      const responseData = await fetch(`${url.main}getAllBEwithPrice`);
+      const responseData = await fetch(`${url.main}/getAllBE`);
   
       if (responseData.ok) {
         const jsonData = await responseData.json();
