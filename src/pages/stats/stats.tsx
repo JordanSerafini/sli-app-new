@@ -249,7 +249,6 @@ function Stats() {
   });
 
 
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -266,11 +265,9 @@ function Stats() {
     setItemSearchCaption(name);
   };
 
-
   //const BEarrayByItem = BEarray.filter((item) => item.name === itemSearchCaption);
   //const BSarrayByItem = BSarray.filter((item) => item.name === itemSearchCaption);
-
-console.log("entré: " ,BEarray,"sorti: ", BSarray)
+//console.log("entré: " ,BEarray,"sorti: ", BSarray)
 
   const donutData = {
     labels: ["BE", "BS"],
