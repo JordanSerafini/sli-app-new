@@ -15,13 +15,13 @@ import {
   StockDocumentLineWithPrice,
 } from "../../types/stockDoc";
 
-interface itemSearch {
+/*interface itemSearch {
   name: string;
   totalPrice: string | number;
   stockDoc: string | number;
   quantity: string | number;
   price: string | number;
-}
+}*/
 
 function Stats() {
   const { stockDocs, setStockDocs } = useContext(dataContext);
@@ -29,7 +29,7 @@ function Stats() {
   const { stockDocLines, setStockDocLines } = useContext(dataContext);
   const { itemList, setItemList } = useContext(dataContext);
 
-  const [itemSearch, setItemSearch] = useState<itemSearch>({} as itemSearch);
+  //const [itemSearch, setItemSearch] = useState<itemSearch>({} as itemSearch);
   const [itemSearchCaption, setItemSearchCaption] = useState("");
 
   // Gestions des données de sotck fetch, trie et passage au composant BarChart
@@ -267,8 +267,8 @@ function Stats() {
   };
 
 
-  const BEarrayByItem = BEarray.filter((item) => item.name === itemSearchCaption);
-  const BSarrayByItem = BSarray.filter((item) => item.name === itemSearchCaption);
+  //const BEarrayByItem = BEarray.filter((item) => item.name === itemSearchCaption);
+  //const BSarrayByItem = BSarray.filter((item) => item.name === itemSearchCaption);
 
 console.log("entré: " ,BEarray,"sorti: ", BSarray)
 
