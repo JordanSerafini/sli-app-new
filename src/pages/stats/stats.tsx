@@ -162,9 +162,12 @@ function Stats() {
     const totalPricePerItem = Array.from(itemMap.values());
     return totalPricePerItem;
   };
-  
+
   // Appeler la fonction pour calculer le prix total par item
   const totalPricePerItem = calculateTotalPricePerItem(stockDocLines?? []);
+  
+  //--------------------------------------------------------------------------------- Bon Entrée Sort -----------------------------------------------------------------------------------
+  
 
   const devisDocSort = (stockDocs ?? []).filter((doc) => doc.numberprefix === "BE");
 
@@ -182,6 +185,10 @@ BELine.forEach((line) => {
   };
   BEarray.push(obj);
 });
+
+
+  //--------------------------------------------------------------------------------- Bon Sorti Sort -----------------------------------------------------------------------------------
+
 
   return (
     <div className="flex flex-col gap-20 bg-secondary-light p-2 h-full">
