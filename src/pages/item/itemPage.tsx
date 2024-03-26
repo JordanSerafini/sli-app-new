@@ -9,6 +9,8 @@ import CardContainer from "./cardContainer";
 import ItemDetail from "./itemDetail";
 import SearchInput from "../../component/others/searchInput";
 
+import ItemNavbar from "../../component/nav/itemNavBar";
+import AddItemModal from "../../component/modals/item/addItemModal";
 import loupeLogo from "../../assets/loupeLogo.png";
 
 const ITEMS_PER_PAGE = 25;
@@ -27,6 +29,8 @@ function ItemPage() {
 
   const [filteredItems, setFilteredItems] = useState<Item[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
+
+  const [showModal, setShowModal] = useState(false);
 
   // Fonction de recherche pour filtrer les éléments en fonction du terme de recherche
   const handleSearch = (term: string) => {
@@ -47,10 +51,9 @@ function ItemPage() {
   }, [setItemList, itemList]);
 
   // -------------------------------  Pagination -------------------------------
-  const paginatedItems = itemList.slice(
-    (currentPage - 1) * ITEMS_PER_PAGE,
-    currentPage * ITEMS_PER_PAGE
-  );
+// -------------------------------  Pagination -------------------------------
+const paginatedItems = itemList.slice(0, ITEMS_PER_PAGE);
+
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -95,7 +98,8 @@ function ItemPage() {
             <ItemDetail item={selectedItem} />
           ) : (
             <p className="bg-white h-10/10 p-2 rounded-2xl flex flex-col gap-4 text-center">
-            Veuillez sélectionner un produit</p>
+              Veuillez sélectionner un produit
+            </p>
           )}
         </div>
 
@@ -128,6 +132,8 @@ function ItemPage() {
           </div>
         </div>
       </div>
+      {showModal && <AddItemModal setShowModal={setShowModal} />}
+      <ItemNavbar setShowModal={setShowModal} showModal={showModal} />
     </>
   );
 }

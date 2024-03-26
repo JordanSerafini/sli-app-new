@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 
+
 export const useFetch = (url: string, options = {}) => {
     const [isLoading, setIsLoading] = useState(true);
     const [data, setData] = useState(null);
@@ -8,7 +9,7 @@ export const useFetch = (url: string, options = {}) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch(import.meta.env.VITE_API_URL + url, options)
+                const response = await fetch("https://sli-back-964256b21f2d.herokuapp.com" + url, options)
 
                 const data = await response.json();
     

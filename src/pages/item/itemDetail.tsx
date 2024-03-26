@@ -17,6 +17,7 @@ interface ItemDetailProps {
 function ItemDetail({ item }: ItemDetailProps) {
   const [newStockValue, setNewStockValue] = useState(item.realstock);
   const [showModal, setShowModal] = useState(false);
+  const [isSwap, setIsSwap] = useState(false);
   const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -37,26 +38,26 @@ function ItemDetail({ item }: ItemDetailProps) {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [showModal, item.realstock]); 
+  }, [showModal, item.realstock]);
 
   const handleStock = () => {
     setShowModal(true);
   };
 
   const saveStock = async () => {
-    const apiUrl = `${url.local}/edititemstock`;
+    const apiUrl = `${url.main}/updateItemStock`;
     const itemData = {
       caption: item.caption,
-      newStock: newStockValue,
+      stock: newStockValue,
     };
+    //console.log("itemData:", itemData);
 
     try {
       const response = await axios.post(apiUrl, itemData);
-      console.log("Stock modifié avec succès:", response.data);
-      setShowModal(false); // Fermer la modal après succès
+      //console.log("Stock modifié avec succès:", response.data);
+      if (response) setShowModal(false); // Fermer la modal après succès
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        
         console.error(
           "Erreur lors de la modification du stock:",
           error.response?.data
@@ -92,45 +93,102 @@ function ItemDetail({ item }: ItemDetailProps) {
     name = "En stock";
   }
 
-  console.log("itemImage:", item.realstock);
+  const handleSwap = () => {
+    setIsSwap(!isSwap);
+  };
+
+  const handleReservationColor = () => {
+    if (item.realstock == 0) {
+      return "bg-red-500";
+    } else {
+      return "bg-green-500";
+    }
+  };
+
+  //console.log("item:", item);
 
   return (
     <div className="bg-white h-10/10 p-2 rounded-2xl flex flex-col gap-4">
-      <div className="h-2/10 overflow-auto border-b-1 border-grayblue pb-2 text-center bold items-center justify-evenly flex flex-row">
-        <h1 className="text-grayblue overflow-auto max-h-9/10">
-          {item.caption}
-        </h1>
-        {itemImage && (
-          <img src={unitecentraleIMG} alt="Image" className="h-9.5/10 w-auto" />
-        )}
-      </div>
+      {isSwap ? (
+        <div className="flex flex-col gap-6">
+          {/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
+          <div className="flex flex-row justify-between p-4">
+            {/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
+            <div className="flex flex-row gap-1 items-center ">
+              <p>réservation :</p>
+              <div
+                className={`h-4 w-4 rounded-full ${handleReservationColor()}`}
+              ></div>
+            </div>
+            {/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
+            <div className="flex flex-row gap-1 items-center border-2 border-secondary p-2 rounded-full  text-secondary">
+              <p>note :</p>
+              <div>{Math.ceil(item.brandrate)}</div>
+            </div>
+          </div>
+          {/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
+          <div className="flex flex-row justify-between">
+            <div className="flex flex-row gap-1">
+              <h4>Prix achat :</h4>
+              <p>{item.purchaseprice}</p>
+            </div>
+            <div className="flex flex-row gap-1">
+              <h4>Valeur du stock:</h4>
+              <p>{item.stockvalue}</p>
+            </div>
+          </div>
+                    {/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
+                    <div className="flex flex-row w-full justify-between text-secondary" >
+                      <h4> Fournisseur : </h4>
+                      <p >{item.supplierid}</p>
+                    </div>
 
-      <div className="h-6/10 flex flex-col gap-4 text-xs">
-        {item.descomclear && (
-          <div className="flex flex-row gap-2 h-4.5/10 border-b-1 border-grayblue pb-2">
-            <img src={descriptonLogo} alt="" className="h-6" />:
-            <p className="max-h-10/10 overflow-auto ">{item.descomclear}</p>
-          </div>
-        )}
-
-        {item.notesclear && (
-          <div className="flex flex-row gap-2 h-4.5/10 border-b-1 border-grayblue pb-2">
-            <img src={noteLogo} alt="" className="h-6" />:
-            <p className="max-h-10/10 overflow-auto ">{item.notesclear}</p>
-          </div>
-        )}
-      </div>
-
-      {item.salepricevatincluded && (
-        <div className="h-2/10 flex flex-row gap-2 items-center justify-between">
-          <div className="flex flex-row gap-2">
-            <img src={euroLogo} alt="" className="h-6" />
-            <p>{item.salepricevatincluded}</p>
-          </div>
-          <div className="" onClick={handleStock}>
-            <Badge name={name} css={stockBadgeCSS} />
-          </div>
+          <button onClick={handleSwap}>O</button>
         </div>
+      ) : (
+        <>
+          <div className="h-2/10 overflow-auto border-b-1 border-grayblue pb-2 text-center bold items-center justify-evenly flex flex-row">
+            <button onClick={handleSwap}>O</button>
+            <h1 className="text-grayblue overflow-auto max-h-9/10">
+              {item.caption}
+            </h1>
+            {itemImage && (
+              <img
+                src={unitecentraleIMG}
+                alt="Image"
+                className="h-9.5/10 w-auto"
+              />
+            )}
+          </div>
+
+          <div className="h-6/10 flex flex-col gap-4 text-xs">
+            {item.descomclear && (
+              <div className="flex flex-row gap-2 h-4.5/10 border-b-1 border-grayblue pb-2">
+                <img src={descriptonLogo} alt="" className="h-6" />:
+                <p className="max-h-10/10 overflow-auto ">{item.descomclear}</p>
+              </div>
+            )}
+
+            {item.notesclear && (
+              <div className="flex flex-row gap-2 h-4.5/10 border-b-1 border-grayblue pb-2">
+                <img src={noteLogo} alt="" className="h-6" />:
+                <p className="max-h-10/10 overflow-auto ">{item.notesclear}</p>
+              </div>
+            )}
+          </div>
+
+          {item.salepricevatincluded && (
+            <div className="h-2/10 flex flex-row gap-2 items-center justify-between">
+              <div className="flex flex-row gap-2">
+                <img src={euroLogo} alt="" className="h-6" />
+                <p>{item.salepricevatincluded}</p>
+              </div>
+              <div className="" onClick={handleStock}>
+                <Badge name={name} css={stockBadgeCSS} />
+              </div>
+            </div>
+          )}
+        </>
       )}
 
       {showModal && (
@@ -143,13 +201,23 @@ function ItemDetail({ item }: ItemDetailProps) {
             className="bg-white p-4 rounded-lg w-9/10"
             onClick={(e) => e.stopPropagation()}
           >
-            <p className="text-center">stock actuel:{item.realstock}</p>
+            <p className="text-center">
+              stock actuel: <span className="bold">{item.realstock}</span>
+            </p>
             <input
               type="number"
               value={newStockValue}
               className="w-full p-2 border-1 border-gray-300 rounded-lg mt-2 mb-2"
-              onChange={(e) => setNewStockValue(parseInt(e.target.value))}
+              onChange={(e) => {
+                const value = parseInt(e.target.value);
+                if (!isNaN(value) && value >= 0) {
+                  setNewStockValue(value);
+                } else {
+                  setNewStockValue(e.target.value === "0" ? 0 : newStockValue);
+                }
+              }}
             />
+
             <div className="flex flex-row justify-between">
               <button onClick={saveStock}>Enregistrer</button>
               <button onClick={() => setShowModal(false)}>Annuler</button>

@@ -33,12 +33,13 @@ const Toast = ({ message, onClose, position = "bottom", css = "" }: ToastProps) 
     case "left": positionClasses = "top-1/2 left-0 transform -translate-y-1/2"; break;
     case "right": positionClasses = "top-1/2 right-0 transform -translate-y-1/2"; break;
     case "center": positionClasses = "top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"; break;
+    default: "center"; break;
   }
 
   return (
     <div
       ref={toastRef} 
-      className={`${css} fixed bg-gray-800 text-white p-4 rounded-lg z-50 cursor-pointer ${positionClasses}`}
+      className={`${css} text-center fixed bg-gray-800 text-white p-4 rounded-lg z-50 cursor-pointer ${positionClasses}`}
       onClick={onClose}
     >
       {message}

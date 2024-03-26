@@ -168,4 +168,6 @@ export interface Customer {
   civility: string | null;
   maindeliverycontact_externalid_googleid: string | null;
   maindeliverycontact_externalid_outlookid: string | null;
+  lat: string | float | null;
+  lon: string | float | null;
 }

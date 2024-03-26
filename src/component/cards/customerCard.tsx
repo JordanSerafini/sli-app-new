@@ -5,9 +5,10 @@ import { Customer } from "../../types/customer";
 interface Props {
   customer: Customer;
   css: string;
+  onClick?: (customer: Customer) => void; 
 }
 
-const CustomerCard: React.FC<Props> = ({ customer, css }) => {
+const CustomerCard: React.FC<Props> = ({ customer, css, onClick }) => {
   const getFullName = (firstname: string, lastname: string) => {
     return [firstname, lastname].filter(Boolean).join(" ").trim();
   };
@@ -16,9 +17,16 @@ const CustomerCard: React.FC<Props> = ({ customer, css }) => {
     customer.maininvoicingcontact_name ?? ""
   );
 
+  const handleCardClick = () => {
+    if (onClick) {
+      onClick(customer);
+    }
+  };
+
   return (
     <div
       className={`${css} p-4 rounded-2xl bg-white flex flex-col justify-evenly shadow-effect`}
+      onClick={handleCardClick}
     >
       <div className="text-base flex flex-row justify-between sm: ">
         <h2>{customer.name}</h2>

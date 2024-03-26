@@ -123,8 +123,14 @@ export default {
         'noir': '#1E0F1C',
         'mainBG': '#F0F0F0',
         'mainBG2': '#F5F5F5', // plus clair
-        'grayblue':"#2d3748"
-        
+        'grayblue':"#2d3748",
+        "primary": "#2F27CE",
+        "secondary": "#b6b2e0",
+        "tertiary": "#cdc9ea",
+        "greenPerso": "#43A047",
+        "bluePerso": "#42A5F5",
+        "orangePerso": "#FFA500",
+
        
       },
 

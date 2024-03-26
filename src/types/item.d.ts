@@ -10,7 +10,7 @@ export interface Item {
     ismaintenancecontract: boolean;
     isguaranteeextension: boolean;
     customerparkcreation: number;
-    stockbookingallowed: boolean;
+    stockbookingallowed: boolean | number;    //MODIFIER PERSO
     automaticstockbooking: boolean;
     includetorecursivereplenishment: boolean;
     includetofabricationreplenishment: boolean;
