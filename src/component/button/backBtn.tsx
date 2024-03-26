@@ -22,6 +22,7 @@ const BackButton: React.FC<BackButtonProps> = ({ css = "" }) => {
     const touchEndY = e.changedTouches[0].clientY;
     const distanceMoved = touchStartY - touchEndY;
 
+    
     // Si l'utilisateur glisse vers le haut, basculer vers HomeBtn, sinon vers backarrowLogo
     if (distanceMoved > 30) { // Glissé vers le haut
       setIcon(HomeBtn);
