@@ -4,14 +4,24 @@ import url from "../../utils/axios";
 
 import Badge from "../../component/badge/badge";
 
+import StackedAreaChart from "../../component/charts/stackedAreaChart";
+
 import descriptonLogo from "../../assets/descriptionLogo.png";
 import noteLogo from "../../assets/noteLogo.png";
 import euroLogo from "../../assets/euroLogo.png";
 import unitecentraleIMG from "../../assets/unitecentrale.jpg";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
+import { StockDocument, StockDocumentLineWithPrice } from "../../types/stockDoc";
+import dataContext from "../../context/context/dataContext";
+import { fetchStockDoc, fetchStockDocLinesWithPrice } from "../../function/function";
 
 interface ItemDetailProps {
   item: Item;
+}
+
+interface StockDocAndLines {
+  stockDoc: StockDocument;
+  lines: StockDocumentLineWithPrice[];
 }
 
 function ItemDetail({ item }: ItemDetailProps) {
@@ -105,7 +115,74 @@ function ItemDetail({ item }: ItemDetailProps) {
     }
   };
 
-  //console.log("item:", item);
+  //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  const cumulateItems = (lines: StockDocumentLineWithPrice[]) => {
+    const itemMap = new Map();
+    lines.forEach((line) => {
+      const { descriptionclear, quantity, salepricevatincluded } = line;
+      if (salepricevatincluded !== null) {
+        const price =
+          typeof salepricevatincluded === "string"
+            ? parseFloat(salepricevatincluded)
+            : salepricevatincluded;
+        if (itemMap.has(descriptionclear)) {
+          const existingItem = itemMap.get(descriptionclear);
+          existingItem.quantity += parseFloat(quantity);
+          existingItem.totalPrice += price * parseFloat(quantity);
+        } else {
+          itemMap.set(descriptionclear, {
+            descriptionClear: descriptionclear,
+            quantity: parseFloat(quantity),
+            totalPrice: price * parseFloat(quantity),
+          });
+        }
+      }
+    });
+    return Array.from(itemMap.values());
+  };
+
+  const { stockDocLines, setStockDocLines } = useContext(dataContext);
+  const { stockDocs, setStockDocs } = useContext(dataContext);
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      // Vérifier si stockDocs est vide ou null
+      if (!stockDocs || stockDocs.length === 0) {
+        try {
+          const data = await fetchStockDoc();
+          if (setStockDocs) {
+            setStockDocs(data);
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    };
+    fetchData();
+  }, [stockDocs, setStockDocs]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const responseData = await fetchStockDocLinesWithPrice();
+        if (responseData?.data) {
+          // Assurez-vous que chaque élément dans responseData.data a la structure de StockDocumentLineWithPrice
+          const validData = responseData.data.filter(
+            (item: StockDocumentLineWithPrice) =>
+              item.salepricevatincluded !== undefined
+          );
+          if (setStockDocLines) {
+            setStockDocLines(validData);
+          }
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, [setStockDocLines]);
+
 
   return (
     <div className="bg-white h-10/10 p-2 rounded-2xl flex flex-col gap-4">

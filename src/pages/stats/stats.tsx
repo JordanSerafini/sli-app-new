@@ -10,6 +10,8 @@ import dataContext from "../../context/context/dataContext";
 import BarChart from "../../component/charts/barChart";
 import LineChart from "../../component/charts/lineChart";
 import DonutChart from "../../component/charts/donutChart";
+import StackedAreaChart from "../../component/charts/stackedAreaChart";
+
 import {
   StockDocument,
   StockDocumentLineWithPrice,
@@ -255,19 +257,6 @@ function Stats() {
     setItemSearchCaption(name);
   };
 
-  const donutData = {
-    labels: ["BE", "BS"],
-    datasets: [
-      {
-        label: "CA en euros",
-        data: [11, 20],
-        backgroundColor: ["rgba(255, 99, 132, 0.2)", "rgba(54, 162, 235, 0.2)"],
-        borderColor: ["rgba(255,99,132,1)", "rgba(54, 162, 235, 1)"],
-        borderWidth: 1,
-      },
-    ],
-  };
-
   /*
   useEffect(() => {
     const fetchData = async () => {
@@ -315,33 +304,31 @@ function Stats() {
 
   const [BEstockDoc, setBEstockDoc] = useState<StockDocument[] | null>(null);
   const [BSstockDoc, setBSstockDoc] = useState<StockDocument[] | null>(null);
-  const [BEstockDocAndLines, setBEStockDocAndLines] = useState<
-    StockDocAndLines[]
-  >([]);
-  const [BSstockDocAndLines, setBSStockDocAndLines] = useState<
-    StockDocAndLines[]
-  >([]);
+  const [BEstockDocAndLines, setBEStockDocAndLines] = useState<StockDocAndLines[]>([]);
+  const [BSstockDocAndLines, setBSStockDocAndLines] = useState<StockDocAndLines[]>([]);
 
   useEffect(() => {
     // Filtrer pour obtenir les documents BE et BS
     const sortBE = stockDocs?.filter((doc) => doc.numberprefix === "BE");
     const sortBS = stockDocs?.filter((doc) => doc.numberprefix === "BS");
-  
+
     // Mise à jour des états avec les documents filtrés
     setBEstockDoc(sortBE || []);
     setBSstockDoc(sortBS || []);
-  
+
     // S'assurer que stockDocLines est disponible pour continuer
     if (stockDocLines) {
       // Traiter les lignes pour BE
-      const BEstockDocAndLines = sortBE.map((doc) => {
-        const lines = stockDocLines.filter(
-          (line) => line.documentid === doc.id
-        );
-        return { stockDoc: doc, lines };
-      });
-      setBEStockDocAndLines(BEstockDocAndLines);
-  
+      if (sortBE) {
+        const BEstockDocAndLines = sortBE.map((doc) => {
+          const lines = stockDocLines.filter(
+            (line) => line.documentid === doc.id
+          );
+          return { stockDoc: doc, lines };
+        });
+        setBEStockDocAndLines(BEstockDocAndLines);
+      }
+
       // Traiter les lignes pour BS
       const BSstockDocAndLines = sortBS.map((doc) => {
         const lines = stockDocLines.filter(
@@ -355,10 +342,100 @@ function Stats() {
       setBEStockDocAndLines([]);
       setBSStockDocAndLines([]);
     }
-  }, [stockDocs, stockDocLines, setBEstockDoc, setBSstockDoc, setBEStockDocAndLines, setBSStockDocAndLines]);
+  }, [
+    stockDocs,
+    stockDocLines,
+    setBEstockDoc,
+    setBSstockDoc,
+    setBEStockDocAndLines,
+    setBSStockDocAndLines,
+  ]);
+
+  //console.log(BEstockDocAndLines);
+  //console.log(BSstockDocAndLines);
+
+  const cumulateItems = (lines: StockDocumentLineWithPrice[]) => {
+    const itemMap = new Map();
+    lines.forEach((line) => {
+      const { descriptionclear, quantity, salepricevatincluded } = line;
+      if (salepricevatincluded !== null) {
+        const price =
+          typeof salepricevatincluded === "string"
+            ? parseFloat(salepricevatincluded)
+            : salepricevatincluded;
+        if (itemMap.has(descriptionclear)) {
+          const existingItem = itemMap.get(descriptionclear);
+          existingItem.quantity += parseFloat(quantity);
+          existingItem.totalPrice += price * parseFloat(quantity);
+        } else {
+          itemMap.set(descriptionclear, {
+            descriptionClear: descriptionclear,
+            quantity: parseFloat(quantity),
+            totalPrice: price * parseFloat(quantity),
+          });
+        }
+      }
+    });
+    return Array.from(itemMap.values());
+  };
+
+  const BEItems = cumulateItems(BEstockDocAndLines.flatMap((doc) => doc.lines));
+  const BSItems = cumulateItems(BSstockDocAndLines.flatMap((doc) => doc.lines));
+
+  const BEfiltered = BEItems.filter(
+    (item) => item.descriptionClear === itemSearchCaption
+  );
+  const BSfiltered = BSItems.filter(
+    (item) => item.descriptionClear === itemSearchCaption
+  );
+
+  const donutData = {
+    labels: ["BE", "BS"],
+    datasets: [
+      {
+        label: "Quantité",
+        data: [
+          (BEfiltered[0] && BEfiltered[0].quantity) !== undefined
+            ? BEfiltered[0].quantity
+            : "na",
+          (BSfiltered[0] && BSfiltered[0].quantity) !== undefined
+            ? BSfiltered[0].quantity
+            : "na",
+        ],
+        backgroundColor: ["rgba(255, 99, 132, 0.2)", "rgba(54, 162, 235, 0.2)"],
+        borderColor: ["rgba(255,99,132,1)", "rgba(54, 162, 235, 1)"],
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const stackedData = {
+    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+    datasets: [
+      {
+        label: 'Série A',
+        data: [50, 60, 70, 180, 190],
+        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+      },
+      {
+        label: 'Série B',
+        data: [28, 48, 40, 19, 86],
+        backgroundColor: 'rgba(54, 162, 235, 0.5)',
+      },
+    ],
+  };
+  const options = {
+    scales: {
+      x: {
+        stacked: true,
+      },
+      y: {
+        stacked: true,
+      },
+    },
+  };
+
   
-  console.log("ENTRE", BEstockDoc?.length);
-  console.log("SORTI ",BSstockDoc?.length);
 
   return (
     <div className="flex flex-col gap-20 bg-secondary-light p-2 h-full mb-40 w-screen">
@@ -378,33 +455,7 @@ function Stats() {
           <DonutChart data={donutData} title={itemSearchCaption} />
         )}
       </div>
-      {BEstockDocAndLines.map((stockDocAndLines) => (
-        <div key={stockDocAndLines.stockDoc.id}>
-          <h2>BE {stockDocAndLines.stockDoc.dealid}</h2>
-          <ul>
-            {stockDocAndLines.lines.map((line) => (
-              <li key={line.id}>
-                {line.descriptionclear} - {line.quantity} -{" "}
-                {line.salepricevatincluded}
-              </li>
-            ))}
-          </ul>
-        </div>
-      ))}
-
-      {BSstockDocAndLines.map((stockDocAndLines) => (
-        <div key={stockDocAndLines.stockDoc.id}>
-          <h2>BS {stockDocAndLines.stockDoc.dealid}</h2>
-          <ul>
-            {stockDocAndLines.lines.map((line) => (
-              <li key={line.id}>
-                {line.descriptionclear} - {line.quantity} -{" "}
-                {line.salepricevatincluded}
-              </li>
-            ))}
-          </ul>
-        </div>
-      ))}
+      <StackedAreaChart data={stackedData} options={options} />
     </div>
   );
 }
