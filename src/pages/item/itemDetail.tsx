@@ -3,8 +3,7 @@ import axios from "axios";
 import url from "../../utils/axios";
 
 import Badge from "../../component/badge/badge";
-
-import StackedAreaChart from "../../component/charts/stackedAreaChart";
+import BarChart from "../../component/charts/barChart";
 
 import descriptonLogo from "../../assets/descriptionLogo.png";
 import noteLogo from "../../assets/noteLogo.png";
@@ -23,11 +22,6 @@ import {
 
 interface ItemDetailProps {
   item: Item;
-}
-
-interface StockDocAndLines {
-  stockDoc: StockDocument;
-  lines: StockDocumentLineWithPrice[];
 }
 
 function ItemDetail({ item }: ItemDetailProps) {
@@ -66,11 +60,9 @@ function ItemDetail({ item }: ItemDetailProps) {
       caption: item.caption,
       stock: newStockValue,
     };
-    //console.log("itemData:", itemData);
 
     try {
       const response = await axios.post(apiUrl, itemData);
-      //console.log("Stock modifié avec succès:", response.data);
       if (response) setShowModal(false); // Fermer la modal après succès
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -249,48 +241,55 @@ function ItemDetail({ item }: ItemDetailProps) {
     }
   }, [item]);
 
-
-  console.log("BEitemData:", BEitemData);
-  console.log("BSitemData:", BSitemData);
-
-
   const groupByMonthAndProduct = (items: unknown[] | null) => {
-    const groupedData: { month: number; descriptionClear: unknown; quantity: unknown; }[] = [];
-    
-    (items as { date: string; descriptionClear: string; quantity: number | string; }[])?.forEach((item) => {
-      const month = parseInt(item.date.split('/')[1], 10); // Extraction du mois
-      const existingEntry = groupedData.find((entry) => entry.month === month && entry.descriptionClear === item.descriptionClear);
-      
+    const groupedData: {
+      month: number;
+      descriptionClear: unknown;
+      quantity: unknown;
+    }[] = [];
+
+    (
+      items as {
+        date: string;
+        descriptionClear: string;
+        quantity: number | string;
+      }[]
+    )?.forEach((item) => {
+      const month = parseInt(item.date.split("/")[1], 10); // Extraction du mois
+      const existingEntry = groupedData.find(
+        (entry) =>
+          entry.month === month &&
+          entry.descriptionClear === item.descriptionClear
+      );
+
       if (existingEntry) {
-        existingEntry.quantity = Number(existingEntry.quantity) + Number(item.quantity);
+        existingEntry.quantity =
+          Number(existingEntry.quantity) + Number(item.quantity);
       } else {
-        groupedData.push({ month, descriptionClear: item.descriptionClear, quantity: item.quantity });
+        groupedData.push({
+          month,
+          descriptionClear: item.descriptionClear,
+          quantity: item.quantity,
+        });
       }
     });
-  
+
     return groupedData;
   };
-  
+
   // Données regroupées par mois pour BEitemData
   const BEGroupedData = groupByMonthAndProduct(BEitemData);
-  
+
   // Données regroupées par mois pour BSitemdata
   const BSGroupedData = groupByMonthAndProduct(BSitemData);
 
-  console.log("BE SORT:", BEGroupedData);
-  console.log("BE ORGIN", BEitemData);
-
-  console.log("BS SORT:", BSGroupedData);
-  console.log("BS ORGIN", BSitemData);
-
   interface MonthlyData {
-    filter(arg0: (item: { month: number; }) => boolean): unknown;
     month: number;
     descriptionClear: string;
     quantity: string | number;
   }
 
-  const annuaryData = (data: MonthlyData) => {
+  const annuaryData = (data: MonthlyData[]) => {
     const january = data.filter((item: { month: number }) => item.month === 1);
     const february = data.filter((item: { month: number }) => item.month === 2);
     const march = data.filter((item: { month: number }) => item.month === 3);
@@ -299,11 +298,17 @@ function ItemDetail({ item }: ItemDetailProps) {
     const june = data.filter((item: { month: number }) => item.month === 6);
     const july = data.filter((item: { month: number }) => item.month === 7);
     const august = data.filter((item: { month: number }) => item.month === 8);
-    const september = data.filter((item: { month: number }) => item.month === 9);
+    const september = data.filter(
+      (item: { month: number }) => item.month === 9
+    );
     const october = data.filter((item: { month: number }) => item.month === 10);
-    const november = data.filter((item: { month: number }) => item.month === 11);
-    const december = data.filter((item: { month: number }) => item.month === 12);
-  
+    const november = data.filter(
+      (item: { month: number }) => item.month === 11
+    );
+    const december = data.filter(
+      (item: { month: number }) => item.month === 12
+    );
+
     return {
       january,
       february,
@@ -320,20 +325,75 @@ function ItemDetail({ item }: ItemDetailProps) {
     };
   };
 
-  const BEannuaryData = annuaryData(BEGroupedData);
-  const BSannuaryData = annuaryData(BSGroupedData);
-  console.log("BEannuaryData:", BEannuaryData);
-  console.log("BSannuaryData:", BSannuaryData);
+  const BEannuaryData = annuaryData(BEGroupedData as MonthlyData[]);
+  const BSannuaryData = annuaryData(BSGroupedData as MonthlyData[]);
 
-  
+  const barChartData = {
+    labels: [
+      "Janvier",
+      "Février",
+      "Mars",
+      "Avril",
+      "Mai",
+      "Juin",
+      "Juillet",
+      "Août",
+      "Septembre",
+      "Octobre",
+      "Novembre",
+      "Décembre",
+    ],
+    datasets: [
+      {
+        label: "Bon entrée",
+        data: [
+          BEannuaryData.january[0]?.quantity ?? 50,
+          BEannuaryData.february[0]?.quantity ?? 95,
+          BEannuaryData.march[0]?.quantity ?? 100,
+          BEannuaryData.april[0]?.quantity ?? 80,
+          BEannuaryData.may[0]?.quantity ?? 20,
+          BEannuaryData.june[0]?.quantity ?? 80,
+          BEannuaryData.july[0]?.quantity ?? 125,
+          BEannuaryData.august[0]?.quantity ?? 75,
+          BEannuaryData.september[0]?.quantity ?? 50,
+          BEannuaryData.october[0]?.quantity ?? 60,
+          BEannuaryData.november[0]?.quantity ?? 30,
+          BEannuaryData.december[0]?.quantity ?? 70,
+        ],
+        backgroundColor: "rgba(255, 99, 132, 0.5)",
+        borderColor: "rgba(255, 99, 132, 1)",
+        fill: false,
+      },
+      {
+        label: "Bon sortie",
+        data: [
+          BSannuaryData.january[0]?.quantity ?? 150,
+          BSannuaryData.february[0]?.quantity ?? 50,
+          BSannuaryData.march[0]?.quantity ?? 20,
+          BSannuaryData.april[0]?.quantity ?? 20,
+          BSannuaryData.may[0]?.quantity ?? 70,
+          BSannuaryData.june[0]?.quantity ?? 40,
+          BSannuaryData.july[0]?.quantity ?? 20,
+          BSannuaryData.august[0]?.quantity ?? 40,
+          BSannuaryData.september[0]?.quantity ?? 80,
+          BSannuaryData.october[0]?.quantity ?? 90,
+          BSannuaryData.november[0]?.quantity ?? 70,
+          BSannuaryData.december[0]?.quantity ?? 110,
+        ],
+        backgroundColor: "rgba(54, 162, 235, 0.5)",
+        borderColor: "rgba(54, 162, 235, 1)",
+        fill: false,
+      },
+    ],
+  };
 
- 
+
 
   return (
-    <div className="bg-white h-10/10 p-2 rounded-2xl flex flex-col gap-4">
+    <div className="bg-white h-10/10 p-2 rounded-2xl flex flex-col gap-4 overflow-scroll">
       {isSwap ? (
-        <div className="flex flex-col gap-6 bg-red-500">
-                    <button onClick={handleSwap}>O</button>
+        <div className="flex flex-col gap-6 h-10/10 ">
+          <button onClick={handleSwap}>O</button>
 
           {/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
           <div className="flex flex-row justify-between p-4">
@@ -366,10 +426,20 @@ function ItemDetail({ item }: ItemDetailProps) {
             <h4> Fournisseur : </h4>
             <p>{item.supplierid}</p>
           </div>
-          <div className="">
-          < StackedAreaChart data={stackedAreaData} />
-            </div>
+          {/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
 
+          <BarChart
+            data={{
+              labels: barChartData.labels,
+              datasets: barChartData.datasets.map((dataset) => ({
+                ...dataset,
+                data: dataset.data.map((value) =>
+                  typeof value === "string" ? Number(value) : value
+                ),
+              })),
+            }}
+            title={item.caption}
+          />
         </div>
       ) : (
         <>

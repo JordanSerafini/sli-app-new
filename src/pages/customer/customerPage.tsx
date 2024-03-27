@@ -10,6 +10,8 @@ import { Customer } from "../../types/customer";
 function CustomerPage() {
   const {customerList, setCustomerList} = useContext(dataContext);
   const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null);
+  const [showMap, setShowMap] = useState(false);
+
 
 
   const handleCardClick = (customer: Customer) => {
@@ -26,7 +28,7 @@ function CustomerPage() {
       <div className=" h-screen w-9.5/10 flex flex-col items-center justify-center">
         <div className=" h-8/10 w-full items-center flex">
           {selectedCustomer != null ? (
-            <CustomerDetail customer={selectedCustomer} />
+            <CustomerDetail customer={selectedCustomer} showMap={showMap} setShowMap={setShowMap} />
           ) : (
             <div className="bg-white h-9.5/10 w-full p-2 rounded-2xl flex flex-col gap-4 items-center">
             Veuillez selectionner un utilisateur</div>

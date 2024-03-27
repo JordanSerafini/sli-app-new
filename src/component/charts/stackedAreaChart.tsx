@@ -15,13 +15,14 @@ interface StackedAreaChartProps {
       fill: boolean;
     }[];
   };
+  title?: string;
 }
 
-const StackedAreaChart: React.FC<StackedAreaChartProps> = ({ data }) => {
+const StackedAreaChart: React.FC<StackedAreaChartProps> = ({ data, title }) => {
   return (
     <div className="bg-white border-secondary border-2 flex flex-col gap-8 text-center pt-4 items-center">
-    <h3 className="libre-baskerville-bold tracking-widest border-b-2 text-secondary-dark border-secondary pb-4 w-8.5/10">
-      Stacked Area Chart
+    <h3 className="libre-baskerville-bold tracking-widest border-b-2 text-secondary-dark border-secondary pb-4 h-10/10 w-8.5/10">
+      {title? title: "Stacked Area Chart"}
     </h3>    <Line 
       data={data} 
       options={{
