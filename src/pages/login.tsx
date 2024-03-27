@@ -8,8 +8,7 @@ import ButtonFull from "../component/button/buttonFull";
 import sliLogo from "../assets/SLIlogo.png";
 
 function LoginPage() {
-
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -23,17 +22,18 @@ function LoginPage() {
       };
 
       const { logged } = await login(data.email, data.password);
-      
-        if (logged === true) {
-            showToast("Connexion réussie", 3000, "bottom", "bg-green-500 w-full");
-            navigate('/');  
 
-        } 
+      if (logged === true) {
+        navigate("/");
+      } else {
+        showToast("Email ou mot de passe incorrect.", 3000, "bottom", "bg-red-700 w-full");
+      }
 
+        
     } catch (error) {
       if (error instanceof Error) {
         console.error(error);
-        showToast(error.message, 3000, "bottom", "bg-red-500 w-full");
+        showToast(error.message, 5000, "center", "bg-red-500 w-full");
       } else {
         console.error("Une erreur inattendue s'est produite.");
         showToast(

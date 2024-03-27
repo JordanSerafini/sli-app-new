@@ -79,7 +79,7 @@ export async function login(email: string, password: string) {
   };
     // Stocker le token dans le LocalStorage
     localStorage.setItem("token", token);
-    localStorage.setItem("userData", JSON.stringify(userDataSort));
+    localStorage.setItem("user", JSON.stringify(userDataSort));
     return { token, logged: true};
   } catch (error: unknown) {
     if (error instanceof Error) {
