@@ -284,12 +284,13 @@ function ItemDetail({ item }: ItemDetailProps) {
   console.log("BS ORGIN", BSitemData);
 
   interface MonthlyData {
+    filter(arg0: (item: { month: number; }) => boolean): unknown;
     month: number;
-    descriptionClear: unknown;
-    quantity: unknown;
+    descriptionClear: string;
+    quantity: string | number;
   }
 
-  const annuaryData = (data) => {
+  const annuaryData = (data: MonthlyData) => {
     const january = data.filter((item: { month: number }) => item.month === 1);
     const february = data.filter((item: { month: number }) => item.month === 2);
     const march = data.filter((item: { month: number }) => item.month === 3);
@@ -318,7 +319,7 @@ function ItemDetail({ item }: ItemDetailProps) {
       december,
     };
   };
-  
+
   const BEannuaryData = annuaryData(BEGroupedData);
   const BSannuaryData = annuaryData(BSGroupedData);
   console.log("BEannuaryData:", BEannuaryData);
