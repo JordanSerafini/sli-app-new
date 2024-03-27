@@ -20,23 +20,23 @@ function Home() {
         </h2>
       </div>
 
-      <div className="flex flex-row flex-wrap h-8/10 w-9.5/10 rounded-2xl justify-evenly items-center py-4 gap-2 overflow-auto bg-white">
+      <div className="flex flex-row flex-wrap h-8/10 w-9.5/10 rounded-2xl justify-evenly items-center py-4 gap-2 overflow-auto bg-white ">
       {/*---------------------------------------------------------- Articles -----------------------------------------------------------------------*/}
         <div className="sm:w-4.5/10 w-9/10 bg-red-500 h-4/10 flex flex-row flex-wrap items-center justify-center libre-baskerville-regular text-white tracking-widest cursor-pointer
 ">
           <div
-            className="w-5/10 h-5/10 border-1 border-white flex items-center justify-center  "
+            className="hover:scale-130 hover:border-0 w-5/10 h-5/10 border-1 border-white flex items-center justify-center  "
             onClick={() => goToPage("item")}
           >
             Page article
           </div>
-          <div className="w-5/10 h-5/10 border-1 border-white flex items-center justify-center ">
+          <div className="hover:scale-130 hover:border-0 w-5/10 h-5/10 border-1 border-white flex items-center justify-center ">
             Créer article
           </div>
-          <div className="w-5/10 h-5/10 border-1 border-white flex items-center justify-center">
+          <div className="hover:scale-130 hover:border-0 w-5/10 h-5/10 border-1 border-white flex items-center justify-center">
             3
           </div>
-          <div className="w-5/10 h-5/10 border-1 border-white flex items-center justify-center">
+          <div className="hover:scale-130 hover:border-0 w-5/10 h-5/10 border-1 border-white flex items-center justify-center">
             4
           </div>
         </div>
@@ -104,8 +104,8 @@ function Home() {
 
       {/*---------------------------------------------------------------------------------------------------------------------------------------------*/}
 
-      <div className="flex flex-col">
-        <DecoBtn />
+      <div className="flex flex-col ">
+        <DecoBtn css="fixed top-5 right-5 z-50 bg-white rounded-full border-1 border-secondary flex h-11 w-11 flex flex-row justify-center" />
       </div>
 
     </div>
