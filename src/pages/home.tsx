@@ -105,7 +105,7 @@ function Home() {
       {/*---------------------------------------------------------------------------------------------------------------------------------------------*/}
 
       <div className="flex flex-col ">
-        <DecoBtn css="fixed top-5 right-5 z-50 bg-white rounded-full border-1 border-secondary flex h-11 w-11 flex flex-row justify-center" />
+        <DecoBtn css="fixed top-5  z-50 bg-white rounded-full border-1 border-secondary flex flex flex-row justify-center sm:right-5 right-1 sm:h-11 sm:w-11 w-10 h-10" />
       </div>
 
     </div>
