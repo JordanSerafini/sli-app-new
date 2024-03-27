@@ -218,7 +218,7 @@ function CustomerDetail({
               {address}
             </div>
           )}
-          <div className="flex flex-row gap-2 w-8/10 justify-between self-center h-1/10 sm:text-base text-xs sm:w-7/10">
+          <div className="flex flex-row gap-2 w-8/10 justify-between self-center h-1/10 sm:text-base text-sm sm:w-7/10">
             <div className="flex flex-row gap-2">
               <h4>
                 {customer.currentamount
