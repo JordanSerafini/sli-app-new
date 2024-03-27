@@ -1,4 +1,5 @@
 export interface Item {
+    date: date;
     barcodeprice: number;
     barcodeweight: number;
     posadditem: boolean;

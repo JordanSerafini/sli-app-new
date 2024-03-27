@@ -122,30 +122,6 @@ function ItemDetail({ item }: ItemDetailProps) {
   };
 
   //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-  const cumulateItems = (lines: StockDocumentLineWithPrice[]) => {
-    const itemMap = new Map();
-    lines.forEach((line) => {
-      const { descriptionclear, quantity, salepricevatincluded } = line;
-      if (salepricevatincluded !== null) {
-        const price =
-          typeof salepricevatincluded === "string"
-            ? parseFloat(salepricevatincluded)
-            : salepricevatincluded;
-        if (itemMap.has(descriptionclear)) {
-          const existingItem = itemMap.get(descriptionclear);
-          existingItem.quantity += parseFloat(quantity);
-          existingItem.totalPrice += price * parseFloat(quantity);
-        } else {
-          itemMap.set(descriptionclear, {
-            descriptionClear: descriptionclear,
-            quantity: parseFloat(quantity),
-            totalPrice: price * parseFloat(quantity),
-          });
-        }
-      }
-    });
-    return Array.from(itemMap.values());
-  };
 
   const { stockDocLines, setStockDocLines } = useContext(dataContext);
   const { stockDocs, setStockDocs } = useContext(dataContext);
@@ -301,16 +277,63 @@ function ItemDetail({ item }: ItemDetailProps) {
   // Données regroupées par mois pour BSitemdata
   const BSGroupedData = groupByMonthAndProduct(BSitemData);
 
-  console.log("SORT:", BEGroupedData);
-  console.log("ORGIN", BEitemData);
+  console.log("BE SORT:", BEGroupedData);
+  console.log("BE ORGIN", BEitemData);
 
-  console.log("SORT:", BSGroupedData);
-  console.log("ORGIN", BSitemData);
+  console.log("BS SORT:", BSGroupedData);
+  console.log("BS ORGIN", BSitemData);
+
+  interface MonthlyData {
+    month: number;
+    descriptionClear: unknown;
+    quantity: unknown;
+  }
+
+  const annuaryData = (data) => {
+    const january = data.filter((item: { month: number }) => item.month === 1);
+    const february = data.filter((item: { month: number }) => item.month === 2);
+    const march = data.filter((item: { month: number }) => item.month === 3);
+    const april = data.filter((item: { month: number }) => item.month === 4);
+    const may = data.filter((item: { month: number }) => item.month === 5);
+    const june = data.filter((item: { month: number }) => item.month === 6);
+    const july = data.filter((item: { month: number }) => item.month === 7);
+    const august = data.filter((item: { month: number }) => item.month === 8);
+    const september = data.filter((item: { month: number }) => item.month === 9);
+    const october = data.filter((item: { month: number }) => item.month === 10);
+    const november = data.filter((item: { month: number }) => item.month === 11);
+    const december = data.filter((item: { month: number }) => item.month === 12);
+  
+    return {
+      january,
+      february,
+      march,
+      april,
+      may,
+      june,
+      july,
+      august,
+      september,
+      october,
+      november,
+      december,
+    };
+  };
+  
+  const BEannuaryData = annuaryData(BEGroupedData);
+  const BSannuaryData = annuaryData(BSGroupedData);
+  console.log("BEannuaryData:", BEannuaryData);
+  console.log("BSannuaryData:", BSannuaryData);
+
+  
+
+ 
 
   return (
     <div className="bg-white h-10/10 p-2 rounded-2xl flex flex-col gap-4">
       {isSwap ? (
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-6 bg-red-500">
+                    <button onClick={handleSwap}>O</button>
+
           {/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
           <div className="flex flex-row justify-between p-4">
             {/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
@@ -342,8 +365,10 @@ function ItemDetail({ item }: ItemDetailProps) {
             <h4> Fournisseur : </h4>
             <p>{item.supplierid}</p>
           </div>
+          <div className="">
+          < StackedAreaChart data={stackedAreaData} />
+            </div>
 
-          <button onClick={handleSwap}>O</button>
         </div>
       ) : (
         <>
