@@ -160,7 +160,7 @@ function CustomerDetail({
           </div>
           */}
           {/*  --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
-          <div className="border-2 border-secondary p-2 flex flex-col gap-6 h-8/10 w-9/10 self-center overflow-auto">
+          <div className="border-2 border-secondary p-2 flex flex-col gap-6 max-h-8/10 w-9/10 self-center overflow-hidden ">
             <h3 className="text-center bold text-secondary tracking-widest border-b-2 p-2 border-secondary w-9/10 self-center">
               Contact: {name}
             </h3>
@@ -204,9 +204,9 @@ function CustomerDetail({
             )}
 
             {customer.notesclear && (
-              <div className="flex flex-row gap-4 h-full">
-                <h4 className="">Infos:</h4>
-                <div className="text-xs overflow-auto max-h-8/10 pb-1">
+              <div className="flex flex-row gap-4 h-full pb-2">
+                <h4 className="text-sm">Infos:</h4>
+                <div className="text-xs overflow-auto max-h-6/10 sm:max-h-9/10">
                   {customer.notesclear}
                 </div>
               </div>
@@ -214,7 +214,7 @@ function CustomerDetail({
           </div>
 
           {address && (
-            <div className="self-center pb-4 sm:text-base text-xs ">
+            <div className="self-center pb-4 sm:text-base text-xs tracking-widest">
               {address}
             </div>
           )}
