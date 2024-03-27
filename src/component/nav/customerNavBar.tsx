@@ -1,7 +1,7 @@
 import { NavLink, useLocation } from 'react-router-dom';
 import BackButton from '../button/backBtn';
 
-const StockNavbar: React.FC<{ setShowModal: React.Dispatch<React.SetStateAction<boolean>>; showModal: boolean }> = ({ setShowModal, showModal }) => {
+const CustomerNavbar: React.FC<{ setShowModal: React.Dispatch<React.SetStateAction<boolean>>; showModal: boolean }> = ({ setShowModal, showModal }) => {
   const location = useLocation();
 
 
@@ -12,13 +12,11 @@ const StockNavbar: React.FC<{ setShowModal: React.Dispatch<React.SetStateAction<
 
   return (
     <nav className="bg-gray-800 text-white fixed bottom-0 left-0 right-0 flex justify-around p-4">
-      <NavLink to="/charts" className={location.pathname === '/' ? 'text-yellow-500' : 'hover:text-gray-300'}>Test</NavLink>
       <NavLink to="/" className={location.pathname === '/' ? 'text-yellow-500' : 'hover:text-gray-300'}>Accueil</NavLink>
-
-      <button onClick={toggleModal}>Créer StockDoc</button>
+      <button onClick={toggleModal}>All Map</button>
       <BackButton />
     </nav>
   );
 };
 
-export default StockNavbar;
+export default CustomerNavbar;
