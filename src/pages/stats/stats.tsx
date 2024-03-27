@@ -30,7 +30,6 @@ function Stats() {
   const { stockDocLines, setStockDocLines } = useContext(dataContext);
   const { itemList, setItemList } = useContext(dataContext);
 
-
   //const [itemSearch, setItemSearch] = useState<itemSearch>({} as itemSearch);
   const [itemSearchCaption, setItemSearchCaption] = useState("");
 
@@ -149,8 +148,7 @@ function Stats() {
     fetchData();
   }, [setStockDocLines]);
 
-
-    /*
+  /*
   const calculateTotalPricePerItem = (lines: StockDocumentLineWithPrice[]) => {
     const itemMap = new Map();
 
@@ -307,58 +305,60 @@ function Stats() {
     fetchData();
   }, []);
   */
-  
+
   //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-  const [BEstockDoc, setBEstockDoc] = useState<StockDocument[] | null>(null);
-  const [BSstockDoc, setBSstockDoc] = useState<StockDocument[] | null>(null);
-
-  useEffect(() => {
-  const sortBE = stockDocs?.filter((doc) => doc.numberprefix === "BE");
-  const sortBS = stockDocs?.filter((doc) => doc.numberprefix === "BS");
-  
-  setBEstockDoc(sortBE || null);
-  setBSstockDoc(sortBS || null);
-
-
-  } , [stockDocs]);
 
   interface StockDocAndLines {
     stockDoc: StockDocument;
     lines: StockDocumentLineWithPrice[];
   }
-const [BEstockDocAndLines, setBEStockDocAndLines] = useState<StockDocAndLines[]>([]);
-const [BSstockDocAndLines, setBSStockDocAndLines] = useState<StockDocAndLines[]>([]);
 
-useEffect(() => {
-  if (BEstockDoc && stockDocLines) {
-    const BEstockDocAndLines = BEstockDoc.map((doc) => {
-      const lines = stockDocLines.filter((line) => line.documentid === doc.id);
-      return { stockDoc: doc, lines };
-    });
-    setBEStockDocAndLines(BEstockDocAndLines);
-  } else {
-    setBEStockDocAndLines([]);
-  } 
-} , [BEstockDoc, stockDocLines]);
+  const [BEstockDoc, setBEstockDoc] = useState<StockDocument[] | null>(null);
+  const [BSstockDoc, setBSstockDoc] = useState<StockDocument[] | null>(null);
+  const [BEstockDocAndLines, setBEStockDocAndLines] = useState<
+    StockDocAndLines[]
+  >([]);
+  const [BSstockDocAndLines, setBSStockDocAndLines] = useState<
+    StockDocAndLines[]
+  >([]);
 
-useEffect(() => {
-  if (BSstockDoc && stockDocLines) {
-    const BSstockDocAndLines = BSstockDoc.map((doc) => {
-      const lines = stockDocLines.filter((line) => line.documentid === doc.id);
-      return { stockDoc: doc, lines };
-    });
-    setBSStockDocAndLines(BSstockDocAndLines);
-  } else {
-    setBSStockDocAndLines([]);
-  } 
-} , [BSstockDoc, stockDocLines]);
-
-
+  useEffect(() => {
+    // Filtrer pour obtenir les documents BE et BS
+    const sortBE = stockDocs?.filter((doc) => doc.numberprefix === "BE");
+    const sortBS = stockDocs?.filter((doc) => doc.numberprefix === "BS");
   
-
-
+    // Mise à jour des états avec les documents filtrés
+    setBEstockDoc(sortBE || []);
+    setBSstockDoc(sortBS || []);
+  
+    // S'assurer que stockDocLines est disponible pour continuer
+    if (stockDocLines) {
+      // Traiter les lignes pour BE
+      const BEstockDocAndLines = sortBE.map((doc) => {
+        const lines = stockDocLines.filter(
+          (line) => line.documentid === doc.id
+        );
+        return { stockDoc: doc, lines };
+      });
+      setBEStockDocAndLines(BEstockDocAndLines);
+  
+      // Traiter les lignes pour BS
+      const BSstockDocAndLines = sortBS.map((doc) => {
+        const lines = stockDocLines.filter(
+          (line) => line.documentid === doc.id
+        );
+        return { stockDoc: doc, lines };
+      });
+      setBSStockDocAndLines(BSstockDocAndLines);
+    } else {
+      // S'assurer que les données sont réinitialisées si nécessaire
+      setBEStockDocAndLines([]);
+      setBSStockDocAndLines([]);
+    }
+  }, [stockDocs, stockDocLines, setBEstockDoc, setBSstockDoc, setBEStockDocAndLines, setBSStockDocAndLines]);
+  
+  console.log("ENTRE", BEstockDoc?.length);
+  console.log("SORTI ",BSstockDoc?.length);
 
   return (
     <div className="flex flex-col gap-20 bg-secondary-light p-2 h-full mb-40 w-screen">
@@ -378,32 +378,33 @@ useEffect(() => {
           <DonutChart data={donutData} title={itemSearchCaption} />
         )}
       </div>
-          {BEstockDocAndLines.map((stockDocAndLines) => (
-            <div key={stockDocAndLines.stockDoc.id}>
-              <h2>BE {stockDocAndLines.stockDoc.dealid}</h2>
-              <ul>
-                {stockDocAndLines.lines.map((line) => (
-                  <li key={line.id}>
-                    {line.descriptionclear} - {line.quantity} - {line.salepricevatincluded}
-                  </li>
-                ))}
-              </ul>
-          </div>
-          ))}
+      {BEstockDocAndLines.map((stockDocAndLines) => (
+        <div key={stockDocAndLines.stockDoc.id}>
+          <h2>BE {stockDocAndLines.stockDoc.dealid}</h2>
+          <ul>
+            {stockDocAndLines.lines.map((line) => (
+              <li key={line.id}>
+                {line.descriptionclear} - {line.quantity} -{" "}
+                {line.salepricevatincluded}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
 
-          {BSstockDocAndLines.map((stockDocAndLines) => (
-            <div key={stockDocAndLines.stockDoc.id}>
-              <h2>BS {stockDocAndLines.stockDoc.dealid}</h2>
-              <ul>
-                {stockDocAndLines.lines.map((line) => (
-                  <li key={line.id}>
-                    {line.descriptionclear} - {line.quantity} - {line.salepricevatincluded}
-                  </li>
-                ))}
-              </ul>
-              </div>
-          ))}
-
+      {BSstockDocAndLines.map((stockDocAndLines) => (
+        <div key={stockDocAndLines.stockDoc.id}>
+          <h2>BS {stockDocAndLines.stockDoc.dealid}</h2>
+          <ul>
+            {stockDocAndLines.lines.map((line) => (
+              <li key={line.id}>
+                {line.descriptionclear} - {line.quantity} -{" "}
+                {line.salepricevatincluded}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
     </div>
   );
 }
