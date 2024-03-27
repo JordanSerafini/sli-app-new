@@ -2,6 +2,8 @@ import { useEffect, useRef } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
+import houseLogo from "../../../assets/houseLogo.png";
+
 interface LeafletMapProps {
   lon: string | null;
   lat: string | null;
@@ -27,8 +29,16 @@ const LeafletMap: React.FC<LeafletMapProps> = ({ lon, lat, coordsAvailable }) =>
           attribution: '© OpenStreetMap contributors'
         }).addTo(mapRef.current);
 
-        L.marker([latNum, lonNum]).addTo(mapRef.current);
-      }
+        L.marker([latNum, lonNum], {
+          icon: L.icon({
+            iconUrl: houseLogo,
+            iconSize: [28, 35], 
+            iconAnchor: [12, 41], 
+            shadowAnchor: [12, 41], 
+            popupAnchor: [1, -34] 
+          })
+        }).addTo(mapRef.current);
+              }
     }
 
 
