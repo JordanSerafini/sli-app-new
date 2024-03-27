@@ -6,7 +6,6 @@ import {
   fetchStockDocLinesWithPrice,
 } from "../../function/function";
 import dataContext from "../../context/context/dataContext";
-import { Request, Response } from "express";
 
 import BarChart from "../../component/charts/barChart";
 import LineChart from "../../component/charts/lineChart";
@@ -15,7 +14,7 @@ import {
   StockDocument,
   StockDocumentLineWithPrice,
 } from "../../types/stockDoc";
-import url from "../../utils/axios";
+//import url from "../../utils/axios";
 
 /*interface itemSearch {
   name: string;
@@ -30,8 +29,7 @@ function Stats() {
   const { customerList, setCustomerList } = useContext(dataContext);
   const { stockDocLines, setStockDocLines } = useContext(dataContext);
   const { itemList, setItemList } = useContext(dataContext);
-  const [BEData, setBEData] = useState([]);
-  const [BSData, setBSData] = useState([]);
+
 
   //const [itemSearch, setItemSearch] = useState<itemSearch>({} as itemSearch);
   const [itemSearchCaption, setItemSearchCaption] = useState("");
@@ -151,30 +149,20 @@ function Stats() {
     fetchData();
   }, [setStockDocLines]);
 
+
+    /*
   const calculateTotalPricePerItem = (lines: StockDocumentLineWithPrice[]) => {
-    const itemMap = new Map(); // Utiliser une carte pour regrouper les lignes par item
+    const itemMap = new Map();
 
-    // Parcourir les lignes pour les regrouper par item
     lines.forEach((line) => {
-      const { descriptionclear, quantity, salepricevatincluded, documentid } =
-        line;
-
-      // Vérifier si salepricevatincluded est défini et n'est pas null
+      const { descriptionclear, quantity, salepricevatincluded, documentid } = line;
       if (salepricevatincluded !== null) {
-        // Convertir salepricevatincluded en nombre
-        const price =
-          typeof salepricevatincluded === "string"
-            ? parseFloat(salepricevatincluded)
-            : salepricevatincluded;
-
-        // Vérifier si l'item existe déjà dans la carte
+        const price = typeof salepricevatincluded === "string" ? parseFloat(salepricevatincluded) : salepricevatincluded;
         if (itemMap.has(descriptionclear)) {
-          // Si oui, mettre à jour la quantité totale et le prix total
           const existingItem = itemMap.get(descriptionclear);
           existingItem.quantity += parseFloat(quantity);
           existingItem.totalPrice += price * parseFloat(quantity);
         } else {
-          // Si non, ajouter un nouvel élément à la carte
           itemMap.set(descriptionclear, {
             descriptionClear: descriptionclear,
             quantity: parseFloat(quantity),
@@ -185,14 +173,13 @@ function Stats() {
       }
     });
 
-    // Convertir la carte en tableau d'objets
-    const totalPricePerItem = Array.from(itemMap.values());
-    return totalPricePerItem;
-  };
+    return Array.from(itemMap.values());
+};
 
   //----------------------------------------------------------------------------------------------------------- Appeler la fonction pour calculer le prix total par item
   const totalPricePerItem = calculateTotalPricePerItem(stockDocLines ?? []);
   const totalPricePerItem2 = calculateTotalPricePerItem(stockDocLines ?? []);
+
 
   //--------------------------------------------------------------------------------- Bon Entrée Sort -----------------------------------------------------------------------------------
 
@@ -251,9 +238,8 @@ function Stats() {
     };
     BSarray.push(obj);
   });
-
-
-  //-------------------------------------------------------------------------------------------------------------------------------------------
+*/
+  //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
   useEffect(() => {
     const fetchData = async () => {
@@ -284,6 +270,7 @@ function Stats() {
     ],
   };
 
+  /*
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -319,8 +306,58 @@ function Stats() {
   
     fetchData();
   }, []);
+  */
   
+  //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+  const [BEstockDoc, setBEstockDoc] = useState<StockDocument[] | null>(null);
+  const [BSstockDoc, setBSstockDoc] = useState<StockDocument[] | null>(null);
+
+  useEffect(() => {
+  const sortBE = stockDocs?.filter((doc) => doc.numberprefix === "BE");
+  const sortBS = stockDocs?.filter((doc) => doc.numberprefix === "BS");
   
+  setBEstockDoc(sortBE || null);
+  setBSstockDoc(sortBS || null);
+
+
+  } , [stockDocs]);
+
+  interface StockDocAndLines {
+    stockDoc: StockDocument;
+    lines: StockDocumentLineWithPrice[];
+  }
+const [BEstockDocAndLines, setBEStockDocAndLines] = useState<StockDocAndLines[]>([]);
+const [BSstockDocAndLines, setBSStockDocAndLines] = useState<StockDocAndLines[]>([]);
+
+useEffect(() => {
+  if (BEstockDoc && stockDocLines) {
+    const BEstockDocAndLines = BEstockDoc.map((doc) => {
+      const lines = stockDocLines.filter((line) => line.documentid === doc.id);
+      return { stockDoc: doc, lines };
+    });
+    setBEStockDocAndLines(BEstockDocAndLines);
+  } else {
+    setBEStockDocAndLines([]);
+  } 
+} , [BEstockDoc, stockDocLines]);
+
+useEffect(() => {
+  if (BSstockDoc && stockDocLines) {
+    const BSstockDocAndLines = BSstockDoc.map((doc) => {
+      const lines = stockDocLines.filter((line) => line.documentid === doc.id);
+      return { stockDoc: doc, lines };
+    });
+    setBSStockDocAndLines(BSstockDocAndLines);
+  } else {
+    setBSStockDocAndLines([]);
+  } 
+} , [BSstockDoc, stockDocLines]);
+
+
+  
+
 
 
   return (
@@ -341,6 +378,32 @@ function Stats() {
           <DonutChart data={donutData} title={itemSearchCaption} />
         )}
       </div>
+          {BEstockDocAndLines.map((stockDocAndLines) => (
+            <div key={stockDocAndLines.stockDoc.id}>
+              <h2>BE {stockDocAndLines.stockDoc.dealid}</h2>
+              <ul>
+                {stockDocAndLines.lines.map((line) => (
+                  <li key={line.id}>
+                    {line.descriptionclear} - {line.quantity} - {line.salepricevatincluded}
+                  </li>
+                ))}
+              </ul>
+          </div>
+          ))}
+
+          {BSstockDocAndLines.map((stockDocAndLines) => (
+            <div key={stockDocAndLines.stockDoc.id}>
+              <h2>BS {stockDocAndLines.stockDoc.dealid}</h2>
+              <ul>
+                {stockDocAndLines.lines.map((line) => (
+                  <li key={line.id}>
+                    {line.descriptionclear} - {line.quantity} - {line.salepricevatincluded}
+                  </li>
+                ))}
+              </ul>
+              </div>
+          ))}
+
     </div>
   );
 }
