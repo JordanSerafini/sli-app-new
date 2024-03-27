@@ -20,8 +20,8 @@ function Home() {
         </h2>
       </div>
 
+      <div className="flex flex-row flex-wrap h-8/10 w-9.5/10 rounded-2xl justify-evenly items-center py-4 gap-2 overflow-auto bg-white">
       {/*---------------------------------------------------------- Articles -----------------------------------------------------------------------*/}
-      <div className="flex flex-row flex-wrap h-8/10 w-9.5/10 rounded-2xl justify-evenly py-4 gap-2 overflow-auto bg-white">
         <div className="sm:w-4.5/10 w-9/10 bg-red-500 h-4/10 flex flex-row flex-wrap items-center justify-center libre-baskerville-regular text-white tracking-widest cursor-pointer
 ">
           <div
