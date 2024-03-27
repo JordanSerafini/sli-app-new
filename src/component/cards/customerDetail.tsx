@@ -10,26 +10,34 @@ import LeafletMap from "./leaflet/leafletMap";
 
 type SetShowMapType = React.Dispatch<React.SetStateAction<boolean>>;
 
-
-function CustomerDetail({ customer, showMap, setShowMap }: { customer: Customer, showMap: boolean, setShowMap: SetShowMapType }) {
+function CustomerDetail({
+  customer,
+  showMap,
+  setShowMap,
+}: {
+  customer: Customer;
+  showMap: boolean;
+  setShowMap: SetShowMapType;
+}) {
   const [coordsAvailable, setCoordsAvailable] = useState(true);
 
   const handleMapClick = async () => {
-    
-    if (!customer.lon || !customer.lat && customer.lon !== 0 && customer.lat !== 0) {
+    if (
+      !customer.lon ||
+      (!customer.lat && customer.lon !== 0 && customer.lat !== 0)
+    ) {
       const coordsFound = await geocodeAddressAndSave(customer, address);
       setCoordsAvailable(coordsFound || false);
     } else {
       setCoordsAvailable(true);
     }
     setShowMap(!showMap);
-    
-  if (parseInt(customer.lon) == 0 && parseInt(customer.lat) == 0) {
-    setCoordsAvailable(false);
 
-  } else {
-    setCoordsAvailable(true);
-  }
+    if (parseInt(customer.lon) == 0 && parseInt(customer.lat) == 0) {
+      setCoordsAvailable(false);
+    } else {
+      setCoordsAvailable(true);
+    }
   };
 
   const buildAddress = () => {
@@ -99,7 +107,8 @@ function CustomerDetail({ customer, showMap, setShowMap }: { customer: Customer,
             lon: 0,
             lat: 0,
             id: customer.id,
-          });          return false;
+          });
+          return false;
         }
       } catch (error) {
         // Gestion des erreurs liées à la récupération des coordonnées géographiques
@@ -124,8 +133,6 @@ function CustomerDetail({ customer, showMap, setShowMap }: { customer: Customer,
       break;
     }
   }
-
-  console.log(customer);
 
   return (
     <div className="bg-white h-9.5/10 w-full p-2 rounded-2xl flex flex-col gap-4 justify-between">
@@ -153,7 +160,7 @@ function CustomerDetail({ customer, showMap, setShowMap }: { customer: Customer,
           </div>
           */}
           {/*  --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
-          <div className="border-2 border-secondary p-2 flex flex-col gap-6 h-8/10 w-9/10 self-center">
+          <div className="border-2 border-secondary p-2 flex flex-col gap-6 h-8/10 w-9/10 self-center overflow-auto">
             <h3 className="text-center bold text-secondary tracking-widest border-b-2 p-2 border-secondary w-9/10 self-center">
               Contact: {name}
             </h3>
@@ -199,17 +206,18 @@ function CustomerDetail({ customer, showMap, setShowMap }: { customer: Customer,
             {customer.notesclear && (
               <div className="flex flex-row gap-4 h-full">
                 <h4 className="">Infos:</h4>
-                <div className="text-xs overflow-auto max-h-10/10">
+                <div className="text-xs overflow-auto max-h-8/10 pb-1">
                   {customer.notesclear}
                 </div>
               </div>
             )}
-
-            {address && 
-            <div className="self-center pb-4 libre-baskerville-regular-italic">
-              {address}
-            </div>}
           </div>
+
+          {address && (
+            <div className="self-center pb-4 sm:text-base text-xs ">
+              {address}
+            </div>
+          )}
           <div className="flex flex-row gap-2 w-5/10 justify-between self-center h-1/10">
             <div className="flex flex-row gap-2">
               <h4>
@@ -237,13 +245,13 @@ function CustomerDetail({ customer, showMap, setShowMap }: { customer: Customer,
             </div>
           </div>
           <div className="h-1/10  self-end">
-          <img
-            src={mapLogo}
-            className="h-8 w-8"
-            alt=""
-            onClick={handleMapClick}
-          />
-        </div>
+            <img
+              src={mapLogo}
+              className="h-8 w-8"
+              alt=""
+              onClick={handleMapClick}
+            />
+          </div>
         </>
       )}
     </div>
