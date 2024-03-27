@@ -15,13 +15,21 @@ function CustomerDetail({ customer, showMap, setShowMap }: { customer: Customer,
   const [coordsAvailable, setCoordsAvailable] = useState(true);
 
   const handleMapClick = async () => {
-    if (!customer.lon || !customer.lat) {
+    
+    if (!customer.lon || !customer.lat && customer.lon !== 0 && customer.lat !== 0) {
       const coordsFound = await geocodeAddressAndSave(customer, address);
       setCoordsAvailable(coordsFound || false);
     } else {
       setCoordsAvailable(true);
     }
     setShowMap(!showMap);
+    
+  if (parseInt(customer.lon) == 0 && parseInt(customer.lat) == 0) {
+    setCoordsAvailable(false);
+
+  } else {
+    setCoordsAvailable(true);
+  }
   };
 
   const buildAddress = () => {
@@ -87,8 +95,11 @@ function CustomerDetail({ customer, showMap, setShowMap }: { customer: Customer,
             return false;
           }
         } else {
-          console.error("Adresse non trouvée");
-          return false;
+          await axios.post(`${url.main}/insertCoordinate`, {
+            lon: 0,
+            lat: 0,
+            id: customer.id,
+          });          return false;
         }
       } catch (error) {
         // Gestion des erreurs liées à la récupération des coordonnées géographiques

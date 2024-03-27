@@ -16,6 +16,7 @@ function CustomerPage() {
 
   const handleCardClick = (customer: Customer) => {
     setSelectedCustomer(customer); 
+    setShowMap(false);
   };
 
   useEffect(() => {

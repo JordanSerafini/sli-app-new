@@ -31,6 +31,8 @@ const LeafletMap: React.FC<LeafletMapProps> = ({ lon, lat, coordsAvailable }) =>
       }
     }
 
+
+
     return () => {
       if (mapRef.current) {
         mapRef.current.remove();
