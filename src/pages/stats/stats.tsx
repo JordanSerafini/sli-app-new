@@ -6,7 +6,7 @@ import {
   fetchStockDocLinesWithPrice,
 } from "../../function/function";
 import dataContext from "../../context/context/dataContext";
-import { Request, Response } from 'express';
+import { Request, Response } from "express";
 
 import BarChart from "../../component/charts/barChart";
 import LineChart from "../../component/charts/lineChart";
@@ -16,7 +16,6 @@ import {
   StockDocumentLineWithPrice,
 } from "../../types/stockDoc";
 import url from "../../utils/axios";
-
 
 /*interface itemSearch {
   name: string;
@@ -31,11 +30,13 @@ function Stats() {
   const { customerList, setCustomerList } = useContext(dataContext);
   const { stockDocLines, setStockDocLines } = useContext(dataContext);
   const { itemList, setItemList } = useContext(dataContext);
+  const [BEData, setBEData] = useState([]);
+  const [BSData, setBSData] = useState([]);
 
   //const [itemSearch, setItemSearch] = useState<itemSearch>({} as itemSearch);
   const [itemSearchCaption, setItemSearchCaption] = useState("");
 
-  // Gestions des données de sotck fetch, trie et passage au composant BarChart
+  //----------------------------------------------------------------------------------------------------------- Gestions des données de sotck fetch, trie et passage au composant BarChart
   useEffect(() => {
     const fetchData = async () => {
       // Vérifier si stockDocs est vide ou null
@@ -60,7 +61,7 @@ function Stats() {
     return acc;
   }, [] as number[]);
 
-  // Gestion des données clients fetch et trie pour passage au composant LineChart
+  //----------------------------------------------------------------------------------------------------------- Gestion des données clients fetch et trie pour passage au composant LineChart
   useEffect(() => {
     if (customerList.length === 0) fetchCustomer(setCustomerList);
   }, [setCustomerList, customerList]);
@@ -189,7 +190,7 @@ function Stats() {
     return totalPricePerItem;
   };
 
-  // Appeler la fonction pour calculer le prix total par item
+  //----------------------------------------------------------------------------------------------------------- Appeler la fonction pour calculer le prix total par item
   const totalPricePerItem = calculateTotalPricePerItem(stockDocLines ?? []);
   const totalPricePerItem2 = calculateTotalPricePerItem(stockDocLines ?? []);
 
@@ -198,6 +199,7 @@ function Stats() {
   const devisDocSort = (stockDocs ?? []).filter(
     (doc) => doc.numberprefix === "BE"
   );
+
 
   const BELine = totalPricePerItem.filter((item) => {
     return devisDocSort.some((doc) => doc.id === item.documentid);
@@ -225,10 +227,9 @@ function Stats() {
   //--------------------------------------------------------------------------------- Bon Sorti Sort -----------------------------------------------------------------------------------
 
   const BSdoc = (stockDocs ?? []).filter((doc) => doc.numberprefix === "BS");
-  const BSLine = totalPricePerItem2.filter((item) => {
-    const matchingDoc = BSdoc.find((doc) => doc.id === item.documentid);
 
-    return matchingDoc;
+  const BSLine = totalPricePerItem2.filter((item) => {
+    return BSdoc.some((doc) => doc.id === item.documentid);
   });
 
   const BSarray: {
@@ -252,6 +253,8 @@ function Stats() {
   });
 
 
+  //-------------------------------------------------------------------------------------------------------------------------------------------
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -268,10 +271,6 @@ function Stats() {
     setItemSearchCaption(name);
   };
 
-  //const BEarrayByItem = BEarray.filter((item) => item.name === itemSearchCaption);
-  //const BSarrayByItem = BSarray.filter((item) => item.name === itemSearchCaption);
-//console.log("entré: " ,BEarray,"sorti: ", BSarray)
-
   const donutData = {
     labels: ["BE", "BS"],
     datasets: [
@@ -285,76 +284,43 @@ function Stats() {
     ],
   };
 
-  let BSdata = [{} ];
-  let BEdata = [{}];
-  
-  const fetchBEData = async () => {
-    try {
-      const responseData = await fetch(`${url.main}/getAllBE`);
-  
-      if (responseData.ok) {
-        const jsonData = await responseData.json();
-  
-        const validData = jsonData.filter(
-          (item: StockDocumentLineWithPrice) =>
-            item.salepricevatincluded !== undefined
-        );
-        validData.forEach((line) => {
-          const totalPrice = line.totalPrice * line.quantity;
-          const obj = {
-            name: line.descriptionClear,
-            totalPrice: totalPrice,
-            stockDoc: line.documentid,
-            quantity: line.quantity,
-            price: line.totalPrice,
-          };
-          BEarray.push(obj);
-        });
-  
-       
-      } else {
-        console.error("Failed to fetch data:", responseData.statusText);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const responseData = await fetch(`${url.main}/getAllBE`);
+        if (responseData.ok) {
+          const jsonData = await responseData.json();
+          setBEData(jsonData);
+        } else {
+          console.error("Failed to fetch BE data:", responseData.statusText);
+        }
+      } catch (error) {
+        console.error("Error fetching BE data:", error);
       }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-
-  const fetchBSData = async () => {
-    try {
-      const responseData = await fetch(`${url.main}/getAllBS`);
+    };
   
-      if (responseData.ok) {
-        const jsonData = await responseData.json();
+    fetchData();
+  }, []);
   
-        const validData = jsonData.filter(
-          (item: StockDocumentLineWithPrice) =>
-            item.salepricevatincluded !== undefined
-        );
-        
-        validData.forEach((line) => {
-          const totalPrice = line.totalPrice * line.quantity;
-          const obj = {
-            name: line.descriptionClear,
-            totalPrice: totalPrice,
-            stockDoc: line.documentid,
-            quantity: line.quantity,
-            price: line.totalPrice,
-          };
-          BSarray.push(obj);
-        });
-  
-       
-      } else {
-        console.error("Failed to fetch data:", responseData.statusText);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const responseData = await fetch(`${url.main}/getAllBS`);
+        if (responseData.ok) {
+          const jsonData = await responseData.json();
+          setBSData(jsonData); 
+        } else {
+          console.error("Failed to fetch BS data:", responseData.statusText);
+        }
+      } catch (error) {
+        console.error("Error fetching BS data:", error);
       }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-
-  console.log("entrée ", BEarray);
-  console.log("sorti ", BSarray);
+    };
+  
+    fetchData();
+  }, []);
+  
+  
 
 
   return (
@@ -371,10 +337,9 @@ function Stats() {
           ))}
         </select>
 
-        {itemSearchCaption && <DonutChart
-          data={donutData}
-          title= {itemSearchCaption}
-        /> }
+        {itemSearchCaption && (
+          <DonutChart data={donutData} title={itemSearchCaption} />
+        )}
       </div>
     </div>
   );
