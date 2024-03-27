@@ -11,9 +11,15 @@ import noteLogo from "../../assets/noteLogo.png";
 import euroLogo from "../../assets/euroLogo.png";
 import unitecentraleIMG from "../../assets/unitecentrale.jpg";
 import { useContext, useEffect, useRef, useState } from "react";
-import { StockDocument, StockDocumentLineWithPrice } from "../../types/stockDoc";
+import {
+  StockDocument,
+  StockDocumentLineWithPrice,
+} from "../../types/stockDoc";
 import dataContext from "../../context/context/dataContext";
-import { fetchStockDoc, fetchStockDocLinesWithPrice } from "../../function/function";
+import {
+  fetchStockDoc,
+  fetchStockDocLinesWithPrice,
+} from "../../function/function";
 
 interface ItemDetailProps {
   item: Item;
@@ -143,7 +149,7 @@ function ItemDetail({ item }: ItemDetailProps) {
 
   const { stockDocLines, setStockDocLines } = useContext(dataContext);
   const { stockDocs, setStockDocs } = useContext(dataContext);
-  
+
   useEffect(() => {
     const fetchData = async () => {
       // Vérifier si stockDocs est vide ou null
@@ -183,6 +189,123 @@ function ItemDetail({ item }: ItemDetailProps) {
     fetchData();
   }, [setStockDocLines]);
 
+  const [BEstockDoc, setBEstockDoc] = useState<StockDocument[] | null>(null);
+  const [BSstockDoc, setBSstockDoc] = useState<StockDocument[] | null>(null);
+
+  useEffect(() => {
+    if (stockDocs) {
+      const BEstockDocs = stockDocs.filter((doc) => doc.numberprefix === "BE");
+      const BSstockDocs = stockDocs.filter((doc) => doc.numberprefix === "BS");
+      setBEstockDoc(BEstockDocs);
+      setBSstockDoc(BSstockDocs);
+    }
+  }, [stockDocs]);
+
+  const BELine = stockDocLines
+    ?.filter((line) => BEstockDoc?.some((doc) => doc.id === line.documentid))
+    .map((line) => ({
+      id: line.id,
+      name: line.descriptionclear,
+      quantity: line.quantity,
+      price: line.salepricevatincluded,
+      date: BEstockDoc?.find((doc) => doc.id === line.documentid)?.documentdate
+        ? new Date(
+            BEstockDoc.find((doc) => doc.id === line.documentid)
+              ?.documentdate ?? ""
+          ).toLocaleDateString("fr-FR")
+        : "",
+      type: "BE",
+    }));
+
+  const [BEitemData, setBEitemData] = useState<
+    { descriptionClear: string; quantity: number; totalPrice: number }[] | null
+  >(null);
+
+  useEffect(() => {
+    if (item) {
+      const filteredBE = BELine?.filter((line) => line.name === item.caption);
+      if (filteredBE) {
+        const mappedData = filteredBE.map((line) => ({
+          descriptionClear: line.name,
+          quantity: parseInt(line.quantity),
+          totalPrice: parseFloat(line.price as string) || 0,
+          date: line.date,
+          type: line.type,
+        }));
+        setBEitemData(mappedData);
+      }
+    }
+  }, [item]);
+
+  const BSLine = stockDocLines
+    ?.filter((line) => BSstockDoc?.some((doc) => doc.id === line.documentid))
+    .map((line) => ({
+      id: line.id,
+      name: line.descriptionclear,
+      quantity: line.quantity,
+      price: line.salepricevatincluded,
+      date: BSstockDoc?.find((doc) => doc.id === line.documentid)?.documentdate
+        ? new Date(
+            BSstockDoc.find((doc) => doc.id === line.documentid)
+              ?.documentdate ?? ""
+          ).toLocaleDateString("fr-FR")
+        : "",
+      type: "BS",
+    }));
+
+  const [BSitemData, setBSitemData] = useState<
+    { descriptionClear: string; quantity: number; totalPrice: number }[] | null
+  >(null);
+
+  useEffect(() => {
+    if (item) {
+      const filteredBS = BSLine?.filter((line) => line.name === item.caption);
+      if (filteredBS) {
+        const mappedData = filteredBS.map((line) => ({
+          descriptionClear: line.name,
+          quantity: parseInt(line.quantity),
+          totalPrice: parseFloat(line.price as string) || 0,
+          date: line.date,
+          type: line.type,
+        }));
+        setBSitemData(mappedData);
+      }
+    }
+  }, [item]);
+
+
+  console.log("BEitemData:", BEitemData);
+  console.log("BSitemData:", BSitemData);
+
+
+  const groupByMonthAndProduct = (items: unknown[] | null) => {
+    const groupedData: { month: number; descriptionClear: unknown; quantity: unknown; }[] = [];
+    
+    (items as { date: string; descriptionClear: string; quantity: number | string; }[])?.forEach((item) => {
+      const month = parseInt(item.date.split('/')[1], 10); // Extraction du mois
+      const existingEntry = groupedData.find((entry) => entry.month === month && entry.descriptionClear === item.descriptionClear);
+      
+      if (existingEntry) {
+        existingEntry.quantity = Number(existingEntry.quantity) + Number(item.quantity);
+      } else {
+        groupedData.push({ month, descriptionClear: item.descriptionClear, quantity: item.quantity });
+      }
+    });
+  
+    return groupedData;
+  };
+  
+  // Données regroupées par mois pour BEitemData
+  const BEGroupedData = groupByMonthAndProduct(BEitemData);
+  
+  // Données regroupées par mois pour BSitemdata
+  const BSGroupedData = groupByMonthAndProduct(BSitemData);
+
+  console.log("SORT:", BEGroupedData);
+  console.log("ORGIN", BEitemData);
+
+  console.log("SORT:", BSGroupedData);
+  console.log("ORGIN", BSitemData);
 
   return (
     <div className="bg-white h-10/10 p-2 rounded-2xl flex flex-col gap-4">
@@ -214,11 +337,11 @@ function ItemDetail({ item }: ItemDetailProps) {
               <p>{item.stockvalue}</p>
             </div>
           </div>
-                    {/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
-                    <div className="flex flex-row w-full justify-between text-secondary" >
-                      <h4> Fournisseur : </h4>
-                      <p >{item.supplierid}</p>
-                    </div>
+          {/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
+          <div className="flex flex-row w-full justify-between text-secondary">
+            <h4> Fournisseur : </h4>
+            <p>{item.supplierid}</p>
+          </div>
 
           <button onClick={handleSwap}>O</button>
         </div>
