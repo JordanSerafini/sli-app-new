@@ -13,7 +13,7 @@ const CustomerNavbar: React.FC<{ setShowModal: React.Dispatch<React.SetStateActi
   return (
     <nav className="bg-gray-800 text-white fixed bottom-0 left-0 right-0 flex justify-around p-4">
       <NavLink to="/" className={location.pathname === '/' ? 'text-yellow-500' : 'hover:text-gray-300'}>Accueil</NavLink>
-      <button onClick={toggleModal}>All Map</button>
+      <NavLink to="/allMap" className={location.pathname === '/' ? 'text-yellow-500' : 'hover:text-gray-300'}>Allmap</NavLink>
       <BackButton />
     </nav>
   );
