@@ -4,10 +4,12 @@ import LeafletAllMap from "../../component/cards/leaflet/leafletAllMap";
 import { fetchCustomer } from "../../function/function";
 
 import ButtonFull from "../../component/button/buttonFull";
+import { Customer } from "../../types/customer";
 
 interface Marker {
   id: number;
-  name: string | null | undefined;
+  name: string;
+  address: string;
   lat: number;
   lng: number;
 }
@@ -27,7 +29,6 @@ function AllMap() {
     }
   }, [setCustomerList, customerList.length]);
 
-  
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((position) => {
       setCenter({
@@ -43,16 +44,21 @@ function AllMap() {
     }
   }, [radius]);
 
-  useEffect(() => {
+  const buildAddress = (customer: Customer) => {
+    return `${customer.maindeliveryaddress_address1} ${customer.maindeliveryaddress_zipcode} ${customer.maindeliveryaddress_city}`;
+  };
+
+useEffect(() => {
     const newMarkers = customerList.map((customer) => ({
-      id: customer.id ? parseInt(customer.id) : 0,
-      name: customer.name,
-      lat: customer.lat,
-      lng: customer.lon,
+        id: customer.id ? parseInt(customer.id) : 0,
+        name: customer.name ?? '',
+        address: buildAddress(customer),
+        lat: customer.lat,
+        lng: customer.lon,
     }));
 
     setMarkers(newMarkers);
-  }, [customerList]);
+}, [customerList]);
 
   const handleAddress = () => {
     fetch(
@@ -88,12 +94,16 @@ function AllMap() {
               onChange={(e) => setAddress(e.target.value)}
               className="w-7/10 text-center text-secondary rounded-full border-1 border-secondary p-1 focus:outline-none focus:ring-2 focus:ring-primary"
             />
-            <ButtonFull onClick={handleAddress} title="Valider" css="w-3/10 rounded-sm" />
-              
-        
+            <ButtonFull
+              onClick={handleAddress}
+              title="Valider"
+              css="w-3/10 rounded-sm"
+            />
           </div>
           <div className="flex flex-row justify-evenly w-10/10 items-center p-2">
-            <label htmlFor="radius-input" className="text-sm w-/10">Rayon de recherche :</label>
+            <label htmlFor="radius-input" className="text-sm w-/10">
+              Rayon de recherche :
+            </label>
             <div className="flex gap-1 items-center w-/10">
               <input
                 id="radius-input"

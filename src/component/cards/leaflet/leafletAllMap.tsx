@@ -7,7 +7,7 @@ import markerLogo from "../../../assets/markerLogo.png";
 
 interface Props {
   center: { lat: number; lng: number };
-  markers: { lat: number; lng: number }[];
+  markers: { lat: number; lng: number; name: string, address: string }[]; 
   radius: number;
   zoom?: number;
 }
@@ -17,8 +17,6 @@ const LeafletAllMap: React.FC<Props> = ({ center, markers, radius, zoom }) => {
     const map = useMap();
 
     useEffect(() => {
-
-      
       map.eachLayer((layer) => {
         if (layer instanceof L.Marker) {
           map.removeLayer(layer);
@@ -30,7 +28,7 @@ const LeafletAllMap: React.FC<Props> = ({ center, markers, radius, zoom }) => {
       markers.forEach((marker) => {
         const distance = map.distance(center, marker);
         if (distance <= radius * 1000) {
-          L.marker([marker.lat, marker.lng], {
+          const customMarker = L.marker([marker.lat, marker.lng], {
             icon: L.icon({
               iconUrl: markerLogo,
               iconSize: [28, 35],
@@ -38,8 +36,11 @@ const LeafletAllMap: React.FC<Props> = ({ center, markers, radius, zoom }) => {
               shadowAnchor: [12, 41],
               popupAnchor: [1, -34],
             }),
-          
-          }).addTo(map);
+          });
+
+          const popupContent = `<div><strong>${marker.name}</strong></div><div>${marker.address}</div>`;
+          customMarker.bindPopup(popupContent);
+          customMarker.addTo(map);
         }
       });
     }, [map, center, markers, radius]);
