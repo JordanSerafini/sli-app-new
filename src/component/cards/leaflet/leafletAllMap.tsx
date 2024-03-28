@@ -3,6 +3,8 @@ import { MapContainer, TileLayer, useMap } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
+import markerLogo from "../../../assets/markerLogo.png";
+
 interface Props {
   center: { lat: number; lng: number };
   markers: { lat: number; lng: number }[];
@@ -28,7 +30,16 @@ const LeafletAllMap: React.FC<Props> = ({ center, markers, radius, zoom }) => {
       markers.forEach((marker) => {
         const distance = map.distance(center, marker);
         if (distance <= radius * 1000) {
-          L.marker([marker.lat, marker.lng]).addTo(map);
+          L.marker([marker.lat, marker.lng], {
+            icon: L.icon({
+              iconUrl: markerLogo,
+              iconSize: [28, 35],
+              iconAnchor: [12, 41],
+              shadowAnchor: [12, 41],
+              popupAnchor: [1, -34],
+            }),
+          
+          }).addTo(map);
         }
       });
     }, [map, center, markers, radius]);

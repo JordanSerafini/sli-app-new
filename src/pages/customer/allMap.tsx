@@ -27,6 +27,7 @@ function AllMap() {
     }
   }, [setCustomerList, customerList.length]);
 
+  
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((position) => {
       setCenter({
