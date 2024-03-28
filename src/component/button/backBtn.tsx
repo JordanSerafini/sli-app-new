@@ -32,7 +32,7 @@ const BackButton: React.FC<BackButtonProps> = ({ css = "" }) => {
 
   const handleClick = () => {
     if (icon === HomeBtn) {
-      navigate('/home');
+      navigate('/');
     } else {
       navigate(-1);
     }

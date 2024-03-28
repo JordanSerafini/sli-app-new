@@ -1,9 +1,10 @@
-import { useContext, useEffect, useState } from "react";
+import {  useContext, useEffect, useState } from "react";
 import dataContext from "../../context/context/dataContext";
 import LeafletAllMap from "../../component/cards/leaflet/leafletAllMap";
 import { fetchCustomer } from "../../function/function";
 
 import ButtonFull from "../../component/button/buttonFull";
+import CustomerNavbar from "../../component/nav/customerNavBar";
 import { Customer } from "../../types/customer";
 
 interface Marker {
@@ -84,7 +85,7 @@ useEffect(() => {
   };
 
   return (
-    <div className="h-screen w-screen flex flex-col justify-start gap-4">
+    <div className="h-screen w-screen flex flex-col justify-start gap-4 pb-14">
       <LeafletAllMap
         center={center}
         markers={markers}
@@ -128,6 +129,9 @@ useEffect(() => {
           <div></div>
         </div>
       </div>
+      < CustomerNavbar setShowModal={function (): void {
+              throw new Error("Function not implemented.");
+          } } showModal={false} />
     </div>
   );
 }
