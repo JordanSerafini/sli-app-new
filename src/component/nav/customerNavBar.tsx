@@ -1,13 +1,9 @@
 import { NavLink, useLocation } from 'react-router-dom';
 import BackButton from '../button/backBtn';
 
-const CustomerNavbar: React.FC<{ setShowModal: React.Dispatch<React.SetStateAction<boolean>>; showModal: boolean }> = ({ setShowModal, showModal }) => {
+const CustomerNavbar: React.FC<{ setShowModal: React.Dispatch<React.SetStateAction<boolean>>; showModal: boolean }> = () => {
   const location = useLocation();
 
-
-  const toggleModal = () => {
-    setShowModal(!showModal);
-  };
 
 
   return (
