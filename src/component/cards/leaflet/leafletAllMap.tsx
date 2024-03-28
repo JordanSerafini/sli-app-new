@@ -41,7 +41,7 @@ const LeafletAllMap: React.FC<Props> = ({ center, markers, radius, zoom }) => {
       <MapContainer
         center={center}
         zoom={zoom}
-        style={{ height: "400px", width: "100%" }}
+        style={{ height: "100%", width: "100%" }}
       >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

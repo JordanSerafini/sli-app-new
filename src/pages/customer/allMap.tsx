@@ -3,6 +3,8 @@ import dataContext from "../../context/context/dataContext";
 import LeafletAllMap from "../../component/cards/leaflet/leafletAllMap";
 import { fetchCustomer } from "../../function/function";
 
+import ButtonFull from "../../component/button/buttonFull";
+
 interface Marker {
   id: number;
   name: string | null | undefined;
@@ -15,9 +17,9 @@ function AllMap() {
   const [markers, setMarkers] = useState<Marker[]>([]);
   const [center, setCenter] = useState({ lat: 45.9000002, lng: 6.11667 });
   const [radius, setRadius] = useState(0.3);
-  const [zoom, setZoom] = useState(15);
   const [address, setAddress] = useState("Annecy");
 
+  const zoom = 15;
 
   useEffect(() => {
     if (customerList.length === 0) {
@@ -77,21 +79,21 @@ function AllMap() {
       />
       <div className="flex flex-col items-center">
         <div className="flex flex-col gap-2 items-center justify-center w-9.5/10 bg-white">
-          <div>
+          <div className="flex flex-row w-10/10 justify-between">
             <input
               id="address-input"
               type="text"
               value={address}
               onChange={(e) => setAddress(e.target.value)}
-              className="border-1 border-secondary rounded-md p-1 focus:outline-none focus:ring-2 focus:ring-primary"
+              className="w-7/10 text-center text-secondary rounded-full border-1 border-secondary p-1 focus:outline-none focus:ring-2 focus:ring-primary"
             />
-            <button type="button" onClick={handleAddress}>
-              Valider
-            </button>
+            <ButtonFull onClick={handleAddress} title="Valider" css="w-3/10 rounded-sm" />
+              
+        
           </div>
-          <div className="flex flex-row justify-evenly w-full items-center">
-            <label htmlFor="radius-input">Rayon recherche :</label>
-            <div className="flex gap-1 items-center">
+          <div className="flex flex-row justify-evenly w-10/10 items-center p-2">
+            <label htmlFor="radius-input" className="text-sm w-/10">Rayon de recherche :</label>
+            <div className="flex gap-1 items-center w-/10">
               <input
                 id="radius-input"
                 type="number"

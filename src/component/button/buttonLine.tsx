@@ -7,8 +7,6 @@ interface ButtonProps {
 
 function Button( {title, onClick, css}: ButtonProps) {
 
-
- 
   return (
     <>
       
