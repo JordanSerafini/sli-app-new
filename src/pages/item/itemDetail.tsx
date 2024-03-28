@@ -400,9 +400,9 @@ const handleTouchEnd: TouchEventHandler<HTMLDivElement> = (e) => {
   const touchEndX = e.changedTouches[0].clientX;
   const distanceMoved = touchStartX - touchEndX;
 
-  if (distanceMoved > 200) {
+  if (distanceMoved > 150) {
     handleSwap();
-  } else if (distanceMoved < -200) {
+  } else if (distanceMoved < -150) {
     handleSwap();
   }
 };
