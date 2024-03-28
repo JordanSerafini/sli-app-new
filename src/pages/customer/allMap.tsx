@@ -23,12 +23,14 @@ function AllMap() {
 
   const zoom = 15;
 
+  // Premier fetch a l'initialisation de la page pour récupérer la liste des clients
   useEffect(() => {
     if (customerList.length === 0) {
       fetchCustomer(setCustomerList);
     }
   }, [setCustomerList, customerList.length]);
 
+  // Récupération de la position de l'utilisateur pour centrer la carte //? OPTIONNEL
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((position) => {
       setCenter({
@@ -38,16 +40,19 @@ function AllMap() {
     });
   }, []);
 
+  // Vérification de la validité du rayon //? si le rayon est invalide, on le remet à 0.1
   useEffect(() => {
     if (isNaN(radius)) {
       setRadius(0.1);
     }
   }, [radius]);
 
+  // Construction de l'adresse pour les markers
   const buildAddress = (customer: Customer) => {
     return `${customer.maindeliveryaddress_address1} ${customer.maindeliveryaddress_zipcode} ${customer.maindeliveryaddress_city}`;
   };
 
+  // Mise à jour des markers à chaque changement de la liste des clients
   useEffect(() => {
     const newMarkers = customerList.map((customer) => ({
       id: customer.id ? parseInt(customer.id) : 0,
@@ -60,6 +65,7 @@ function AllMap() {
     setMarkers(newMarkers);
   }, [customerList]);
 
+  // Gestion de la recherche d'adresse, envoie a l'api et récupération des coordonnées
   const handleAddress = () => {
     fetch(
       `https://nominatim.openstreetmap.org/search?q=${address}&format=json&limit=1`
@@ -85,6 +91,7 @@ function AllMap() {
         zoom={zoom}
       />
       <div className="flex flex-col items-center gap-2">
+        {/*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
         <div className="flex flex-row w-10/10 justify-evenly">
           <input
             id="address-input"
@@ -99,6 +106,8 @@ function AllMap() {
             css="w-2/10 rounded-sm"
           />
         </div>
+                {/*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
+
         <div className="flex flex-col gap-2 items-center justify-center w-9.5/10 bg-white">
           <div className="flex flex-row justify-evenly w-10/10 items-center p-2">
             <label htmlFor="radius-input" className="text-sm w-/10">
