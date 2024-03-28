@@ -9,7 +9,7 @@ import descriptonLogo from "../../assets/descriptionLogo.png";
 import noteLogo from "../../assets/noteLogo.png";
 import euroLogo from "../../assets/euroLogo.png";
 import unitecentraleIMG from "../../assets/unitecentrale.jpg";
-import { useContext, useEffect, useRef, useState } from "react";
+import { TouchEventHandler, useContext, useEffect, useRef, useState } from "react";
 import {
   StockDocument,
   StockDocumentLineWithPrice,
@@ -388,12 +388,33 @@ function ItemDetail({ item }: ItemDetailProps) {
   };
 
 
+// ? Partie swap glissé
+let touchStartX: number = 0;
+ // Gestion de l'événement onTouchStart
+ const handleTouchStart: TouchEventHandler<HTMLDivElement> = (e) => {
+  touchStartX = e.touches[0].clientX;
+};
+
+// Gestion de l'événement onTouchEnd
+const handleTouchEnd: TouchEventHandler<HTMLDivElement> = (e) => {
+  const touchEndX = e.changedTouches[0].clientX;
+  const distanceMoved = touchStartX - touchEndX;
+
+  if (distanceMoved > 200) {
+    handleSwap();
+  } else if (distanceMoved < -200) {
+    handleSwap();
+  }
+};
 
   return (
-    <div className="bg-white h-10/10 p-2 rounded-2xl flex flex-col gap-4 overflow-scroll">
+    <div
+      className="bg-white h-10/10 p-2 rounded-2xl flex flex-col gap-4 overflow-scroll"
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd} 
+    >
       {isSwap ? (
         <div className="flex flex-col gap-6 h-10/10 ">
-          <button onClick={handleSwap}>O</button>
 
           {/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
           <div className="flex flex-row justify-between p-4">
@@ -444,7 +465,6 @@ function ItemDetail({ item }: ItemDetailProps) {
       ) : (
         <>
           <div className="h-2/10 overflow-auto border-b-1 border-grayblue pb-2 text-center bold items-center justify-evenly flex flex-row">
-            <button onClick={handleSwap}>O</button>
             <h1 className="text-grayblue overflow-auto max-h-9/10">
               {item.caption}
             </h1>
