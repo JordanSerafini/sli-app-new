@@ -7,7 +7,7 @@ import markerLogo from "../../../assets/markerLogo.png";
 
 interface Props {
   center: { lat: number; lng: number };
-  markers: { lat: number; lng: number; name: string, address: string }[]; 
+  markers: { lat: number; lng: number; name: string, address: string, tel:string }[]; 
   radius: number;
   zoom?: number;
 }
@@ -38,7 +38,7 @@ const LeafletAllMap: React.FC<Props> = ({ center, markers, radius, zoom }) => {
             }),
           });
 
-          const popupContent = `<div><strong>${marker.name}</strong></div><div>${marker.address}</div>`;
+          const popupContent = `<div><strong>${marker.name}</strong></div><div>${marker.address}</div><div>${marker.tel}</div>`;
           customMarker.bindPopup(popupContent);
           customMarker.addTo(map);
         }

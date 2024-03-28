@@ -10,6 +10,7 @@ interface Marker {
   id: number;
   name: string;
   address: string;
+  tel: string;
   lat: number;
   lng: number;
 }
@@ -21,7 +22,7 @@ function AllMap() {
   const [radius, setRadius] = useState(0.3);
   const [address, setAddress] = useState("Annecy");
 
-  const zoom = 15;
+  const zoom = 16;
 
   // ---------------------------------------------------------------------------------- Premier fetch a l'initialisation de la page pour récupérer la liste des clients
   useEffect(() => {
@@ -51,19 +52,19 @@ function AllMap() {
   const buildAddress = (customer: Customer) => {
     return `${customer.maindeliveryaddress_address1} ${customer.maindeliveryaddress_zipcode} ${customer.maindeliveryaddress_city}`;
   };
-
   // ---------------------------------------------------------------------------------- Mise à jour des markers à chaque changement de la liste des clients
-  useEffect(() => {
+useEffect(() => {
     const newMarkers = customerList.map((customer) => ({
-      id: customer.id ? parseInt(customer.id) : 0,
-      name: customer.name ?? "",
-      address: buildAddress(customer),
-      lat: customer.lat,
-      lng: customer.lon,
+        id: customer.id ? parseInt(customer.id) : 0,
+        name: customer.name ?? "",
+        address: buildAddress(customer),
+        tel: customer.maindeliverycontact_cellphone ?? customer.maindeliverycontact_phone ?? "",
+        lat: customer.lat,
+        lng: customer.lon,
     }));
 
     setMarkers(newMarkers);
-  }, [customerList]);
+}, [customerList]);
 
   // ---------------------------------------------------------------------------------- Gestion de la recherche d'adresse, envoie a l'api et récupération des coordonnées
   const handleAddress = () => {
@@ -98,7 +99,7 @@ function AllMap() {
             type="text"
             value={address}
             onChange={(e) => setAddress(e.target.value)}
-            className="w-7/10 text-center text-secondary rounded-full border-1 border-secondary p-1 focus:outline-none focus:ring-2 focus:ring-primary"
+            className="w-7/10 text-center text-primary rounded-full border-1 border-secondary p-1 focus:outline-none focus:ring-2 focus:ring-primary"
           />
           <ButtonFull
             onClick={handleAddress}
