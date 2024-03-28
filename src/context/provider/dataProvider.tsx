@@ -21,7 +21,7 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
     const [isVisible, setIsVisible] = useState(false)
 
     // Dans votre DataProvider
-    const showToast = useCallback((message: string, timer: number = 3000, position: string = "bottom", css="") => {
+    const showToast = useCallback((message: string, timer: number = 3000, position: string = "", css="") => {
       setMessage(message);
       setIsVisible(true);
       setPosition(position);

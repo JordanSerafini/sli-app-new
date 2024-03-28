@@ -66,14 +66,14 @@ const paginatedItems = itemList.slice(0, ITEMS_PER_PAGE);
     if (item && item.realstock == 0) {
       showToast(
         "Attention Rupture de stock",
-        2000,
+        1250,
         "top",
         "bg-red-500 text-white w-9/10"
       );
     } else if (item && item.realstock < 5) {
       showToast(
         "Attention Stock faible",
-        2000,
+        1250,
         "top",
         "bg-orange-500 text-white w-9/10"
       );
