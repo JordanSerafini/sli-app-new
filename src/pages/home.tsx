@@ -2,6 +2,11 @@ import { useNavigate } from "react-router-dom";
 
 import DecoBtn from "../component/button/decoBtn";
 
+import itemLogo from "../assets/itemLogo.png";
+import clientLogo from "../assets/clientLogo.png";
+import favLogo from "../assets/favLogo.png";
+import stockLogo from "../assets/stockLogo.png";
+
 function Home() {
   const navigate = useNavigate();
   const user = localStorage.getItem("user");
@@ -21,13 +26,20 @@ function Home() {
       </div>
 
       <div className="flex flex-row flex-wrap h-8/10 w-9.5/10 rounded-2xl justify-evenly items-center py-4 gap-2 overflow-auto bg-white ">
-      {/*---------------------------------------------------------- Articles -----------------------------------------------------------------------*/}
-        <div className="sm:w-4.5/10 w-9/10 bg-red-500 h-4/10 flex flex-row flex-wrap items-center justify-center libre-baskerville-regular text-white tracking-widest cursor-pointer
-">
+        {/*---------------------------------------------------------- Articles -----------------------------------------------------------------------*/}
+        <div
+          className="sm:w-4.5/10 w-9/10 bg-red-500 h-4/10 flex flex-row flex-wrap items-center justify-center libre-baskerville-regular text-white tracking-widest cursor-pointer
+"
+        >
           <div
-            className="hover:scale-130 hover:border-0 w-5/10 h-5/10 border-1 border-white flex items-center justify-center  "
+            className="hover:scale-130 hover:border-0 w-5/10 h-5/10 border-1 border-white flex flex-row gap-2 items-center  "
             onClick={() => goToPage("item")}
           >
+            <img
+              src={itemLogo}
+              alt=""
+              className="filter brightness-0 invert "
+            />
             Page article
           </div>
           <div className="hover:scale-130 hover:border-0 w-5/10 h-5/10 border-1 border-white flex items-center justify-center ">
@@ -47,6 +59,11 @@ function Home() {
             className="w-5/10 h-5/10 border-1 border-white flex items-center justify-center "
             onClick={() => goToPage("customer")}
           >
+            <img
+              src={clientLogo}
+              alt=""
+              className="filter brightness-0 invert "
+            />
             Page Client
           </div>
           <div className="w-5/10 h-5/10 border-1 border-white flex items-center justify-center">
@@ -61,12 +78,19 @@ function Home() {
         </div>
         {/*------------------------------------------------------ Stock ---------------------------------------------------------------------------*/}
 
-        <div className="sm:w-4.5/10 w-9/10 bg-green-600 h-4/10 flex flex-row flex-wrap items-center justify-center libre-baskerville-regular text-white tracking-widest cursor-pointer
-">
+        <div
+          className="sm:w-4.5/10 w-9/10 bg-green-600 h-4/10 flex flex-row flex-wrap items-center justify-center libre-baskerville-regular text-white tracking-widest cursor-pointer
+"
+        >
           <div
             className="w-5/10 h-5/10 border-1 border-white flex items-center justify-center "
             onClick={() => goToPage("stock")}
           >
+            <img
+              src={stockLogo}
+              alt=""
+              className="filter brightness-0 invert "
+            />
             Page Stock
           </div>
           <div className="w-5/10 h-5/10 border-1 border-white flex items-center justify-center">
@@ -81,12 +105,19 @@ function Home() {
         </div>
         {/*---------------------------------------------------------------------------------------------------------------------------------------------*/}
 
-        <div className="sm:w-4.5/10 w-9/10 bg-yellow-600 h-4/10 flex flex-row flex-wrap items-center justify-center libre-baskerville-regular text-white tracking-widest cursor-pointer
-">
+        <div
+          className="sm:w-4.5/10 w-9/10 bg-yellow-600 h-4/10 flex flex-row flex-wrap items-center justify-center libre-baskerville-regular text-white tracking-widest cursor-pointer
+"
+        >
           <div
             className="w-5/10 h-5/10 border-1 border-white flex items-center justify-center "
             onClick={() => goToPage("item")}
           >
+            <img
+              src={favLogo}
+              alt=""
+              className="filter brightness-0 invert h-11"
+            />
             Favoris
           </div>
           <div className="w-5/10 h-5/10 border-1 border-white flex items-center justify-center">
@@ -107,7 +138,6 @@ function Home() {
       <div className="flex flex-col ">
         <DecoBtn css="fixed top-5  z-50 bg-white rounded-full border-1 border-secondary flex flex flex-row justify-center sm:right-5 right-1 sm:h-11 sm:w-11 w-10 h-10" />
       </div>
-
     </div>
   );
 }
