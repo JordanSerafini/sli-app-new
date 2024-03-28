@@ -23,14 +23,14 @@ function AllMap() {
 
   const zoom = 15;
 
-  // Premier fetch a l'initialisation de la page pour récupérer la liste des clients
+  // ---------------------------------------------------------------------------------- Premier fetch a l'initialisation de la page pour récupérer la liste des clients
   useEffect(() => {
     if (customerList.length === 0) {
       fetchCustomer(setCustomerList);
     }
   }, [setCustomerList, customerList.length]);
 
-  // Récupération de la position de l'utilisateur pour centrer la carte //? OPTIONNEL
+  // ---------------------------------------------------------------------------------- Récupération de la position de l'utilisateur pour centrer la carte //? OPTIONNEL
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((position) => {
       setCenter({
@@ -40,7 +40,7 @@ function AllMap() {
     });
   }, []);
 
-  // Vérification de la validité du rayon //? si le rayon est invalide, on le remet à 0.1
+  //----------------------------------------------------------------------------------  Vérification de la validité du rayon //? si le rayon est invalide, on le remet à 0.1
   useEffect(() => {
     if (isNaN(radius)) {
       setRadius(0.1);
@@ -52,7 +52,7 @@ function AllMap() {
     return `${customer.maindeliveryaddress_address1} ${customer.maindeliveryaddress_zipcode} ${customer.maindeliveryaddress_city}`;
   };
 
-  // Mise à jour des markers à chaque changement de la liste des clients
+  // ---------------------------------------------------------------------------------- Mise à jour des markers à chaque changement de la liste des clients
   useEffect(() => {
     const newMarkers = customerList.map((customer) => ({
       id: customer.id ? parseInt(customer.id) : 0,
@@ -65,7 +65,7 @@ function AllMap() {
     setMarkers(newMarkers);
   }, [customerList]);
 
-  // Gestion de la recherche d'adresse, envoie a l'api et récupération des coordonnées
+  // ---------------------------------------------------------------------------------- Gestion de la recherche d'adresse, envoie a l'api et récupération des coordonnées
   const handleAddress = () => {
     fetch(
       `https://nominatim.openstreetmap.org/search?q=${address}&format=json&limit=1`
