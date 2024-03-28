@@ -48,17 +48,17 @@ function AllMap() {
     return `${customer.maindeliveryaddress_address1} ${customer.maindeliveryaddress_zipcode} ${customer.maindeliveryaddress_city}`;
   };
 
-useEffect(() => {
+  useEffect(() => {
     const newMarkers = customerList.map((customer) => ({
-        id: customer.id ? parseInt(customer.id) : 0,
-        name: customer.name ?? '',
-        address: buildAddress(customer),
-        lat: customer.lat,
-        lng: customer.lon,
+      id: customer.id ? parseInt(customer.id) : 0,
+      name: customer.name ?? "",
+      address: buildAddress(customer),
+      lat: customer.lat,
+      lng: customer.lon,
     }));
 
     setMarkers(newMarkers);
-}, [customerList]);
+  }, [customerList]);
 
   const handleAddress = () => {
     fetch(
@@ -84,22 +84,22 @@ useEffect(() => {
         radius={radius}
         zoom={zoom}
       />
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col items-center gap-2">
+        <div className="flex flex-row w-10/10 justify-evenly">
+          <input
+            id="address-input"
+            type="text"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+            className="w-7/10 text-center text-secondary rounded-full border-1 border-secondary p-1 focus:outline-none focus:ring-2 focus:ring-primary"
+          />
+          <ButtonFull
+            onClick={handleAddress}
+            title="Valider"
+            css="w-2/10 rounded-sm"
+          />
+        </div>
         <div className="flex flex-col gap-2 items-center justify-center w-9.5/10 bg-white">
-          <div className="flex flex-row w-10/10 justify-between">
-            <input
-              id="address-input"
-              type="text"
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-              className="w-7/10 text-center text-secondary rounded-full border-1 border-secondary p-1 focus:outline-none focus:ring-2 focus:ring-primary"
-            />
-            <ButtonFull
-              onClick={handleAddress}
-              title="Valider"
-              css="w-3/10 rounded-sm"
-            />
-          </div>
           <div className="flex flex-row justify-evenly w-10/10 items-center p-2">
             <label htmlFor="radius-input" className="text-sm w-/10">
               Rayon de recherche :
