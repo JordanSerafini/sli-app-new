@@ -19,26 +19,17 @@ export const itemSlice = createSlice({
     add: (state, action: PayloadAction<Item>) => {
       state.items.push(action.payload);
     },
-    remove: (state, action: PayloadAction<number>) => {
-      state.items = state.items.filter(
-        (item) => item.caption !== action.payload.toString()
-      );
+    remove: (state, action: PayloadAction<string>) => {
+      state.items = state.items.filter(item => item.id !== action.payload);
     },
     update: (state, action: PayloadAction<Item>) => {
-      const index = state.items.findIndex(
-        (item) => item.id === action.payload.id
-      );
-      state.items[index] = action.payload;
+      const index = state.items.findIndex(item => item.id === action.payload.id);
+      if (index !== -1) { 
+        state.items[index] = action.payload;
+      }
     },
-    
   },
 });
 
-export const recipesByFamillySelector = (
-  state: ItemState,
-  famillyId: number | string
-): Item[] => {
-  return state.items.filter((item) => item.familyid == famillyId);
-};
-
 export const { setItems, add, remove, update } = itemSlice.actions;
+
