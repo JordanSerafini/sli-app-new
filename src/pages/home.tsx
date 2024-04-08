@@ -7,6 +7,8 @@ import clientLogo from "../assets/clientLogo.png";
 import favLogo from "../assets/favLogo.png";
 import stockLogo from "../assets/stockLogo.png";
 
+import Icon from "../component/svg/Icon";
+
 function Home() {
   const navigate = useNavigate();
   const user = localStorage.getItem("user");
@@ -138,6 +140,7 @@ function Home() {
       <div className="flex flex-col ">
         <DecoBtn css="fixed top-5  z-50 bg-white rounded-full border-1 border-secondary flex flex flex-row justify-center sm:right-5 right-1 sm:h-11 sm:w-11 w-10 h-10" />
       </div>
+      < Icon type="arrow_back" onClick={() => goToPage("/")} className="fixed bottom-5 left-5 z-50" />
     </div>
   );
 }
