@@ -13,7 +13,7 @@ export const itemSlice = createSlice({
   name: "items",
   initialState,
   reducers: {
-    setRecipes: (state, action: PayloadAction<Item[]>) => {
+    setItems: (state, action: PayloadAction<Item[]>) => {
       state.items = action.payload;
     },
     add: (state, action: PayloadAction<Item>) => {
@@ -41,4 +41,4 @@ export const recipesByFamillySelector = (
   return state.items.filter((item) => item.familyid == famillyId);
 };
 
-export const { setRecipes } = itemSlice.actions;
+export const { setItems, add, remove, update } = itemSlice.actions;
