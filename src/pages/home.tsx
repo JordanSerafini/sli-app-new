@@ -7,6 +7,8 @@ import clientLogo from "../assets/clientLogo.png";
 import favLogo from "../assets/favLogo.png";
 import stockLogo from "../assets/stockLogo.png";
 
+import { useAppDispatch, useAppSelector } from "../hooks/redux";
+
 import Icon from "../component/svg/Icon";
 
 function Home() {
