@@ -80,14 +80,17 @@ function DevisPage() {
     customer.name?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const handleSelectItemChange = (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    const newSelectedItem = items.find(
-      (item) => item.id?.toString() === event.target.value
-    );
-    setSearchItem(newSelectedItem?.id || "");
-  };
+// Mettre à jour handleSelectItemChange pour récupérer l'élément sélectionné
+const handleSelectItemChange = (
+  event: React.ChangeEvent<HTMLSelectElement>
+) => {
+  const itemId = event.target.value; 
+  const newSelectedItem = items.find((item) => item.id === itemId); 
+  setSelectedItem(newSelectedItem || null); 
+  setSearchItem(newSelectedItem?.caption || ""); 
+};
+
+
 
   const handleItemSearchChange = (
     event: React.ChangeEvent<HTMLInputElement>
