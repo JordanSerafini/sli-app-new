@@ -131,6 +131,14 @@ export default {
         "bluePerso": "#42A5F5",
         "orangePerso": "#FFA500",
 
+        "gray-light": "#B8CBD0",
+        "blue-primary": "#344D59",
+        "blue-secondary":"#b6b2e0",
+        "blue-pass": "#709CA7",
+        "dark": "#131114",
+        "dark-light": "#232826",
+
+
        
       },
 

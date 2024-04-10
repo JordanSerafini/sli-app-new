@@ -1,13 +1,14 @@
 interface IconProps {
   type: string;
-  onClick: () => void;
+  onClick?: () => void;
   className?: string;
   style?: React.CSSProperties;
+  theme?: string;
 }
 
-const Icon: React.FC<IconProps> = ({ type, onClick, className = '', style }) => {
+const Icon: React.FC<IconProps> = ({ type, theme, onClick, className = '', style }) => {
 
-  const theme = "blue";
+   if (theme === undefined) theme = "blue";
 
 return (
     <span
