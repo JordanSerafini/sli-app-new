@@ -1,6 +1,6 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import useFetch from "../../hooks/useFetch";
-import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { useAppDispatch } from "../../hooks/redux";
 import { setItems } from "../../store/features/itemSlice"; 
 import { Item } from "../../types/item";
 
@@ -11,13 +11,11 @@ interface FetchItemsResponse {
 
 function Acceuil() {
   const dispatch = useAppDispatch();
-  const [currentPage, setCurrentPage] = useState(1);
-  const [limit, setLimit] = useState(25); 
-  const offset = (currentPage - 1) * limit;
-
+  const limit = 25; 
+  const offset = 0;
 
   // Options de requête pour fetch, dynamiques avec les états de pagination
-  const fetchOptions = useMemo(() => ({
+  const fetchItemsOptions = useMemo(() => ({
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -28,7 +26,7 @@ function Acceuil() {
     }),
   }), [limit, offset]);
 
-  const { isLoading, data, error } = useFetch<FetchItemsResponse>("/items", fetchOptions);
+  const { isLoading, data, error } = useFetch<FetchItemsResponse>("/items", fetchItemsOptions);
 
   useEffect(() => {
     if (data && data.items) {
@@ -36,7 +34,6 @@ function Acceuil() {
     }
   }, [data, dispatch]);
 
-  // Récupération des items à partir du store Redux
   //const items = useAppSelector((state) => state.items.items);
 
   return (
