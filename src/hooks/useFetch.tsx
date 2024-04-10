@@ -1,32 +1,37 @@
 import { useEffect, useState } from "react";
+import urlEnv from "../utils/axios";
 
-
-export const useFetch = (url: string, options = {}) => {
+const useFetch = <T,>(url: string, options = {}): { isLoading: boolean; data: T | null; error: unknown } => {
     const [isLoading, setIsLoading] = useState(true);
-    const [data, setData] = useState(null);
-    const [errors, setErrors] = useState<unknown>(null);
+    const [data, setData] = useState<T | null>(null);
+    const [error, setError] = useState<unknown>(null);
 
     useEffect(() => {
         const fetchData = async () => {
+            setIsLoading(true);
             try {
-                const response = await fetch("https://sli-back-964256b21f2d.herokuapp.com" + url, options)
-
-                const data = await response.json();
-    
-                if (response.ok) {
-                    setData(data);
+                if (!url) {
+                    throw new Error("URL is required");
                 }
-            } catch(err) {
-                setErrors(err);
+                const response = await fetch(`${urlEnv.main}`+ url, options);
+
+                if (!response.ok) {
+                    throw new Error(response.statusText);
+                }
+
+                const jsonData = await response.json();
+                setData(jsonData);
+            } catch (err) {
+                setError(err);
             } finally {
                 setIsLoading(false);
             }
-        }
+        };
 
-        setTimeout(() => {
-            fetchData();
-        }, 2000);
-    }, []);
+        fetchData();
+    }, [url, options]);
 
-    return {isLoading, data, errors};
+    return { isLoading, data, error };
 };
+
+export default useFetch;

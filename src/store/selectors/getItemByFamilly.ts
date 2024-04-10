@@ -7,7 +7,7 @@ export const recipesByFamilySelector = (
 ): Item[] => {
   const numericFamilyId = typeof familyId === 'string' ? parseInt(familyId, 10) : familyId;
 
-  return state.item.items.filter((item) => {
+  return state.items.items.filter((item) => {
     const itemFamilyIdNumeric = item.familyid ? parseInt(item.familyid, 10) : null;
     
     return itemFamilyIdNumeric === numericFamilyId;

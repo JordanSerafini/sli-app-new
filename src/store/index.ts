@@ -3,7 +3,7 @@ import { itemSlice } from "./features/itemSlice";
 
 export const store = configureStore({
     reducer: {
-        item: itemSlice.reducer
+        items: itemSlice.reducer
     }
 })
 
