@@ -3,7 +3,7 @@ import useFetch from "../../hooks/useFetch";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { setCustomers } from "../../store/features/customerSlice";
 import { setItems } from "../../store/features/itemSlice";
-import { Customer } from "../../types/customer"; 
+import { Customer } from "../../types/customer";
 import Icon from "../svg/Icon";
 import DevisHeader from "../nav/headers/devisHeader";
 import { Item } from "../../types/item";
@@ -17,26 +17,48 @@ interface FetchItemsResponse {
   rows: Item[];
 }
 
+interface DevisLine {
+  id: number;
+  line: {
+    caption: string;
+    salepricevatincluded: number;
+    quantity: number;
+  };
+}
+
 function DevisPage() {
   const dispatch = useAppDispatch();
-  const customers = useAppSelector(state => state.customers.customers);
-  const items = useAppSelector(state => state.items.items);
-  const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null);
+  const customers = useAppSelector((state) => state.customers.customers);
+  const items = useAppSelector((state) => state.items.items);
+  const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(
+    null
+  );
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedItem, setSelectedItem] = useState<Item | null>(null);
   const [searchItem, setSearchItem] = useState("");
 
-  const todayDateString = new Date().toISOString().split("T")[0];
-  const fetchOptions = useMemo(() => ({
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
-    },
-  }), []);
+  const [devisLines, setDevisLines] = useState<DevisLine[]>([
+    
+  ]);
 
-  const { data: customersData, isLoading: isLoadingCustomers } = useFetch<FetchCustomersResponse>("/getAllCustomer", fetchOptions);
-  const { data: itemsData } = useFetch<FetchItemsResponse>("/getAllItem", fetchOptions);
+  const todayDateString = new Date().toISOString().split("T")[0];
+  const fetchOptions = useMemo(
+    () => ({
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
+      },
+    }),
+    []
+  );
+
+  const { data: customersData, isLoading: isLoadingCustomers } =
+    useFetch<FetchCustomersResponse>("/getAllCustomer", fetchOptions);
+  const { data: itemsData } = useFetch<FetchItemsResponse>(
+    "/getAllItem",
+    fetchOptions
+  );
 
   useEffect(() => {
     if (itemsData) dispatch(setItems(itemsData.rows));
@@ -44,7 +66,9 @@ function DevisPage() {
   }, [itemsData, customersData, dispatch]);
 
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const newSelectedCustomer = customers.find(customer => customer.id?.toString() === event.target.value);
+    const newSelectedCustomer = customers.find(
+      (customer) => customer.id?.toString() === event.target.value
+    );
     setSelectedCustomer(newSelectedCustomer || null);
   };
 
@@ -52,26 +76,60 @@ function DevisPage() {
     setSearchTerm(event.target.value);
   };
 
-  const filteredCustomers = customers.filter(customer =>
+  const filteredCustomers = customers.filter((customer) =>
     customer.name?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const handleSelectItemChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const newSelectedItem = items.find(item => item.id?.toString() === event.target.value);
+  const handleSelectItemChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const newSelectedItem = items.find(
+      (item) => item.id?.toString() === event.target.value
+    );
     setSearchItem(newSelectedItem?.id || "");
-
   };
 
-  const handleItemSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleItemSearchChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setSearchItem(event.target.value);
   };
 
-  const filteredItems = items.filter(item =>
+  const filteredItems = items.filter((item) =>
     item.caption?.toLowerCase().includes(searchItem.toLowerCase())
   );
 
+  const [quantity, setQuantity] = useState(1);
+
+  const handleQuantityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setQuantity(Number(event.target.value));
+  };
+
+
+  const addDevisLine = () => {
+  console.log("selectedItem:", selectedItem);
+    const newDevisLine = {
+      id: devisLines.length + 1,
+      line: {
+        caption: selectedItem?.caption || "", 
+        salepricevatincluded: selectedItem?.salepricevatincluded || 0,
+        quantity: quantity,
+      },
+    };
+  
+    console.log("newDevisLine:", newDevisLine);
+  
+    setDevisLines([...devisLines, newDevisLine]);
+  };
+  
+
+
   if (isLoadingCustomers) {
-    return <div className="w-screen h-screen flex flex-col items-center justify-center">Loading...</div>;
+    return (
+      <div className="w-screen h-screen flex flex-col items-center justify-center">
+        Loading...
+      </div>
+    );
   }
   return (
     <div className="w-screen h-screen flex flex-col items-center text-dark-light">
@@ -113,25 +171,46 @@ function DevisPage() {
         {/*--------------------------------------------------------------------- ITEMS ------------------------------------------------------------------------------------------------*/}
         {/* Item Selector */}
         <div className="h-full w-full flex flex-col gap-2">
-          <input
-            type="text"
-            value={searchItem}
-            onChange={handleItemSearchChange}
-            placeholder="Rechercher un item"
-            className="p-2 border rounded-2xl border-gray-200 text-center w-10/10 hover:border-blue-secondary focus:border-blue-secondary focus:outline-none"
-          />
-          <select
-            onChange={handleSelectItemChange}
-            value={selectedItem?.id ?? ""}
-            className="p-2 border border-gray-200 ml-2 w-1 h-1 rounded-full items-center"
-          >
-            <option value="">Sélectionner un item</option>
-            {filteredItems.map((item) => (
-              <option key={item.id} value={item.id}>
-                {item.caption} - {item.salepricevatincluded} €
-              </option>
+          {/*--------------------------------------------------------------------- TABLEAU ------------------------------------------------------------------------------------------------*/}
+
+          <div className="min-h-7/10 bg-white">
+            {devisLines.map((Line) => (
+              <div key={Line.id} className="flex flex-row gap-2">
+                {Line.line.quantity} x {Line.line.caption} -{" "}
+              </div>
             ))}
-          </select>
+          </div>
+          {/*--------------------------------------------------------------------- INPUT SELECT ------------------------------------------------------------------------------------------------*/}
+
+          <div className="flex flex-row w-10/10 gap-2">
+            <select
+              onChange={handleSelectItemChange}
+              value={selectedItem?.id ?? ""}
+              className="p-2 border border-gray-200 ml-2 w-1 h-1 rounded-full items-center"
+            >
+              <option value="">Sélectionner un item</option>
+              {filteredItems.map((item) => (
+                <option key={item.id} value={item.id}>
+                  {item.caption} - {item.salepricevatincluded} €
+                </option>
+              ))}
+            </select>
+            <input
+              type="text"
+              value={searchItem}
+              onChange={handleItemSearchChange}
+              placeholder="Rechercher un item"
+              className="p-2 border rounded-2xl border-gray-200 text-center w- hover:border-blue-secondary focus:border-blue-secondary focus:outline-none"
+            />
+            <input
+              type="number"
+              value={quantity}
+              onChange={handleQuantityChange}
+              min="1" 
+              className="border rounded-2xl p-2 w-1/10 text-center"
+            />
+            <button onClick={addDevisLine}>Valider</button>
+          </div>
         </div>
 
         {/*------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
