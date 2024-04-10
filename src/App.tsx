@@ -8,7 +8,7 @@ import Login from "./pages/login";
 import StockDocPage from "./pages/stock/stockDocPage";
 import Charts from "./pages/stats/statsPage";
 import AllMap from "./pages/customer/allMap";
-
+import Acceuil from "./pages/acceuil.tsx";
 
 function Layout() {
   const location = useLocation(); 
@@ -26,6 +26,7 @@ function Layout() {
             <Route path="/stock" element={<StockDocPage />} />
             <Route path="/charts" element={<Charts />} />
             <Route path="/allMap" element={<AllMap />} />
+            <Route path="/acceuil" element={<Acceuil />} />
           </Routes>
         </div>
       ) : (
