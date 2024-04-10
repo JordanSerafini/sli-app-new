@@ -9,7 +9,7 @@ import StockDocPage from "./pages/stock/stockDocPage";
 import Charts from "./pages/stats/statsPage";
 import AllMap from "./pages/customer/allMap";
 import Acceuil from "./pages/item/acceuil.tsx";
-import DevisPage from "./pages/devis/devisPage.tsx";
+import DevisPage from "./component/toast/devisPage.tsx";
 
 function Layout() {
   const location = useLocation(); 
