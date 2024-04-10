@@ -110,7 +110,7 @@ const handleSelectItemChange = (
 
 
   const addDevisLine = () => {
-  console.log("selectedItem:", selectedItem);
+  console.log("selectedItem:", selectedItem?.salepricevatincluded);
     const newDevisLine = {
       id: devisLines.length + 1,
       line: {
@@ -178,8 +178,8 @@ const handleSelectItemChange = (
 
           <div className="min-h-7/10 bg-white">
             {devisLines.map((Line) => (
-              <div key={Line.id} className="flex flex-row gap-2">
-                {Line.line.quantity} x {Line.line.caption} -{" "}
+              <div key={Line.id} className="flex flex-row w-full justify-between">
+                {Line.line.caption} <span className="text-green-500">x{Line.line.quantity}</span><span className="">{Line.line.salepricevatincluded}€</span> 
               </div>
             ))}
           </div>
