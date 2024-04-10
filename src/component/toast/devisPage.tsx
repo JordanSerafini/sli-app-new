@@ -176,7 +176,7 @@ const handleSelectItemChange = (
         <div className="h-full w-full flex flex-col gap-2">
           {/*--------------------------------------------------------------------- TABLEAU ------------------------------------------------------------------------------------------------*/}
 
-          <div className="min-h-7/10 bg-white">
+          <div className="min-h-7/10 bg-white p-2">
             {devisLines.map((Line) => (
               <div key={Line.id} className="flex flex-row w-full justify-between">
                 {Line.line.caption} <span className="text-green-500">x{Line.line.quantity}</span><span className="">{Line.line.salepricevatincluded}€</span> 
