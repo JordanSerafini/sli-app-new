@@ -69,10 +69,13 @@ function DevisPage() {
     const newSelectedCustomer = customers.find(
       (customer) => customer.id?.toString() === event.target.value
     );
+    console.log("newSelectedCustomer:", newSelectedCustomer?.name);
     setSelectedCustomer(newSelectedCustomer || null);
+    setSearchTerm(newSelectedCustomer?.name || "");
   };
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //console.log("searchTerm:", event.target.value);
     setSearchTerm(event.target.value);
   };
 
@@ -110,7 +113,7 @@ const handleSelectItemChange = (
 
 
   const addDevisLine = () => {
-  console.log("selectedItem:", selectedItem?.salepricevatincluded);
+  //console.log("selectedItem:", selectedItem?.salepricevatincluded);
     const newDevisLine = {
       id: devisLines.length + 1,
       line: {
@@ -145,7 +148,7 @@ const handleSelectItemChange = (
             value={searchTerm}
             onChange={handleSearchChange}
             placeholder="Nom du client"
-            className="p-2 border rounded-2xl border-gray-200 text-center w-10/10 hover:border-blue-secondary focus:border-blue-secondary focus:outline-none text-primary"
+            className="p-2 border rounded-2xl border-gray-200 text-center w-10/10 hover:border-blue-secondary focus:border-blue-secondary focus:outline-none text-"
           />
           <select
             onChange={handleSelectChange}
@@ -176,10 +179,12 @@ const handleSelectItemChange = (
         <div className="h-full w-full flex flex-col gap-2">
           {/*--------------------------------------------------------------------- TABLEAU ------------------------------------------------------------------------------------------------*/}
 
-          <div className="min-h-7/10 bg-white p-2">
+          <div className="min-h-7/10 max-h-7/10 bg-white p-2 flex flex-col gap-4  overflow-auto">
             {devisLines.map((Line) => (
-              <div key={Line.id} className="flex flex-row w-full justify-between">
-                {Line.line.caption} <span className="text-green-500">x{Line.line.quantity}</span><span className="">{Line.line.salepricevatincluded}€</span> 
+              <div key={Line.id} className="flex flex-row w-full justify-between items-center pb-2 border-b-1 border-gray-light gap-2">
+                <div className="w-6/10 overflow-auto h-12">{Line.line.caption}</div> 
+                <div className="w-1/10 text-green-500">x{Line.line.quantity}</div>
+                <div className="w-2/10">{Line.line.salepricevatincluded}€</div> 
               </div>
             ))}
           </div>
