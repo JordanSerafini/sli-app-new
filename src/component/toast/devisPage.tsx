@@ -178,7 +178,11 @@ const handleSelectItemChange = (
         {/* Item Selector */}
         <div className="h-full w-full flex flex-col gap-2">
           {/*--------------------------------------------------------------------- TABLEAU ------------------------------------------------------------------------------------------------*/}
-
+            <div className="w-full flex flex-row justify-between text-center text-">
+              <div className="w-5/10">Nom:</div>
+              <div className="w-1/10 ">Quantité:</div>
+              <div className="w-2/10">Prix:</div>
+            </div>
           <div className="min-h-7/10 max-h-7/10 bg-white p-2 flex flex-col gap-4  overflow-auto">
             {devisLines.map((Line) => (
               <div key={Line.id} className="flex flex-row w-full justify-between items-center pb-2 border-b-1 border-gray-light gap-2">
